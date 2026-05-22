@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ty Wilson | Master Agent Command Center v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080a0f;
+  --ink: #0d1117;
+  --card: #111520;
+  --card2: #161c2a;
+  --border: #1e2535;
+  --border2: #252d42;
+  --text: #d8dde8;
+  --muted: #5a6480;
+  --bright: #e8edf8;
+
+  /* Brand per org */
+  --c314:   #e8a020;   /* gold */
+  --cpec:   #34d399;   /* emerald */
+  --ccbihp: #a78bfa;   /* violet */
+  --cbfm:   #fb923c;   /* orange */
+  --cblk:   #f43f5e;   /* rose */
+  --capx:   #38bdf8;   /* sky */
+
+  --radius: 14px;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── LAYOUT ── */
+.app { display: flex; min-height: 100vh; }
+
+/* sidebar */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--ink);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.logo {
+  padding: 24px 20px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--c314), #fff 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+.logo-sub { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.5px; margin-top: 4px; text-transform: uppercase; }
+
+.nav-section { padding: 14px 12px 4px; }
+.nav-label { font-size: 0.62rem; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; padding: 0 8px; margin-bottom: 4px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.83rem;
+  font-weight: 500;
+  transition: all 0.15s;
+  margin-bottom: 1px;
+}
+.nav-item:hover { background: var(--card); color: var(--text); }
+.nav-item.active { background: var(--card2); color: var(--bright); }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* org items */
+.nav-org { border-left: 2px solid transparent; border-radius: 0 8px 8px 0; margin-left: 0; padding-left: 12px; }
+.nav-org.active, .nav-org:hover { border-left-color: var(--org-color); }
+
+/* main area */
+.main { flex: 1; padding: 28px; overflow-x: hidden; }
+
+/* ── PANELS ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── TYPOGRAPHY ── */
+.page-title {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  letter-spacing: 3px;
+  line-height: 1;
+  margin-bottom: 4px;
+  color: var(--bright);
+}
+.page-sub { color: var(--muted); font-size: 0.83rem; margin-bottom: 28px; }
+
+.section-head {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--bright);
+  margin: 28px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── CARDS ── */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--org-color, #333);
+}
+.card:hover { border-color: var(--org-color, var(--border2)); transform: translateY(-1px); }
+.card.clickable { cursor: pointer; }
+
+.card-icon { font-size: 1.6rem; margin-bottom: 12px; }
+.card-org { font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--org-color); margin-bottom: 6px; }
+.card-title { font-size: 0.95rem; font-weight: 600; color: var(--bright); margin-bottom: 8px; }
+.card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+.pill {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+
+/* ── PIPELINE ── */
+.pipeline {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex-wrap: wrap;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.pipe-step {
+  flex: 1;
+  min-width: 90px;
+  padding: 14px 12px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.pipe-step:last-child { border-right: none; }
+.pipe-step strong { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text); margin-bottom: 3px; }
+.pipe-icon { font-size: 1.2rem; margin-bottom: 5px; }
+
+/* ── FORMS ── */
+.composer-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.composer-box h3 { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 2px; color: var(--bright); margin-bottom: 18px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+.form-field { display: flex; flex-direction: column; gap: 5px; }
+.form-field.full { grid-column: 1 / -1; }
+label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); }
+
+select, input[type="text"], input[type="date"], input[type="time"], textarea {
+  background: var(--ink);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 9px 13px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+select:focus, input:focus, textarea:focus { border-color: var(--accent, #6366f1); }
+textarea { resize: vertical; min-height: 90px; }
+select option { background: #111; }
+
+.btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
+
+.btn {
+  padding: 9px 20px;
+  border-radius: 8px;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-primary { background: #4f52d9; color: #fff; }
+.btn-primary:hover { background: #3f42c0; }
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.15s;
+}
+.btn-sm:hover { border-color: #4f52d9; color: var(--bright); }
+
+/* ── OUTPUT ── */
+.output-box {
+  background: var(--ink);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 18px;
+  margin-top: 16px;
+  font-size: 0.83rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  color: var(--text);
+  display: none;
+  font-family: var(--font-mono);
+  max-height: 480px;
+  overflow-y: auto;
+}
+.output-box.show { display: block; }
+.output-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 14px;
+  margin-bottom: 6px;
+  display: none;
+}
+.output-label.show { display: block; }
+
+@keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+.loading { animation: pulse 1.2s infinite; color: var(--muted); }
+
+/* ── SCHEDULE ── */
+.events-list { display: flex; flex-direction: column; gap: 8px; }
+.event-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+.event-org-tag {
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.event-name { font-weight: 600; color: var(--bright); flex: 1; }
+.event-meta { color: var(--muted); font-size: 0.75rem; }
+
+.conflict-alert {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 12px;
+}
+.conflict-ok { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.25); }
+.conflict-warn { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.25); }
+
+/* ── WORKFLOW STEPS ── */
+.workflow-steps { display: flex; flex-direction: column; gap: 10px; }
+.wf-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.wf-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  border: 1px solid;
+}
+.wf-body strong { display: block; font-size: 0.85rem; color: var(--bright); margin-bottom: 3px; }
+.wf-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+.wf-tools { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+.tool-tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+/* ── OVERVIEW STATS ── */
+.stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-num { font-family: var(--font-display); font-size: 2rem; letter-spacing: 2px; color: var(--bright); line-height: 1; }
+.stat-label { font-size: 0.7rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── QUICK ACTIONS ── */
+.qa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+.qa-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+.qa-btn:hover { border-color: var(--border2); color: var(--text); background: var(--card2); }
+.qa-btn .qa-icon { font-size: 1.4rem; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* copy button */
+.copy-btn {
+  float: right;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-bottom: 8px;
+}
+.copy-btn:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">TY WILSON</div>
+    <div class="logo-sub">Master Agent Center</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Command</div>
+    <div class="nav-item active" onclick="show('overview')">
+      <span>⚡</span> Overview
+    </div>
+    <div class="nav-item" onclick="show('composer')">
+      <span>✍️</span> Composer
+    </div>
+    <div class="nav-item" onclick="show('email')">
+      <span>📧</span> Email & Comms
+    </div>
+    <div class="nav-item" onclick="show('schedule')">
+      <span>📅</span> Schedule
+    </div>
+    <div class="nav-item" onclick="show('media')">
+      <span>🎬</span> Media & Social
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Workflows</div>
+    <div class="nav-item" onclick="show('book-wf')">
+      <span>📚</span> Book → Print
+    </div>
+    <div class="nav-item" onclick="show('ebook-wf')">
+      <span>📱</span> Book → eBook
+    </div>
+    <div class="nav-item" onclick="show('audio-wf')">
+      <span>🎧</span> Book → Audio
+    </div>
+    <div class="nav-item" onclick="show('apexum-wf')">
+      <span>💊</span> Apexum Sales
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Organizations</div>
+    <div class="nav-item nav-org" style="--org-color:var(--c314)" onclick="show('org-314')">
+      <span class="nav-dot" style="background:var(--c314)"></span> 3.14 Entertainment
+    </div>
+    <div class="nav-item nav-org" style="--org-color:var(--cpec)" onclick="show('org-pec')">
+      <span class="nav-dot" style="background:var(--cpec)"></span> PE Church
+    </div>
+    <div class="nav-item nav-org" style="--org-color:var(--ccbihp)" onclick="show('org-cbihp')">
+      <span class="nav-dot" style="background:var(--ccbihp)"></span> CBIHP Nonprofit
+    </div>
+    <div class="nav-item nav-org" style="--org-color:var(--cbfm)" onclick="show('org-bfm')">
+      <span class="nav-dot" style="background:var(--cbfm)"></span> BFM Nonprofit
+    </div>
+    <div class="nav-item nav-org" style="--org-color:var(--cblk)" onclick="show('org-blk')">
+      <span class="nav-dot" style="background:var(--cblk)"></span> BLK-FTHR Media
+    </div>
+    <div class="nav-item nav-org" style="--org-color:var(--capx)" onclick="show('org-apx')">
+      <span class="nav-dot" style="background:var(--capx)"></span> Apexum
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ MAIN ══════════ -->
+<main class="main">
+
+<!-- ── OVERVIEW ── -->
+<div id="panel-overview" class="panel active">
+  <div class="page-title">COMMAND CENTER</div>
+  <div class="page-sub">6 organizations · 6 master agents · unified workflow</div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Orgs</div></div>
+    <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Master Agents</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Book Pipelines</div></div>
+    <div class="stat-card"><div class="stat-num" id="event-count">0</div><div class="stat-label">Events Scheduled</div></div>
+  </div>
+
+  <div class="section-head">YOUR MASTER AGENTS</div>
+  <div class="grid-2">
+
+    <div class="card clickable" style="--org-color:var(--c314)" onclick="show('org-314')">
+      <div class="card-icon">🎭</div>
+      <div class="card-org">3.14 Entertainment Group</div>
+      <div class="card-title">Agent STAGE</div>
+      <div class="card-desc">Music, film, fashion, culture, TV, books, marketing, advertising, and branding. Full entertainment industry workflow.</div>
+      <div class="pill-row"><span class="pill">Music</span><span class="pill">Film</span><span class="pill">Fashion</span><span class="pill">TV</span><span class="pill">Books</span><span class="pill">Branding</span><span class="pill">Advertising</span></div>
+    </div>
+
+    <div class="card clickable" style="--org-color:var(--cpec)" onclick="show('org-pec')">
+      <div class="card-icon">✨</div>
+      <div class="card-org">Positive Energy Church</div>
+      <div class="card-title">Agent LIGHT</div>
+      <div class="card-desc">Positive quotes, affirmations, online ministry growth, and 3 annual concert events with full booking workflow.</div>
+      <div class="pill-row"><span class="pill">Affirmations</span><span class="pill">Quotes</span><span class="pill">Bookings</span><span class="pill">3 Concerts/yr</span><span class="pill">Online Ministry</span></div>
+    </div>
+
+    <div class="card clickable" style="--org-color:var(--ccbihp)" onclick="show('org-cbihp')">
+      <div class="card-icon">🪶</div>
+      <div class="card-org">CBIHP Foundation</div>
+      <div class="card-title">Agent LEGACY</div>
+      <div class="card-desc">Cherokee Freedmen & Black Cherokee preservation. Grants, donor comms, historical content, books, documentary scripts. Academically rigorous with locked terminology.</div>
+      <div class="pill-row"><span class="pill">Grants</span><span class="pill">History</span><span class="pill">Documentary</span><span class="pill">Books</span><span class="pill">Donors</span></div>
+    </div>
+
+    <div class="card clickable" style="--org-color:var(--cbfm)" onclick="show('org-bfm')">
+      <div class="card-icon">🎞️</div>
+      <div class="card-org">BFM (daughter & cousin's nonprofit)</div>
+      <div class="card-title">Agent ROOTS</div>
+      <div class="card-desc">Preserving the Native American narrative through arts. Books, documentary scripts, media content, grant writing. Support role for Ty.</div>
+      <div class="pill-row"><span class="pill">Books</span><span class="pill">Docs</span><span class="pill">Arts</span><span class="pill">Grants</span><span class="pill">Native Narrative</span></div>
+    </div>
+
+    <div class="card clickable" style="--org-color:var(--cblk)" onclick="show('org-blk')">
+      <div class="card-icon">🦅</div>
+      <div class="card-org">BLK-FTHR Media</div>
+      <div class="card-title">Agent SIGNAL</div>
+      <div class="card-desc">Marketing dept. + full book production pipeline: manuscript → IngramSpark print-ready PDF, eBook (EPUB), and M4B audiobook.</div>
+      <div class="pill-row"><span class="pill">Marketing</span><span class="pill">Print PDF</span><span class="pill">eBook</span><span class="pill">M4B Audio</span><span class="pill">Ads</span></div>
+    </div>
+
+    <div class="card clickable" style="--org-color:var(--capx)" onclick="show('org-apx')">
+      <div class="card-icon">💊</div>
+      <div class="card-org">Apexum</div>
+      <div class="card-title">Agent APEX</div>
+      <div class="card-desc">Peptide marketing & sales. Full funnel: content → lead magnet (free digital book) → prospect nurture → consultation → conversion.</div>
+      <div class="pill-row"><span class="pill">Peptides</span><span class="pill">Sales Funnel</span><span class="pill">Lead Magnet</span><span class="pill">Free eBook</span><span class="pill">Ads</span></div>
+    </div>
+
+  </div>
+
+  <div class="section-head">QUICK ACTIONS</div>
+  <div class="qa-grid">
+    <div class="qa-btn" onclick="show('composer');setComp('314','script')"><div class="qa-icon">🎬</div>Film Script</div>
+    <div class="qa-btn" onclick="show('composer');setComp('pec','affirmation')"><div class="qa-icon">✨</div>Daily Affirmation</div>
+    <div class="qa-btn" onclick="show('composer');setComp('pec','booking')"><div class="qa-icon">🎵</div>Concert Booking</div>
+    <div class="qa-btn" onclick="show('composer');setComp('cbihp','grant')"><div class="qa-icon">💰</div>Grant Proposal</div>
+    <div class="qa-btn" onclick="show('composer');setComp('cbihp','docscipt')"><div class="qa-icon">🎞️</div>Doc Script</div>
+    <div class="qa-btn" onclick="show('composer');setComp('bfm','book')"><div class="qa-icon">📖</div>Book Chapter</div>
+    <div class="qa-btn" onclick="show('composer');setComp('blkfthr','ad')"><div class="qa-icon">📣</div>Ad Copy</div>
+    <div class="qa-btn" onclick="show('book-wf')"><div class="qa-icon">🖨️</div>Print Pipeline</div>
+    <div class="qa-btn" onclick="show('ebook-wf')"><div class="qa-icon">📱</div>eBook Pipeline</div>
+    <div class="qa-btn" onclick="show('audio-wf')"><div class="qa-icon">🎧</div>Audiobook Pipeline</div>
+    <div class="qa-btn" onclick="show('apexum-wf')"><div class="qa-icon">💊</div>Apexum Funnel</div>
+    <div class="qa-btn" onclick="show('composer');setComp('314','song')"><div class="qa-icon">🎵</div>Song / Lyrics</div>
+    <div class="qa-btn" onclick="show('schedule')"><div class="qa-icon">📅</div>Schedule Event</div>
+    <div class="qa-btn" onclick="show('media')"><div class="qa-icon">📸</div>Social Content</div>
+    <div class="qa-btn" onclick="show('email')"><div class="qa-icon">📧</div>Draft Email</div>
+    <div class="qa-btn" onclick="show('composer');setComp('apx','pitch')"><div class="qa-icon">🚀</div>Peptide Pitch</div>
+  </div>
+</div>
+
+<!-- ── COMPOSER ── -->
+<div id="panel-composer" class="panel">
+  <div class="page-title">CONTENT COMPOSER</div>
+  <div class="page-sub">Route any task to the right agent in the right voice</div>
+
+  <div class="composer-box">
+    <h3>AGENT BRIEFING</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Organization / Agent</label>
+        <select id="c-org" onchange="updateBadge()">
+          <option value="">— Select —</option>
+          <option value="314">🎭 3.14 Entertainment — Agent STAGE</option>
+          <option value="pec">✨ PE Church — Agent LIGHT</option>
+          <option value="cbihp">🪶 CBIHP Nonprofit — Agent LEGACY</option>
+          <option value="bfm">🎞️ BFM Nonprofit — Agent ROOTS</option>
+          <option value="blkfthr">🦅 BLK-FTHR Media — Agent SIGNAL</option>
+          <option value="apx">💊 Apexum — Agent APEX</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Content Type</label>
+        <select id="c-type">
+          <option value="">— Select —</option>
+          <optgroup label="Entertainment (3.14)">
+            <option value="script">Film / TV Script Scene</option>
+            <option value="song">Song / Lyrics</option>
+            <option value="music-pr">Music Press Release</option>
+            <option value="fashion-copy">Fashion / Brand Copy</option>
+            <option value="book-chapter">Book Chapter</option>
+            <option value="show-treatment">Show Treatment / Pitch</option>
+            <option value="ad">Advertisement Copy</option>
+          </optgroup>
+          <optgroup label="Church (PE Church)">
+            <option value="affirmation">Daily Affirmation / Quote</option>
+            <option value="quote-series">Quote Series (7-day)</option>
+            <option value="booking">Concert Booking Inquiry Letter</option>
+            <option value="church-promo">Event Promo Copy</option>
+            <option value="online-launch">Online Ministry Launch Content</option>
+          </optgroup>
+          <optgroup label="Nonprofit (CBIHP / BFM)">
+            <option value="grant">Grant Proposal Section</option>
+            <option value="donor-letter">Donor Letter</option>
+            <option value="docscipt">Documentary Script Segment</option>
+            <option value="history-content">Historical Education Content</option>
+            <option value="board-memo">Board Memo / Resolution</option>
+            <option value="press">Press Release</option>
+          </optgroup>
+          <optgroup label="Marketing (BLK-FTHR)">
+            <option value="social">Social Media Post + Caption</option>
+            <option value="video-script">Video Script</option>
+            <option value="campaign">Campaign Brief</option>
+            <option value="brand-copy">Brand Copy</option>
+          </optgroup>
+          <optgroup label="Apexum">
+            <option value="pitch">Peptide Sales Pitch</option>
+            <option value="client-email">Client Outreach Email</option>
+            <option value="product-desc">Product Description</option>
+            <option value="lead-magnet">Lead Magnet Copy</option>
+            <option value="follow-up">Follow-Up Sequence</option>
+          </optgroup>
+          <optgroup label="Any Org">
+            <option value="speech">Speech / Keynote</option>
+            <option value="bio">Bio / Profile</option>
+            <option value="newsletter">Newsletter</option>
+            <option value="poem">Poem / Spoken Word</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Audience</label>
+        <input type="text" id="c-audience" placeholder="Who is this for?">
+      </div>
+      <div class="form-field">
+        <label>Tone</label>
+        <select id="c-tone">
+          <option value="professional">Professional</option>
+          <option value="inspirational">Inspirational / Uplifting</option>
+          <option value="bold-promotional">Bold & Promotional</option>
+          <option value="academic">Academic / Historically Rigorous</option>
+          <option value="conversational">Conversational</option>
+          <option value="storytelling">Storytelling / Narrative</option>
+          <option value="sales">Sales / Persuasive</option>
+          <option value="spiritual">Spiritual / Positive</option>
+          <option value="cinematic">Cinematic / Dramatic</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label>Brief — What do you need? Be specific.</label>
+        <textarea id="c-brief" placeholder="Describe the task. Include key points, names, dates, goals, any specific language required..."></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generateContent()">⚡ Generate with AI</button>
+      <button class="btn-sm" onclick="clearComp()">Clear</button>
+      <span id="c-badge" style="font-size:0.75rem;color:var(--muted);margin-left:auto;"></span>
+    </div>
+    <div class="output-label" id="c-out-label">AGENT OUTPUT</div>
+    <div class="output-box" id="c-output"></div>
+  </div>
+</div>
+
+<!-- ── EMAIL ── -->
+<div id="panel-email" class="panel">
+  <div class="page-title">EMAIL & COMMS</div>
+  <div class="page-sub">Draft any communication in the right organizational voice</div>
+
+  <div class="composer-box">
+    <h3>DRAFT AN EMAIL</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Sending From</label>
+        <select id="e-org">
+          <option value="314">3.14 Entertainment Group</option>
+          <option value="pec">Positive Energy Church</option>
+          <option value="cbihp">CBIHP Foundation</option>
+          <option value="bfm">BFM Nonprofit</option>
+          <option value="blkfthr">BLK-FTHR Media</option>
+          <option value="apx">Apexum</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Email Type</label>
+        <select id="e-type">
+          <option value="outreach">Cold Outreach</option>
+          <option value="booking">Booking / Artist Inquiry</option>
+          <option value="donor">Donor Ask</option>
+          <option value="followup">Follow-Up</option>
+          <option value="announcement">Announcement</option>
+          <option value="partnership">Partnership Proposal</option>
+          <option value="press">Press / Media Pitch</option>
+          <option value="grant-follow">Grant Follow-Up</option>
+          <option value="client">Client Communication</option>
+          <option value="internal">Internal / Team Memo</option>
+          <option value="congregation">Congregation / Community Update</option>
+          <option value="sales">Sales Outreach (Apexum)</option>
+          <option value="lead-nurture">Lead Nurture</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>To (Who / Role)</label>
+        <input type="text" id="e-to" placeholder="e.g., venue manager, potential donor, journalist...">
+      </div>
+      <div class="form-field">
+        <label>Subject (or AI will write it)</label>
+        <input type="text" id="e-subj" placeholder="Leave blank for AI subject line">
+      </div>
+      <div class="form-field full">
+        <label>Key Points / Goal</label>
+        <textarea id="e-brief" placeholder="What should this email accomplish? Any dates, asks, specific information?"></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generateEmail()">⚡ Draft Email</button>
+    </div>
+    <div class="output-label" id="e-out-label">EMAIL DRAFT</div>
+    <div class="output-box" id="e-output"></div>
+  </div>
+</div>
+
+<!-- ── SCHEDULE ── -->
+<div id="panel-schedule" class="panel">
+  <div class="page-title">SCHEDULE</div>
+  <div class="page-sub">Add events · Automatic conflict detection across all organizations</div>
+
+  <div class="composer-box">
+    <h3>ADD EVENT</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Organization</label>
+        <select id="s-org">
+          <option value="314">3.14 Entertainment</option>
+          <option value="pec">PE Church</option>
+          <option value="cbihp">CBIHP Nonprofit</option>
+          <option value="bfm">BFM Nonprofit</option>
+          <option value="blkfthr">BLK-FTHR Media</option>
+          <option value="apx">Apexum</option>
+          <option value="personal">Personal</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Event Type</label>
+        <select id="s-type">
+          <option value="concert">Concert Event (PE Church)</option>
+          <option value="show">Entertainment Show / Event</option>
+          <option value="recording">Recording Session</option>
+          <option value="filming">Film Shoot</option>
+          <option value="meeting">Board / Team Meeting</option>
+          <option value="deadline">Content Deadline</option>
+          <option value="booking">Artist Booking</option>
+          <option value="fundraiser">Fundraiser / Gala</option>
+          <option value="service">Church Service / Online Stream</option>
+          <option value="interview">Media Interview</option>
+          <option value="sales-call">Apexum Sales Call / Consult</option>
+          <option value="personal">Personal / Family</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Date</label>
+        <input type="date" id="s-date">
+      </div>
+      <div class="form-field">
+        <label>Time</label>
+        <input type="time" id="s-time">
+      </div>
+      <div class="form-field full">
+        <label>Event Name / Notes</label>
+        <input type="text" id="s-name" placeholder="Event title, artist name, deadline description...">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="addEvent()">📅 Check Conflicts & Add</button>
+    </div>
+    <div id="s-alert"></div>
+  </div>
+
+  <div class="section-head">SCHEDULED EVENTS</div>
+  <div class="events-list" id="events-list">
+    <div style="color:var(--muted);font-size:0.82rem;padding:14px;">No events yet. Add events above.</div>
+  </div>
+</div>
+
+<!-- ── MEDIA ── -->
+<div id="panel-media" class="panel">
+  <div class="page-title">MEDIA & SOCIAL</div>
+  <div class="page-sub">Photo briefs, video scripts, captions, campaigns — for every org</div>
+
+  <div class="composer-box">
+    <h3>CONTENT GENERATOR</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Brand / Org</label>
+        <select id="m-org">
+          <option value="314">🎭 3.14 Entertainment</option>
+          <option value="pec">✨ PE Church</option>
+          <option value="cbihp">🪶 CBIHP</option>
+          <option value="bfm">🎞️ BFM Nonprofit</option>
+          <option value="blkfthr">🦅 BLK-FTHR Media</option>
+          <option value="apx">💊 Apexum</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Format</label>
+        <select id="m-format">
+          <option value="ig-post">Instagram Post + Caption + Hashtags</option>
+          <option value="ig-reel">Instagram Reel Script</option>
+          <option value="fb-post">Facebook Post</option>
+          <option value="yt-desc">YouTube Description + Tags</option>
+          <option value="yt-script">YouTube Video Script</option>
+          <option value="tiktok">TikTok Script</option>
+          <option value="photo-brief">Photo Shoot Brief</option>
+          <option value="video-brief">Video Production Brief</option>
+          <option value="stories">IG / FB Stories Script</option>
+          <option value="podcast">Podcast Episode Outline</option>
+          <option value="promo">Promo Video Script (30-60 sec)</option>
+          <option value="doc-clip">Documentary Clip Script</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Topic / Subject</label>
+        <input type="text" id="m-topic" placeholder="What's this content about?">
+      </div>
+      <div class="form-field">
+        <label>Goal / CTA</label>
+        <input type="text" id="m-cta" placeholder="e.g., buy tickets, follow, donate, book consult...">
+      </div>
+      <div class="form-field full">
+        <label>Direction / Notes</label>
+        <textarea id="m-brief" placeholder="Tone, visual ideas, key message, references, special instructions..."></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generateMedia()">⚡ Generate Content</button>
+    </div>
+    <div class="output-label" id="m-out-label">CONTENT OUTPUT</div>
+    <div class="output-box" id="m-output"></div>
+  </div>
+</div>
+
+<!-- ── BOOK → PRINT WORKFLOW ── -->
+<div id="panel-book-wf" class="panel">
+  <div class="page-title">MANUSCRIPT → PRINT-READY PDF</div>
+  <div class="page-sub">IngramSpark-ready · handled by Agent SIGNAL (BLK-FTHR Media)</div>
+
+  <div class="section-head">FULL PIPELINE</div>
+  <div class="workflow-steps">
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cblk);border-color:var(--cblk)">1</div>
+      <div class="wf-body">
+        <strong>Manuscript Intake & Assessment</strong>
+        <p>Import final manuscript (Word .docx or Google Doc). Establish trim size (IngramSpark standard: 6×9, 5.5×8.5, or 5×8). Confirm chapter count, front matter, back matter, index, bibliography. Set ISBN and copyright page info.</p>
+        <div class="wf-tools"><span class="tool-tag">Word / Google Docs</span><span class="tool-tag">IngramSpark specs</span><span class="tool-tag">ISBN</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cblk);border-color:var(--cblk)">2</div>
+      <div class="wf-body">
+        <strong>Interior Layout & Typesetting</strong>
+        <p>Set margins (IngramSpark min: 0.5" outer, 0.75" inner/gutter for 300+ pages). Apply consistent heading hierarchy (H1 chapters, H2 sections). Body font 11–12pt with 1.3–1.5 leading. Page numbers in footer/header. Drop caps or ornamental chapter openers. Running heads with author/title.</p>
+        <div class="wf-tools"><span class="tool-tag">Adobe InDesign</span><span class="tool-tag">Affinity Publisher</span><span class="tool-tag">Vellum (Mac)</span><span class="tool-tag">Reedsy</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cblk);border-color:var(--cblk)">3</div>
+      <div class="wf-body">
+        <strong>Front & Back Matter</strong>
+        <p>Front: Half title, full title page, copyright page (ISBN, edition, rights statement), dedication, foreword/preface, table of contents. Back: Bibliography (Chicago style for historical works), index, about the author, other titles by author, colophon.</p>
+        <div class="wf-tools"><span class="tool-tag">Chicago 17th ed.</span><span class="tool-tag">Manual index or indexing software</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cblk);border-color:var(--cblk)">4</div>
+      <div class="wf-body">
+        <strong>Images / Photos (if applicable)</strong>
+        <p>All images must be 300 DPI minimum. Embed as CMYK or grayscale (for B&W interior). Caption every image. If photos of historical documents: ensure contrast is maximized. Place images inline with text or in signature plates.</p>
+        <div class="wf-tools"><span class="tool-tag">300 DPI min</span><span class="tool-tag">CMYK or Grayscale</span><span class="tool-tag">Photoshop / GIMP</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cblk);border-color:var(--cblk)">5</div>
+      <div class="wf-body">
+        <strong>Preflight & PDF Export</strong>
+        <p>Export as PDF/X-1a or PDF/X-4 (IngramSpark accepts both). Embed all fonts. Flatten transparency. No crop marks (IngramSpark adds bleed). Color profile: FOGRA39 (Europe) or SWOP (US). File size under 400MB. Check: widow/orphan lines, bad line breaks, hyphenation, page count divisible by 2.</p>
+        <div class="wf-tools"><span class="tool-tag">PDF/X-1a or X-4</span><span class="tool-tag">Fonts embedded</span><span class="tool-tag">Adobe Preflight</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cblk);border-color:var(--cblk)">6</div>
+      <div class="wf-body">
+        <strong>Cover File (separate)</strong>
+        <p>Full wrap cover: front + spine + back as single flat PDF. Spine width = page count × paper thickness (IngramSpark calculator). Resolution: 300 DPI. Color: CMYK. Bleed: 0.125" all sides. Barcode placement on back (lower right, no bleed). IngramSpark provides template generator.</p>
+        <div class="wf-tools"><span class="tool-tag">IngramSpark cover template</span><span class="tool-tag">Adobe Illustrator / Canva Pro</span><span class="tool-tag">300 DPI CMYK</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cblk);border-color:var(--cblk)">7</div>
+      <div class="wf-body">
+        <strong>Upload & Proof</strong>
+        <p>Upload interior PDF and cover PDF to IngramSpark. Order a physical proof copy before approving. Review: margins, spine text, bleed, image clarity, page count. Approve print-ready status. Set wholesale discount (40–55% recommended for retailer distribution).</p>
+        <div class="wf-tools"><span class="tool-tag">IngramSpark portal</span><span class="tool-tag">Physical proof</span><span class="tool-tag">Distribution settings</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top:28px;">AI CONTENT ASSIST</div>
+  <div class="composer-box">
+    <h3>GENERATE BOOK COPY</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Book Title</label>
+        <input type="text" id="bk-title" placeholder="Book title">
+      </div>
+      <div class="form-field">
+        <label>Content Needed</label>
+        <select id="bk-type">
+          <option value="copyright">Copyright Page Text</option>
+          <option value="dedication">Dedication</option>
+          <option value="about-author">About the Author</option>
+          <option value="back-cover">Back Cover Copy (blurb)</option>
+          <option value="foreword">Foreword Draft</option>
+          <option value="colophon">Colophon</option>
+          <option value="other-titles">Other Titles by Author page</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label>Details</label>
+        <textarea id="bk-brief" placeholder="Relevant info: author name, publisher, year, brief book summary, other titles..."></textarea>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="generateBookCopy()">⚡ Generate</button>
+    <div class="output-label" id="bk-out-label">OUTPUT</div>
+    <div class="output-box" id="bk-output"></div>
+  </div>
+</div>
+
+<!-- ── BOOK → eBOOK ── -->
+<div id="panel-ebook-wf" class="panel">
+  <div class="page-title">MANUSCRIPT → EBOOK</div>
+  <div class="page-sub">EPUB 3 · Kindle KFX · publish-ready for all major platforms</div>
+
+  <div class="section-head">CONVERSION PIPELINE</div>
+  <div class="workflow-steps">
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">1</div>
+      <div class="wf-body">
+        <strong>Clean the Source Document</strong>
+        <p>Start from the final edited manuscript (Word .docx). Remove all manual formatting: no hard spaces, no forced page breaks, no tab indents (use paragraph styles instead). Use Heading 1 for chapter titles, Heading 2 for sections. Body text as "Normal" style. This is the most critical step — garbage in, garbage out.</p>
+        <div class="wf-tools"><span class="tool-tag">Word styles</span><span class="tool-tag">Find & Replace cleanup</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">2</div>
+      <div class="wf-body">
+        <strong>Convert to EPUB 3</strong>
+        <p>Use Calibre (free), Vellum, or Sigil to convert .docx → EPUB 3. EPUB 3 is the current standard accepted by Apple Books, Kobo, Barnes & Noble, and IngramSpark digital. Kindle requires a separate step (below). Validate EPUB with EPUBCheck (free tool) — must pass with zero errors.</p>
+        <div class="wf-tools"><span class="tool-tag">Calibre (free)</span><span class="tool-tag">Vellum (Mac)</span><span class="tool-tag">Sigil</span><span class="tool-tag">EPUBCheck</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">3</div>
+      <div class="wf-body">
+        <strong>Kindle Format (KDP)</strong>
+        <p>Amazon KDP accepts EPUB 3 directly now (preferred) or you can use Kindle Previewer to convert and validate. Do NOT submit old MOBI format — Amazon deprecated it. Use KDP Previewer app to see exactly how it renders on all Kindle devices before submitting.</p>
+        <div class="wf-tools"><span class="tool-tag">Amazon KDP</span><span class="tool-tag">Kindle Previewer</span><span class="tool-tag">EPUB 3 (submit directly)</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">4</div>
+      <div class="wf-body">
+        <strong>eBook Cover</strong>
+        <p>eBook cover is a single JPEG or PNG file. Minimum 2,560px on longest side. Aspect ratio: 1.6:1 (height:width) — standard is 1,600×2,560px. RGB color (not CMYK). 72 DPI is fine (screen only). High contrast text — must be legible as a thumbnail.</p>
+        <div class="wf-tools"><span class="tool-tag">1600×2560px min</span><span class="tool-tag">RGB JPEG/PNG</span><span class="tool-tag">Canva / Photoshop</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">5</div>
+      <div class="wf-body">
+        <strong>Metadata & Distribution</strong>
+        <p>Set: Title, Subtitle, Author name (exactly as on cover), contributors, description (up to 4,000 chars on KDP — use HTML formatting), keywords (7 on KDP), BISAC categories (2), DRM preference, price by territory. For IngramSpark digital: upload EPUB + cover, set agency pricing.</p>
+        <div class="wf-tools"><span class="tool-tag">BISAC codes</span><span class="tool-tag">KDP metadata</span><span class="tool-tag">IngramSpark digital</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">6</div>
+      <div class="wf-body">
+        <strong>Free Digital Copy for Lead Gen (Apexum use)</strong>
+        <p>For giving the eBook free to Apexum prospects: export a watermarked PDF version (PDF is simpler for free distribution than EPUB). Include a branded cover page and back page with Apexum CTA. Distribute via a landing page download link, email delivery, or BookFunnel (easiest tool for free book delivery).</p>
+        <div class="wf-tools"><span class="tool-tag">BookFunnel</span><span class="tool-tag">Watermarked PDF</span><span class="tool-tag">Landing page link</span><span class="tool-tag">Email delivery</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BOOK → AUDIOBOOK ── -->
+<div id="panel-audio-wf" class="panel">
+  <div class="page-title">MANUSCRIPT → M4B AUDIOBOOK</div>
+  <div class="page-sub">ACX / Findaway Voices ready · M4B chapter format</div>
+
+  <div class="section-head">PRODUCTION PIPELINE</div>
+  <div class="workflow-steps">
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cpec);border-color:var(--cpec)">1</div>
+      <div class="wf-body">
+        <strong>Prepare the Reading Script</strong>
+        <p>Create a clean reading script from the manuscript. Remove or adapt visual elements (tables, footnotes, image captions — read them aloud or skip with a note). Add pronunciation guides for any unusual names. Mark pauses with [PAUSE] tags. This is your narrator's working document.</p>
+        <div class="wf-tools"><span class="tool-tag">Word doc reading script</span><span class="tool-tag">Pronunciation guide</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cpec);border-color:var(--cpec)">2</div>
+      <div class="wf-body">
+        <strong>Recording Setup</strong>
+        <p>ACX/Audible requires: 192kbps MP3 or WAV, Mono, -23dB RMS loudness, -3dB peak max, -60dB noise floor. Record each chapter as a separate file. Room treatment is critical — use a closet, hang blankets, or use a portable vocal booth. Condenser microphone minimum (Audio-Technica AT2020 or better).</p>
+        <div class="wf-tools"><span class="tool-tag">ACX specs</span><span class="tool-tag">Audacity (free)</span><span class="tool-tag">Adobe Audition</span><span class="tool-tag">-23dB RMS</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cpec);border-color:var(--cpec)">3</div>
+      <div class="wf-body">
+        <strong>Audio Editing & Mastering</strong>
+        <p>Edit each chapter: remove mouth noise, long silences, retakes. Apply: noise reduction, EQ (cut muddiness around 200-300Hz, boost clarity at 3-5kHz), light compression, final limiter. Normalize to -23dB LUFS (use Auphonic online — free, automated mastering to ACX specs).</p>
+        <div class="wf-tools"><span class="tool-tag">Audacity</span><span class="tool-tag">Auphonic (auto-mastering)</span><span class="tool-tag">Adobe Audition</span><span class="tool-tag">iZotope RX</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cpec);border-color:var(--cpec)">4</div>
+      <div class="wf-body">
+        <strong>Build the M4B File</strong>
+        <p>M4B is AAC audio with chapter markers — the standard audiobook format for Apple Books, Findaway, and personal use. Steps: (1) Convert all chapter WAVs to M4A using ffmpeg or Fre:ac. (2) Merge into single M4B using Audiobook Builder (Mac), mp4box, or Chapter and Verse app. (3) Add chapter markers, cover art (1400×1400px min JPG), title/author metadata.</p>
+        <div class="wf-tools"><span class="tool-tag">ffmpeg (free CLI)</span><span class="tool-tag">Audiobook Builder (Mac)</span><span class="tool-tag">Fre:ac (free)</span><span class="tool-tag">mp4box</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cpec);border-color:var(--cpec)">5</div>
+      <div class="wf-body">
+        <strong>QC Pass</strong>
+        <p>Listen to the first and last 5 minutes of each chapter. Check: no clipping, consistent volume, no background hum, chapter markers correct, cover art embedded, metadata displays correctly in Apple Books / VLC. Run ACX Check plugin in Audacity to verify specs before submission.</p>
+        <div class="wf-tools"><span class="tool-tag">ACX Check (Audacity plugin)</span><span class="tool-tag">Apple Books preview</span><span class="tool-tag">VLC</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--cpec);border-color:var(--cpec)">6</div>
+      <div class="wf-body">
+        <strong>Distribution</strong>
+        <p>ACX (Audible/Amazon exclusive or non-exclusive). Findaway Voices (wide distribution: Apple Books, Kobo, libraries — recommended for non-exclusive). Authors Republic (alternative wide). For Apexum free copy: distribute the M4B file directly via BookFunnel or as a downloadable link — M4B plays natively in iPhone Podcasts app and Apple Books.</p>
+        <div class="wf-tools"><span class="tool-tag">ACX (Audible)</span><span class="tool-tag">Findaway Voices</span><span class="tool-tag">BookFunnel</span><span class="tool-tag">Apple Books</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top:28px;">AI ASSIST — READING SCRIPT PREP</div>
+  <div class="composer-box">
+    <h3>ADAPT TEXT FOR AUDIO</h3>
+    <div class="form-grid">
+      <div class="form-field full">
+        <label>Paste a passage to adapt for audio narration</label>
+        <textarea id="au-text" placeholder="Paste a paragraph or section from your manuscript..."></textarea>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="adaptForAudio()">🎧 Adapt for Audio Script</button>
+    <div class="output-label" id="au-out-label">AUDIO SCRIPT VERSION</div>
+    <div class="output-box" id="au-output"></div>
+  </div>
+</div>
+
+<!-- ── APEXUM WORKFLOW ── -->
+<div id="panel-apexum-wf" class="panel">
+  <div class="page-title">APEXUM SALES WORKFLOW</div>
+  <div class="page-sub">Peptide marketing & sales funnel · Agent APEX</div>
+
+  <div class="section-head">FULL SALES FUNNEL</div>
+  <div class="pipeline">
+    <div class="pipe-step"><div class="pipe-icon">📣</div><strong>AWARENESS</strong>Content, ads, social</div>
+    <div class="pipe-step"><div class="pipe-icon">📘</div><strong>LEAD MAGNET</strong>Free digital book</div>
+    <div class="pipe-step"><div class="pipe-icon">📧</div><strong>NURTURE</strong>Email sequence</div>
+    <div class="pipe-step"><div class="pipe-icon">📞</div><strong>CONSULT</strong>Booking call</div>
+    <div class="pipe-step"><div class="pipe-icon">💊</div><strong>CONVERT</strong>Sale / client</div>
+    <div class="pipe-step"><div class="pipe-icon">🔁</div><strong>RETAIN</strong>Repeat & referral</div>
+  </div>
+
+  <div class="workflow-steps">
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">1</div>
+      <div class="wf-body">
+        <strong>Awareness — Content & Paid Ads</strong>
+        <p>Social content (IG, FB, TikTok) educating the target market on peptides: benefits, science, results, safety, and lifestyle integration. Paid ads targeting: fitness-oriented adults 30-60, biohackers, anti-aging interest, wellness communities. Hook → Education → CTA to download free book.</p>
+        <div class="wf-tools"><span class="tool-tag">IG / FB ads</span><span class="tool-tag">Educational content</span><span class="tool-tag">Reels / TikTok</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">2</div>
+      <div class="wf-body">
+        <strong>Lead Magnet — Free Digital Book</strong>
+        <p>The free book (PDF or M4B audio) is the primary lead capture tool. Landing page: headline + bullet benefits + email opt-in form → instant book delivery (via BookFunnel or email automation). Book content: peptide education, what they are, how they work, key protocols, results, and why Apexum. Ends with a clear CTA to book a free consultation call.</p>
+        <div class="wf-tools"><span class="tool-tag">Landing page</span><span class="tool-tag">Email opt-in</span><span class="tool-tag">BookFunnel delivery</span><span class="tool-tag">PDF + M4B versions</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">3</div>
+      <div class="wf-body">
+        <strong>Email Nurture Sequence (7–10 emails)</strong>
+        <p>Day 0: Book delivery + welcome. Day 1: "Did you get your book?" + one peptide benefit highlight. Day 3: Success story / testimonial. Day 5: FAQ — common concerns about peptides. Day 7: Education email (specific peptide spotlight). Day 9: Soft pitch — offer free consultation. Day 12: Final CTA — "Last chance to book your call." Automate via Mailchimp, Klaviyo, or ConvertKit.</p>
+        <div class="wf-tools"><span class="tool-tag">Mailchimp</span><span class="tool-tag">Klaviyo</span><span class="tool-tag">ConvertKit</span><span class="tool-tag">7-10 email sequence</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">4</div>
+      <div class="wf-body">
+        <strong>Consultation Booking</strong>
+        <p>Calendly or Acuity Scheduling link embedded in emails and landing page. Pre-call intake form: health goals, current regimen, specific interests, how they heard about Apexum. This data lets you personalize the consult. Consultation: needs assessment → product match → close or follow-up proposal.</p>
+        <div class="wf-tools"><span class="tool-tag">Calendly</span><span class="tool-tag">Acuity</span><span class="tool-tag">Intake form</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">5</div>
+      <div class="wf-body">
+        <strong>Conversion — Sale</strong>
+        <p>Post-consult: send personalized proposal/protocol PDF (Agent APEX generates these). Include: recommended peptides, protocol, pricing, expected timeline for results. Follow-up call or email 48 hours later if no decision. Payment processing: Stripe or Square. Onboarding: welcome email with full protocol PDF, check-in schedule.</p>
+        <div class="wf-tools"><span class="tool-tag">Protocol PDF</span><span class="tool-tag">Stripe</span><span class="tool-tag">Proposal template</span></div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num" style="color:var(--capx);border-color:var(--capx)">6</div>
+      <div class="wf-body">
+        <strong>Retention & Referrals</strong>
+        <p>30/60/90-day check-in emails (automated). Progress tracking nudges. Referral program: "Refer a friend, get 10% off your next order." Testimonial request at 60 days. Upsell: complementary peptides or upgraded protocol at 90 days. Client success stories become social proof content that feeds back into Step 1.</p>
+        <div class="wf-tools"><span class="tool-tag">Automated check-ins</span><span class="tool-tag">Referral program</span><span class="tool-tag">Testimonial collection</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top:28px;">APEXUM CONTENT GENERATOR</div>
+  <div class="composer-box">
+    <h3>AGENT APEX — CONTENT & SALES COPY</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Content Type</label>
+        <select id="apx-type">
+          <option value="ad">Paid Ad (IG/FB)</option>
+          <option value="landing">Landing Page Copy</option>
+          <option value="email-seq">Nurture Email (specify which day)</option>
+          <option value="social">Educational Social Post</option>
+          <option value="protocol">Client Protocol Summary</option>
+          <option value="faq">FAQ Content</option>
+          <option value="testimonial-req">Testimonial Request Email</option>
+          <option value="referral">Referral Program Announcement</option>
+          <option value="book-chapter">Book Chapter (Free Lead Magnet)</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Peptide / Topic Focus</label>
+        <input type="text" id="apx-topic" placeholder="e.g., BPC-157, Semaglutide, general peptides, anti-aging...">
+      </div>
+      <div class="form-field full">
+        <label>Specifics / Instructions</label>
+        <textarea id="apx-brief" placeholder="Target audience, angle, specific claims, tone, length, any compliance notes..."></textarea>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="generateApexum()">⚡ Generate Apexum Content</button>
+    <div class="output-label" id="apx-out-label">OUTPUT</div>
+    <div class="output-box" id="apx-output"></div>
+  </div>
+</div>
+
+<!-- ── ORG PAGES ── -->
+<div id="panel-org-314" class="panel">
+  <div class="page-title" style="color:var(--c314)">3.14 ENTERTAINMENT</div>
+  <div class="page-sub">Agent STAGE · Music · Film · Fashion · Culture · TV · Books · Marketing · Advertising · Branding</div>
+  <div class="section-head">AGENT CAPABILITIES</div>
+  <div class="grid-3">
+    <div class="card" style="--org-color:var(--c314);cursor:default"><div class="card-org">Music</div><div class="card-desc">Song lyrics, press releases, artist bios, promo copy, album descriptions, playlist pitches, music video scripts</div></div>
+    <div class="card" style="--org-color:var(--c314);cursor:default"><div class="card-org">Film</div><div class="card-desc">Script scenes, treatments, pitch documents, festival submissions, production briefs, synopsis</div></div>
+    <div class="card" style="--org-color:var(--c314);cursor:default"><div class="card-org">Fashion</div><div class="card-desc">Collection copy, lookbook descriptions, brand voice content, influencer briefs, trend commentary</div></div>
+    <div class="card" style="--org-color:var(--c314);cursor:default"><div class="card-org">TV / Shows</div><div class="card-desc">Show treatments, pilot summaries, character bios, network pitch letters, episode outlines</div></div>
+    <div class="card" style="--org-color:var(--c314);cursor:default"><div class="card-org">Books</div><div class="card-desc">Book chapters, back cover blurbs, author bios, publisher query letters, reading group guides</div></div>
+    <div class="card" style="--org-color:var(--c314);cursor:default"><div class="card-org">Marketing & Ads</div><div class="card-desc">Ad copy (print, digital, radio, TV), campaign briefs, brand strategy docs, taglines, slogans</div></div>
+  </div>
+  <div class="section-head">QUICK COMPOSE</div>
+  <div class="btn-row" style="flex-wrap:wrap">
+    <button class="btn-sm" onclick="show('composer');setComp('314','script')">🎬 Film Script Scene</button>
+    <button class="btn-sm" onclick="show('composer');setComp('314','song')">🎵 Song / Lyrics</button>
+    <button class="btn-sm" onclick="show('composer');setComp('314','show-treatment')">📺 Show Treatment</button>
+    <button class="btn-sm" onclick="show('composer');setComp('314','fashion-copy')">👗 Fashion Copy</button>
+    <button class="btn-sm" onclick="show('composer');setComp('314','music-pr')">📰 Music Press Release</button>
+    <button class="btn-sm" onclick="show('composer');setComp('314','ad')">📣 Ad Copy</button>
+  </div>
+</div>
+
+<div id="panel-org-pec" class="panel">
+  <div class="page-title" style="color:var(--cpec)">POSITIVE ENERGY CHURCH</div>
+  <div class="page-sub">Agent LIGHT · Positive Quotes · Affirmations · 3 Annual Concerts · Online Ministry</div>
+  <div class="section-head">AGENT CAPABILITIES</div>
+  <div class="grid-3">
+    <div class="card" style="--org-color:var(--cpec);cursor:default"><div class="card-org">Daily Content</div><div class="card-desc">Positive quotes, affirmations, 7-day quote series, social captions, inspirational content for online growth</div></div>
+    <div class="card" style="--org-color:var(--cpec);cursor:default"><div class="card-org">Concert Events (3/yr)</div><div class="card-desc">Artist booking letters, venue outreach, event promotion, ticket sales copy, event day run-of-show</div></div>
+    <div class="card" style="--org-color:var(--cpec);cursor:default"><div class="card-org">Online Ministry</div><div class="card-desc">Online launch content, weekly digital content calendar, platform-specific posts, community building</div></div>
+    <div class="card" style="--org-color:var(--cpec);cursor:default"><div class="card-org">Outreach</div><div class="card-desc">Community announcements, congregation updates, partnership outreach, event announcements</div></div>
+  </div>
+  <div class="section-head">QUICK COMPOSE</div>
+  <div class="btn-row">
+    <button class="btn-sm" onclick="show('composer');setComp('pec','affirmation')">✨ Daily Affirmation</button>
+    <button class="btn-sm" onclick="show('composer');setComp('pec','quote-series')">📋 7-Day Quote Series</button>
+    <button class="btn-sm" onclick="show('composer');setComp('pec','booking')">🎵 Concert Booking Letter</button>
+    <button class="btn-sm" onclick="show('composer');setComp('pec','online-launch')">🌐 Online Launch Content</button>
+  </div>
+</div>
+
+<div id="panel-org-cbihp" class="panel">
+  <div class="page-title" style="color:var(--ccbihp)">CBIHP FOUNDATION</div>
+  <div class="page-sub">Agent LEGACY · Cherokee History & Cultural Preservation · Academically Rigorous</div>
+  <div class="grid-3">
+    <div class="card" style="--org-color:var(--ccbihp);cursor:default"><div class="card-org">Historical Content</div><div class="card-desc">Black Cherokee & Cherokee Freedmen educational content. Locked terminology enforced. Primary-source grounded.</div></div>
+    <div class="card" style="--org-color:var(--ccbihp);cursor:default"><div class="card-org">Books & Docs</div><div class="card-desc">Book chapters, manuscript sections, documentary scripts — Cherokee Freedmen narrative, historical accuracy required</div></div>
+    <div class="card" style="--org-color:var(--ccbihp);cursor:default"><div class="card-org">Grants & Donors</div><div class="card-desc">Grant proposals, donor letters, impact reports, board correspondence, IRS-compatible language</div></div>
+    <div class="card" style="--org-color:var(--ccbihp);cursor:default"><div class="card-org">Press & Media</div><div class="card-desc">Press releases, media pitches, op-eds, public statements, speaking engagement bios</div></div>
+  </div>
+  <div class="section-head">LOCKED TERMINOLOGY (enforced in all output)</div>
+  <div style="background:var(--card);border:1px solid var(--ccbihp)33;border-radius:10px;padding:16px;font-size:0.79rem;color:var(--muted);line-height:2.1;">
+    <strong style="color:var(--ccbihp)">Black Cherokee</strong> (cap) — UMBRELLA TERM, any era. Any person of Cherokee Nation membership or community who also has Black American lineage.<br>
+    <strong style="color:var(--ccbihp)">PRE-CIVIL WAR:</strong> "Cherokee slaves" / "enslaved people in the Cherokee Nation" for those in bondage. "Free Black Cherokees" / "free Blacks in the Cherokee Nation" for those not enslaved. Never call free Blacks slaves. Both groups are still Black Cherokees.<br>
+    <strong style="color:var(--ccbihp)">POST-TREATY OF 1866:</strong> "Cherokee Freedmen" = the historical generation freed from slavery by the Treaty of 1866. Used in research to mark social-political placement. After 1866 all received Cherokee citizenship and remained Black Cherokees.<br>
+    <strong style="color:var(--ccbihp)">LIVING DESCENDANTS:</strong> "Cherokee Freedmen descendants" or "descendants of Cherokee Freedmen." Inherited citizenship via the Dawes Freedmen line. There are NO living Cherokee Freedmen today.<br>
+    <strong style="color:var(--ccbihp)">DAWES ROLLS:</strong> Many enrollees were intermarried and had not been slaves. Their Cherokee blood was not recognized. Most descendants carry Cherokee AND European blood from slavery in the US, Cherokee Nation, or both. The assumption they lack Cherokee blood is a documented historical misunderstanding — address it when relevant.<br>
+    <strong style="color:var(--ccbihp)">"by blood"</strong> — in quotes, lowercase, first use per chapter &nbsp;·&nbsp; <strong style="color:var(--ccbihp)">No m-dashes in prose</strong>
+  </div>
+  <div class="section-head">QUICK COMPOSE</div>
+  <div class="btn-row">
+    <button class="btn-sm" onclick="show('composer');setComp('cbihp','grant')">💰 Grant Proposal</button>
+    <button class="btn-sm" onclick="show('composer');setComp('cbihp','docscipt')">🎞️ Documentary Script</button>
+    <button class="btn-sm" onclick="show('composer');setComp('cbihp','history-content')">📜 Historical Content</button>
+    <button class="btn-sm" onclick="show('composer');setComp('cbihp','donor-letter')">📧 Donor Letter</button>
+  </div>
+</div>
+
+<div id="panel-org-bfm" class="panel">
+  <div class="page-title" style="color:var(--cbfm)">BFM NONPROFIT</div>
+  <div class="page-sub">Agent ROOTS · Native American Narrative · Arts · Ty supports daughter & cousin's org</div>
+  <div class="grid-3">
+    <div class="card" style="--org-color:var(--cbfm);cursor:default"><div class="card-org">Books</div><div class="card-desc">Book chapters, front/back matter, manuscript support, author bios, publisher-ready copy</div></div>
+    <div class="card" style="--org-color:var(--cbfm);cursor:default"><div class="card-org">Documentary Scripts</div><div class="card-desc">Segment scripts, narrator copy, interview question sets, scene descriptions, voiceover scripts</div></div>
+    <div class="card" style="--org-color:var(--cbfm);cursor:default"><div class="card-org">Grants & Donors</div><div class="card-desc">Grant proposals, donor communications, impact narratives, arts funding applications</div></div>
+    <div class="card" style="--org-color:var(--cbfm);cursor:default"><div class="card-org">Arts & Media</div><div class="card-desc">Exhibition copy, artist statements, event content, Native narrative social media, outreach</div></div>
+  </div>
+  <div class="section-head">QUICK COMPOSE</div>
+  <div class="btn-row">
+    <button class="btn-sm" onclick="show('composer');setComp('bfm','book')">📖 Book Chapter</button>
+    <button class="btn-sm" onclick="show('composer');setComp('bfm','docscipt')">🎞️ Documentary Script</button>
+    <button class="btn-sm" onclick="show('composer');setComp('bfm','grant')">💰 Grant Proposal</button>
+  </div>
+</div>
+
+<div id="panel-org-blk" class="panel">
+  <div class="page-title" style="color:var(--cblk)">BL
