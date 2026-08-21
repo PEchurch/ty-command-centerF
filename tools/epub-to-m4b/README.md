@@ -27,11 +27,17 @@ have `ffmpeg` on your PATH, that one is used instead.
 | Backend | Quality | Cost (rough) | Setup |
 |---|---|---|---|
 | `openai` (default) | Very good | ~$0.015 / 1,000 chars | `export OPENAI_API_KEY=sk-...` |
-| `elevenlabs` | Best, most natural | ~$0.18 / 1,000 chars | `export ELEVENLABS_API_KEY=...` |
+| `elevenlabs` | Best, most natural | ~$0.18 / 1,000 chars (Pro-tier effective rate) | `export ELEVENLABS_API_KEY=...` |
+| `inworld` | Very good, near ElevenLabs on quality | ~$0.01–$0.015 / 1,000 chars, pay-as-you-go, no subscription | `export INWORLD_API_KEY=...` |
 | `local` | Robotic (espeak-based) | Free | `pip install pyttsx3` + a system TTS engine |
 
-For anything you're actually going to sell, use `openai` or `elevenlabs`.
-`local` is only good for a quick QC pass or testing the pipeline for free.
+For anything you're actually going to sell, use `openai`, `elevenlabs`, or
+`inworld`. `local` is only good for a quick QC pass or testing the pipeline
+for free.
+
+Pricing shifts often for all of these — the numbers above are a ballpark
+from when this was written, not a quote. Check each provider's current
+pricing page before committing to a full book.
 
 Copy `.env.example` to `.env`, fill in the key(s) you need, and export it
 into your shell before running the tool.
@@ -66,7 +72,8 @@ Useful flags:
 
 - `--voice` — voice name/id for the chosen backend (e.g. OpenAI:
   `alloy`, `verse`, `ash`, ...; ElevenLabs: `rachel`, `adam`, `bella`,
-  `antoni`, or any voice ID).
+  `antoni`, or any voice ID; Inworld: any voice name from Inworld's
+  ListVoices endpoint, e.g. `Sarah`).
 - `--cover path/to/cover.jpg` — use a specific cover instead of the one
   embedded in the EPUB.
 - `--bitrate 64k` — AAC bitrate. 64k mono is standard for spoken word and

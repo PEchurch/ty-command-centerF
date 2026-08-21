@@ -91,6 +91,43 @@ class ElevenLabsBackend(TTSBackend):
         out_path.write_bytes(resp.content)
 
 
+class InworldBackend(TTSBackend):
+    """Inworld AI text-to-speech. Requires INWORLD_API_KEY. Pay-as-you-go pricing
+    with no subscription tier, and noticeably cheaper than ElevenLabs per character
+    while ranking near the top of independent TTS-quality leaderboards."""
+
+    name = 'inworld'
+    default_voice = 'Sarah'
+
+    def __init__(self, model: str = 'inworld-tts-1.5-max'):
+        api_key = os.environ.get('INWORLD_API_KEY')
+        if not api_key:
+            raise RuntimeError(
+                'INWORLD_API_KEY is not set. Export it, or put it in a .env file '
+                '(see .env.example) and load it before running.'
+            )
+        self._api_key = api_key
+        self.model = model
+
+    def synthesize(self, text: str, out_path: Path, voice: str) -> None:
+        import base64
+        import requests
+
+        resp = requests.post(
+            'https://api.inworld.ai/tts/v1/voice',
+            headers={'Authorization': f'Basic {self._api_key}', 'Content-Type': 'application/json'},
+            json={
+                'text': text,
+                'voiceId': voice or self.default_voice,
+                'modelId': self.model,
+                'audioConfig': {'audioEncoding': 'MP3', 'sampleRateHertz': 24000},
+            },
+            timeout=120,
+        )
+        resp.raise_for_status()
+        out_path.write_bytes(base64.b64decode(resp.json()['audioContent']))
+
+
 class LocalBackend(TTSBackend):
     """Free, fully offline fallback via pyttsx3 (needs a system TTS engine,
     e.g. espeak-ng on Linux). Robotic quality — fine for drafts/QC, not
@@ -124,6 +161,7 @@ class LocalBackend(TTSBackend):
 _BACKENDS = {
     'openai': OpenAIBackend,
     'elevenlabs': ElevenLabsBackend,
+    'inworld': InworldBackend,
     'local': LocalBackend,
 }
 

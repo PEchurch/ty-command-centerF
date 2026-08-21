@@ -33,6 +33,7 @@ from tts_backends import get_backend
 _COST_PER_1K_CHARS = {
     'openai': 0.015,
     'elevenlabs': 0.18,
+    'inworld': 0.015,
     'local': 0.0,
 }
 
@@ -168,7 +169,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description='Convert an EPUB into a sellable M4B audiobook.')
     p.add_argument('epub', type=Path, help='Path to the source .epub file')
     p.add_argument('-o', '--output', type=Path, default=None, help='Output .m4b path (default: <epub name>.m4b)')
-    p.add_argument('--backend', choices=['openai', 'elevenlabs', 'local'], default='openai', help='TTS engine to narrate with')
+    p.add_argument('--backend', choices=['openai', 'elevenlabs', 'inworld', 'local'], default='openai', help='TTS engine to narrate with')
     p.add_argument('--voice', default='', help='Voice name/id for the chosen backend')
     p.add_argument('--narrator', default='', help='Narrator name to tag into the file metadata')
     p.add_argument('--cover', type=Path, default=None, help='Override cover image (jpg/png); default is the cover embedded in the EPUB')
