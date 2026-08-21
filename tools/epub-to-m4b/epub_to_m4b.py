@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -40,6 +41,16 @@ _COST_PER_1K_CHARS = {
 
 def _sha1(text: str) -> str:
     return hashlib.sha1(text.encode('utf-8')).hexdigest()[:12]
+
+
+_UNSAFE_FILENAME_RE = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
+
+
+def _sanitize_filename(name: str) -> str:
+    """Make a book title safe to use as a Windows/macOS/Linux folder name."""
+    cleaned = _UNSAFE_FILENAME_RE.sub('-', name)
+    cleaned = re.sub(r'-{2,}', '-', cleaned).strip(' .-')
+    return cleaned or 'book'
 
 
 def cmd_list_chapters(book: Book) -> None:
@@ -203,7 +214,7 @@ def main(argv=None) -> int:
         return 0
 
     output_path = args.output or args.epub.with_suffix('.m4b')
-    workdir = args.workdir or Path('.epub_to_m4b_build') / book.title.replace('/', '-')
+    workdir = args.workdir or Path('.epub_to_m4b_build') / _sanitize_filename(book.title)
     only_indices = {int(x) for x in args.only.split(',') if x.strip()} if args.only else None
 
     print(f'{book.title} by {book.author} — {len(book.chapters)} chapters')
