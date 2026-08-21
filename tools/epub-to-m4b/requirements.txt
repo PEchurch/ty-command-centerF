@@ -1,0 +1,14 @@
+# Core — always required
+ebooklib>=0.18
+beautifulsoup4>=4.12
+lxml>=5.0
+requests>=2.31
+
+# Convenience: bundles a ready-to-use ffmpeg binary, so you don't have to
+# install ffmpeg system-wide. Strongly recommended.
+imageio-ffmpeg>=0.5
+
+# Backend-specific — only install the one(s) you plan to use:
+openai>=1.30          # --backend openai (default)
+pyttsx3>=2.90          # --backend local (also needs a system TTS engine, e.g. espeak-ng)
+# --backend elevenlabs only needs `requests`, already listed above.

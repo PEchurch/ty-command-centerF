@@ -1,0 +1,5 @@
+.env
+.epub_to_m4b_build/
+__pycache__/
+*.pyc
+*.m4b

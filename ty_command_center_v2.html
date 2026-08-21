@@ -1052,6 +1052,19 @@ select option { background: #111; }
     </div>
   </div>
 
+  <div class="section-head" style="margin-top:28px;">AUTOMATED EPUB → M4B CONVERTER</div>
+  <div class="composer-box">
+    <h3>SKIP STEPS 1–4 — RUN THE CONVERTER</h3>
+    <p style="font-size:0.83rem;color:var(--muted);line-height:1.6;margin-bottom:14px;">A working converter lives in this repo at <code style="color:var(--text);">tools/epub-to-m4b/</code>. It reads an EPUB's chapters straight from the spine, narrates each one with a text-to-speech backend of your choice (OpenAI, ElevenLabs, or a free offline fallback), and assembles a single chaptered M4B with cover art and metadata — ready for direct-to-consumer sale via Payhip, Gumroad, BookFunnel, or your own site. Full setup and selling notes are in that folder's README.</p>
+    <div class="output-box show" style="font-size:0.78rem;">cd tools/epub-to-m4b
+pip install -r requirements.txt
+export OPENAI_API_KEY=sk-...
+
+python epub_to_m4b.py my-book.epub --list-chapters   # preview + cost estimate, no API calls
+python epub_to_m4b.py my-book.epub --backend openai --voice alloy -o my-book.m4b</div>
+    <div class="wf-tools" style="margin-top:12px;"><span class="tool-tag">tools/epub-to-m4b/README.md</span><span class="tool-tag">OpenAI / ElevenLabs TTS</span><span class="tool-tag">ffmpeg (bundled via pip)</span><span class="tool-tag">Chapter markers + cover art</span></div>
+  </div>
+
   <div class="section-head" style="margin-top:28px;">AI ASSIST — READING SCRIPT PREP</div>
   <div class="composer-box">
     <h3>ADAPT TEXT FOR AUDIO</h3>
