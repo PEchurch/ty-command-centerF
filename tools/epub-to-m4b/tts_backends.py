@@ -64,6 +64,7 @@ class ElevenLabsBackend(TTSBackend):
         'adam': 'pNInz6obpgDQGcFmaJgB',
         'bella': 'EXAVITQu4vr4xnSDxMaL',
         'antoni': 'ErXwobaYiN019PkySvjV',
+        'brian': 'nPczCjzI2devNBz1zQrb',
     }
 
     def __init__(self, model: str = 'eleven_multilingual_v2'):
