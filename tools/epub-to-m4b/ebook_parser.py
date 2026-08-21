@@ -6,13 +6,21 @@ import re
 import warnings
 from pathlib import Path
 from typing import Optional
+from urllib.parse import unquote, urljoin
 
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 from ebooklib import epub, ITEM_COVER, ITEM_DOCUMENT, ITEM_IMAGE
 
+import ocr
+
 # EPUB content documents are XHTML; bs4's HTML parser handles them fine but
 # warns about it on every file. We know, and mean to do it — silence it.
 warnings.filterwarnings('ignore', category=XMLParsedAsHTMLWarning)
+
+# Pages with less real text than this are treated as OCR candidates if
+# they contain an image — a normal short chapter title/caption is usually
+# well under this; a genuinely empty illustrated page has zero.
+_OCR_TRIGGER_CHARS = 20
 
 
 @dataclasses.dataclass
@@ -20,6 +28,7 @@ class Chapter:
     index: int
     title: str
     text: str
+    from_ocr: bool = False
 
     @property
     def char_count(self) -> int:
@@ -34,6 +43,9 @@ class Book:
     cover_bytes: Optional[bytes]
     cover_media_type: Optional[str]
     chapters: list
+    # (chapter_index, chapter_title) pairs where the page looked like a
+    # text-free illustration but OCR wasn't available or found nothing.
+    ocr_skipped: list = dataclasses.field(default_factory=list)
 
 
 _WS_RE = re.compile(r'[ \t\f\v]+')
@@ -96,7 +108,31 @@ def _meta(book: 'epub.EpubBook', namespace: str, name: str, default: str = '') -
     return default
 
 
-def parse_epub(epub_path: Path) -> Book:
+def _collect_chapter_images(book: 'epub.EpubBook', soup: BeautifulSoup, base_href: str) -> list:
+    """Resolve every <img>/<image> reference in this chapter's HTML to raw
+    image bytes, in document order — used as OCR input for picture-book
+    pages where the words are drawn into the artwork."""
+    hrefs = []
+    for img in soup.find_all('img'):
+        src = img.get('src')
+        if src:
+            hrefs.append(src)
+    for image in soup.find_all('image'):
+        # SVG-wrapped full-page images are common in fixed-layout EPUBs.
+        href = image.get('xlink:href') or image.get('href')
+        if href:
+            hrefs.append(href)
+
+    image_bytes = []
+    for href in hrefs:
+        resolved = unquote(urljoin(base_href, href))
+        item = book.get_item_with_href(resolved)
+        if item is not None:
+            image_bytes.append(item.get_content())
+    return image_bytes
+
+
+def parse_epub(epub_path: Path, use_ocr: bool = True) -> Book:
     book = epub.read_epub(str(epub_path), options={'ignore_ncx': True})
 
     title = _meta(book, 'DC', 'title', epub_path.stem)
@@ -104,8 +140,15 @@ def parse_epub(epub_path: Path) -> Book:
     description = _meta(book, 'DC', 'description', '')
     cover_bytes, cover_media_type = _find_cover(book)
 
+    ocr_available = None  # lazily checked at most once
     chapters = []
-    for item_id, _linear in book.spine:
+    ocr_skipped = []
+
+    for item_id, linear in book.spine:
+        if str(linear).lower() == 'no':
+            # Non-reading-order pages (cover wrapper, ads, etc.) — skip
+            # them rather than narrating/OCR-ing a page nobody's meant to read.
+            continue
         item = book.get_item_with_id(item_id)
         if item is None or item.get_type() != ITEM_DOCUMENT:
             continue
@@ -113,9 +156,24 @@ def parse_epub(epub_path: Path) -> Book:
         soup = BeautifulSoup(raw, 'lxml')
         chapter_title = _chapter_title(soup, fallback=f'Chapter {len(chapters) + 1}')
         text = _clean_text(raw)
+        from_ocr = False
+
+        if use_ocr and len(text) < _OCR_TRIGGER_CHARS:
+            images = _collect_chapter_images(book, soup, item.get_name())
+            if images:
+                if ocr_available is None:
+                    ocr_available = ocr.is_available()
+                if ocr_available:
+                    ocr_text = ocr.ocr_images(images)
+                    if ocr_text:
+                        text = ocr_text
+                        from_ocr = True
+                if not from_ocr:
+                    ocr_skipped.append((len(chapters) + 1, chapter_title))
+
         if not text:
             continue
-        chapters.append(Chapter(index=len(chapters) + 1, title=chapter_title, text=text))
+        chapters.append(Chapter(index=len(chapters) + 1, title=chapter_title, text=text, from_ocr=from_ocr))
 
     return Book(
         title=title,
@@ -124,4 +182,5 @@ def parse_epub(epub_path: Path) -> Book:
         cover_bytes=cover_bytes,
         cover_media_type=cover_media_type,
         chapters=chapters,
+        ocr_skipped=ocr_skipped,
     )

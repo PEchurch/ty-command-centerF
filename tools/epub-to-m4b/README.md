@@ -87,11 +87,44 @@ Useful flags:
   mispronunciation), then re-run with `--resume` (no `--only`) to rebuild
   the full file using the cache.
 
+## Picture books / illustrated text
+
+Some illustrated books export each page as one flat image with the words
+drawn directly into the artwork, rather than as real text next to a
+picture. There's nothing for the normal parser to read in that case — the
+words only exist as pixels.
+
+The tool handles this automatically: any page with an image and
+essentially no real text gets run through OCR (optical character
+recognition) to read the words straight off the illustration. You'll see
+`(OCR)` next to those chapters in `--list-chapters` output — worth a quick
+listen/read-through of those specific chapters afterward, since OCR can
+misread stylized or hand-drawn lettering.
+
+OCR needs one extra install beyond `pip install -r requirements.txt`: the
+Tesseract OCR program itself (`pytesseract` is just a thin Python wrapper
+around it, it doesn't do the OCR itself).
+
+- **Windows**: install from the [UB-Mannheim Tesseract build](https://github.com/UB-Mannheim/tesseract/wiki)
+  — check "Add to PATH" during install. If the tool still can't find it
+  afterward, set an environment variable pointing straight at it:
+  `set TESSERACT_CMD=C:\Program Files\Tesseract-OCR\tesseract.exe`
+- **Mac**: `brew install tesseract`
+- **Linux**: `sudo apt install tesseract-ocr` (or your distro's equivalent)
+
+If Tesseract isn't installed, the tool still works fine for normal
+text-based chapters — it just skips OCR and warns you which illustrated
+pages it couldn't read, instead of silently dropping them. Pass `--no-ocr`
+to turn this off entirely (e.g. if you'd rather type those pages' text in
+by hand for guaranteed accuracy).
+
 ## How it works
 
 1. **Parse** — `ebook_parser.py` reads the EPUB spine in order, strips
    HTML/CSS down to clean narratable text per chapter, and pulls out
-   title/author/description/cover from the EPUB's own metadata.
+   title/author/description/cover from the EPUB's own metadata. Pages
+   with no real text and an image get OCR'd as a fallback (see
+   "Picture books / illustrated text" below).
 2. **Chunk** — `textutil.py` splits any chapter longer than `--max-chars`
    on sentence boundaries, so no request gets cut mid-sentence and no TTS
    provider's input-length limit gets hit.

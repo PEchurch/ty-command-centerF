@@ -11,4 +11,10 @@ imageio-ffmpeg>=0.5
 # Backend-specific — only install the one(s) you plan to use:
 openai>=1.30          # --backend openai (default)
 pyttsx3>=2.90          # --backend local (also needs a system TTS engine, e.g. espeak-ng)
-# --backend elevenlabs only needs `requests`, already listed above.
+# --backend elevenlabs / --backend inworld only need `requests`, already listed above.
+
+# Optional: OCR fallback for picture books where the words are drawn into
+# the illustration image itself. Also requires the Tesseract OCR *program*
+# installed separately — pip can't install that part. See README.md.
+pytesseract>=0.3.10
+Pillow>=10.0

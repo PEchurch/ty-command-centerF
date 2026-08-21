@@ -25,6 +25,7 @@ import sys
 from pathlib import Path
 
 import audio_build as ab
+import ocr
 from ebook_parser import Book, parse_epub
 from textutil import split_into_chunks
 from tts_backends import get_backend
@@ -53,12 +54,35 @@ def _sanitize_filename(name: str) -> str:
     return cleaned or 'book'
 
 
+def _warn_ocr_skipped(book: Book) -> None:
+    if not book.ocr_skipped:
+        return
+    names = ', '.join(f'#{i} {t}' for i, t in book.ocr_skipped[:5])
+    if len(book.ocr_skipped) > 5:
+        names += ', ...'
+    if ocr.is_available():
+        print(
+            f'warning: OCR found no readable text on {len(book.ocr_skipped)} illustrated '
+            f'page(s), likely stylized/hand-drawn text OCR couldn\'t read: {names}',
+            file=sys.stderr,
+        )
+    else:
+        print(
+            f'warning: {len(book.ocr_skipped)} page(s) look like illustrations with little/no '
+            f'extractable text, but OCR isn\'t set up ({names}). Install Tesseract OCR '
+            '(see README.md) to read words directly off the artwork, then re-run.',
+            file=sys.stderr,
+        )
+
+
 def cmd_list_chapters(book: Book) -> None:
     total_chars = sum(ch.char_count for ch in book.chapters)
     print(f'{book.title} — {book.author}')
     print(f'{len(book.chapters)} chapters, {total_chars:,} characters total\n')
     for ch in book.chapters:
-        print(f'  [{ch.index:>3}] {ch.title[:60]:<60} {ch.char_count:>7,} chars')
+        ocr_tag = ' (OCR)' if ch.from_ocr else ''
+        print(f'  [{ch.index:>3}] {ch.title[:60]:<60} {ch.char_count:>7,} chars{ocr_tag}')
+    _warn_ocr_skipped(book)
     print()
     for backend, rate in _COST_PER_1K_CHARS.items():
         est = total_chars / 1000 * rate
@@ -192,6 +216,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument('--resume', action='store_true', help='Reuse already-synthesized chapter audio from a previous run')
     p.add_argument('--only', default='', help='Comma-separated chapter indices to (re)synthesize, e.g. "3,7,8"')
     p.add_argument('--list-chapters', action='store_true', help='Print detected chapters, char counts, and a cost estimate, then exit')
+    p.add_argument('--no-ocr', action='store_true', help="Don't OCR illustrated pages that have no extractable text (OCR is on by default)")
     return p.parse_args(argv)
 
 
@@ -203,15 +228,22 @@ def main(argv=None) -> int:
         return 1
 
     print(f'Parsing {args.epub}...')
-    book = parse_epub(args.epub)
+    book = parse_epub(args.epub, use_ocr=not args.no_ocr)
 
     if not book.chapters:
-        print('error: no narratable chapters were found in this EPUB', file=sys.stderr)
+        _warn_ocr_skipped(book)
+        if book.ocr_skipped:
+            print('error: no narratable chapters were found — every page looked like an '
+                  'illustration with no extractable text (see warning above).', file=sys.stderr)
+        else:
+            print('error: no narratable chapters were found in this EPUB', file=sys.stderr)
         return 1
 
     if args.list_chapters:
         cmd_list_chapters(book)
         return 0
+
+    _warn_ocr_skipped(book)
 
     output_path = args.output or args.epub.with_suffix('.m4b')
     workdir = args.workdir or Path('.epub_to_m4b_build') / _sanitize_filename(book.title)
