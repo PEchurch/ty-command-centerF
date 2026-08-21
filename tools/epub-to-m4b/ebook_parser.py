@@ -17,12 +17,6 @@ import ocr
 # warns about it on every file. We know, and mean to do it — silence it.
 warnings.filterwarnings('ignore', category=XMLParsedAsHTMLWarning)
 
-# Pages with less real text than this are treated as OCR candidates if
-# they contain an image — a normal short chapter title/caption is usually
-# well under this; a genuinely empty illustrated page has zero.
-_OCR_TRIGGER_CHARS = 20
-
-
 @dataclasses.dataclass
 class Chapter:
     index: int
@@ -43,8 +37,9 @@ class Book:
     cover_bytes: Optional[bytes]
     cover_media_type: Optional[str]
     chapters: list
-    # (chapter_index, chapter_title) pairs where the page looked like a
-    # text-free illustration but OCR wasn't available or found nothing.
+    # (chapter_index, chapter_title) pairs with an image OCR couldn't
+    # contribute anything from — either unavailable, or ran and found
+    # nothing (e.g. stylized lettering, or a purely decorative image).
     ocr_skipped: list = dataclasses.field(default_factory=list)
 
 
@@ -158,17 +153,24 @@ def parse_epub(epub_path: Path, use_ocr: bool = True) -> Book:
         text = _clean_text(raw)
         from_ocr = False
 
-        if use_ocr and len(text) < _OCR_TRIGGER_CHARS:
+        if use_ocr:
             images = _collect_chapter_images(book, soup, item.get_name())
             if images:
+                # Always OCR pages with images, even ones that already have
+                # some real text — comics/graphic novels commonly have a
+                # short real caption *and* dialogue drawn into the artwork
+                # on the same page, so "already has text" doesn't mean
+                # "nothing more to gain from OCR."
                 if ocr_available is None:
                     ocr_available = ocr.is_available()
                 if ocr_available:
                     ocr_text = ocr.ocr_images(images)
                     if ocr_text:
-                        text = ocr_text
+                        text = f'{text}\n\n{ocr_text}'.strip() if text else ocr_text
                         from_ocr = True
-                if not from_ocr:
+                    else:
+                        ocr_skipped.append((len(chapters) + 1, chapter_title))
+                else:
                     ocr_skipped.append((len(chapters) + 1, chapter_title))
 
         if not text:

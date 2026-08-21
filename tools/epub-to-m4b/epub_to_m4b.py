@@ -62,15 +62,17 @@ def _warn_ocr_skipped(book: Book) -> None:
         names += ', ...'
     if ocr.is_available():
         print(
-            f'warning: OCR found no readable text on {len(book.ocr_skipped)} illustrated '
-            f'page(s), likely stylized/hand-drawn text OCR couldn\'t read: {names}',
+            f'warning: OCR ran on {len(book.ocr_skipped)} page(s) with images but found no '
+            f'extra text — likely stylized/hand-drawn lettering it couldn\'t read, or a purely '
+            f'decorative image: {names}',
             file=sys.stderr,
         )
     else:
         print(
-            f'warning: {len(book.ocr_skipped)} page(s) look like illustrations with little/no '
-            f'extractable text, but OCR isn\'t set up ({names}). Install Tesseract OCR '
-            '(see README.md) to read words directly off the artwork, then re-run.',
+            f'warning: {len(book.ocr_skipped)} page(s) have images that may contain captions or '
+            f'dialogue OCR could pull out, but OCR isn\'t set up ({names}). Install Tesseract OCR '
+            '(see README.md), then re-run — this can add missing content even on pages that '
+            'already have some text.',
             file=sys.stderr,
         )
 
