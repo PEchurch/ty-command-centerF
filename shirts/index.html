@@ -213,9 +213,11 @@ const CONFIG = {
 
   // art: key into ART below, or put a path like "img/design1.png" (shown as the print on the shirt preview)
   designs: [
-    { id:"d1", name:"Design One",   sub:"Replace with your design name", art:"sun" },
-    { id:"d2", name:"Design Two",   sub:"Replace with your design name", art:"peaks" },
-    { id:"d3", name:"Design Three", sub:"Replace with your design name", art:"star" }
+    { id:"d1", name:"Cherokee Nation",  sub:"Arrowhead seal",  art:"img/cherokee-nation.webp" },
+    { id:"d2", name:"Cherokee",         sub:"Profile portrait", art:"img/cherokee-profile.webp" },
+    { id:"d3", name:"1st Americans",    sub:"Feathers",         art:"img/1st-americans.webp" },
+    { id:"d4", name:"Yawnsee",          sub:"Bison",            art:"img/yawnsee-bison.webp" },
+    { id:"d5", name:"Yo-na",            sub:"Bear",             art:"img/yona-bear.webp" }
   ],
 
   // sale = discounted price. regular = optional, shown struck through.
@@ -238,7 +240,7 @@ const SHIRT_PATH = "M70 20 L20 44 L38 84 L58 76 L58 196 L142 196 L142 76 L162 84
 function shirtSVG(design, color){
   const black = color === "Black", fill = black ? "#151515" : "#fbfbf7", ink = black ? "#f4ecd8" : "#151515";
   const print = /[./]/.test(design.art)
-    ? `<image href="${esc(design.art)}" x="62" y="56" width="76" height="76" preserveAspectRatio="xMidYMid meet"/>`
+    ? `<image href="${esc(design.art)}" x="60" y="50" width="80" height="90" preserveAspectRatio="xMidYMid meet"/>`
     : (ART[design.art] ? ART[design.art](ink) : "");
   return `<svg viewBox="0 0 200 216" role="img" aria-label="${esc(design.name)} on a ${color.toLowerCase()} tee">
     <path d="${SHIRT_PATH}" fill="${fill}" stroke="#1d2a44" stroke-width="3" stroke-linejoin="round"/>${print}</svg>`;
