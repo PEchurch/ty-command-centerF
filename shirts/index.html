@@ -3,8 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Native American Heritage Month Flash Sale</title>
-<meta name="description" content="Short-run flash sale for Native American Heritage Month: heritage tees and signed-by-the-author books at special prices until Nov 13, 2026.">
+<title>Cherokee Tee FLASH SALE</title>
+<meta name="description" content="Native American Heritage Month flash sale: Cherokee tees and books by Ty &quot;GWY&quot; Wilson at special prices. Order by Nov 13, 2026.">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<!-- Link preview (Facebook, iMessage, X, etc.). og:image/og:url must be absolute: update if the site address changes. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyGWY">
+<meta property="og:title" content="Cherokee Tee FLASH SALE">
+<meta property="og:description" content="Native American Heritage Month flash sale: Cherokee tees and books by Ty &quot;GWY&quot; Wilson at special prices. Order by Nov 13, 2026.">
+<meta property="og:url" content="https://flash.tygwy.art/">
+<meta property="og:image" content="https://flash.tygwy.art/img/yawnsee-bison.webp">
+<meta property="og:image:alt" content="Yawnsee, the rainbow bison design">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cherokee Tee FLASH SALE">
+<meta name="twitter:description" content="Native American Heritage Month flash sale: Cherokee tees and books at special prices. Order by Nov 13, 2026.">
+<meta name="twitter:image" content="https://flash.tygwy.art/img/yawnsee-bison.webp">
 <style>
   :root{
     --paper:#f4ecd8; --paper-2:#ebe0c3; --ink:#1d2a44; --red:#b3261e; --muted:#6b6450; --line:#c9bd9a; --stamp:#b3261e;
@@ -47,6 +62,15 @@
   .pricing b{display:block;font:900 28px Georgia,serif;color:var(--red)}
   .pricing span{font-size:13px}
 
+  .guide{border:2px solid var(--ink);background:var(--paper-2);margin:0 0 18px}
+  .guide summary{cursor:pointer;padding:10px 14px;font:900 15px Georgia,serif;text-transform:uppercase;letter-spacing:.08em}
+  .guide summary:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+  .guide-body{padding:0 14px 12px}
+  .guide ul{margin:8px 0 0;padding-left:20px}
+  table.sz{margin:10px 0;font-size:13px}
+  table.sz caption{text-align:left;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--red);padding-bottom:2px}
+  table.sz th,table.sz td{text-align:center;border:1px solid var(--ink);padding:4px 6px}
+  table.sz tbody th{text-align:left;font-size:11px}
   .item{position:relative;border:2px solid var(--ink);background:var(--paper-2);margin:0 0 20px;display:grid;grid-template-columns:300px 1fr;overflow:hidden}
   @media (max-width:700px){.item{grid-template-columns:1fr}}
   @media (max-width:700px){
@@ -159,6 +183,31 @@
 <h2 class="sec">Heritage Tees</h2>
 <p class="secnote">Choose black or white, then enter how many of each size you want.</p>
 <div class="pricing" id="pricing"></div>
+<details class="guide">
+  <summary>Size guide &amp; shirt details</summary>
+  <div class="guide-body">
+    <p class="fine" style="margin-top:0">Measurements are in inches, shirt laid flat (a chest width of 20&quot; fits a chest of about 40&quot;). Allow ±1&quot;.</p>
+    <table class="sz">
+      <caption>Adult Unisex</caption>
+      <thead><tr><th></th><th>S</th><th>M</th><th>L</th><th>XL</th><th>2XL</th></tr></thead>
+      <tbody><tr><th>Chest width</th><td>18</td><td>20</td><td>22</td><td>24</td><td>26</td></tr>
+             <tr><th>Body length</th><td>27</td><td>29</td><td>31</td><td>32</td><td>33</td></tr></tbody>
+    </table>
+    <table class="sz">
+      <caption>Youth</caption>
+      <thead><tr><th></th><th>S</th><th>M</th><th>L</th></tr></thead>
+      <tbody><tr><th>Chest width</th><td>16</td><td>17</td><td>18</td></tr>
+             <tr><th>Body length</th><td>23&frac14;</td><td>24&frac12;</td><td>25&frac34;</td></tr></tbody>
+    </table>
+    <ul class="fine">
+      <li>5.5 oz./yd², 100% ring-spun USA premium cotton</li>
+      <li>Reactive-dyed for longer-lasting color; pre-washed to minimize shrinkage</li>
+      <li>Ribbed crewneck collar; taped neck and shoulders</li>
+      <li>Double-needle stitching on bottom hem (adult: sleeves too); tear-away label</li>
+      <li>Youth tees meet OEKO-TEX® Standard 100 and contain US-grown BCI cotton</li>
+    </ul>
+  </div>
+</details>
 <div id="designs"></div>
 
 <h2 class="sec">Books by the Author</h2>
@@ -221,6 +270,7 @@
 const CONFIG = {
   kicker: "★ Native American Heritage Month ★ Flash Sale ★",
   title: "Heritage Month Flash Sale",
+  pageTitle: "Cherokee Tee FLASH SALE",   // browser tab; also the link-preview title in <head>
   blurb: "Short-run tees and books, specially priced in honor of Native American Heritage Month.",
   saleStarts: "2026-10-22T00:00:00-05:00",
   saleEnds:   "2026-11-13T23:59:00-06:00",
@@ -305,7 +355,7 @@ const STATES = "AL AZ AR CA CO CT DE DC FL GA ID IL IN IA KS KY LA ME MD MA MI M
 const endLabel = () => new Date(CONFIG.saleEnds).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric",timeZone:CONFIG.timeZone}) + " (11:59 PM CT)";
 
 /* ---------- static fill ---------- */
-document.title = CONFIG.title;
+document.title = CONFIG.pageTitle;
 $("#kicker").textContent = CONFIG.kicker;
 $("#saleTitle").textContent = CONFIG.title;
 $("#saleBlurb").textContent = CONFIG.blurb;
