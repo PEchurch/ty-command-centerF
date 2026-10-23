@@ -22,7 +22,7 @@ test("prices shirts, books and tiered shipping in cents", () => {
 
 test("orders are capped at 10 items", () => {
   assert.equal(priceCart([{ kind: "book", book: "b1", qty: 10 }]).count, 10);
-  assert.throws(() => priceCart([{ kind: "book", book: "b1", qty: 11 }]), /limited to 10/);
+  assert.throws(() => priceCart([{ kind: "book", book: "b1", qty: 11 }]), /limited to 10.*info@pe-church\.online/);
   assert.throws(() => priceCart([{ kind: "book", book: "b1", qty: 6 }, { kind: "book", book: "b2", qty: 5 }]), /limited to 10/);
 });
 

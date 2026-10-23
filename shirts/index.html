@@ -190,7 +190,7 @@
   <p class="fine" id="payNote"></p>
   <div class="fine" id="shipPolicy"><b>Shipping &amp; Handling</b> — flat-rate standard shipping within the contiguous United States, per order (USPS Ground Advantage):
     <ul><li>1 item — $8.99</li><li>2 items — $11.99</li><li>3–4 items — $15.99</li><li>5 or more items — $17.99 starting rate</li></ul>
-    Online orders are limited to 10 items; for larger or unusually heavy orders, contact us for an adjusted quote.</div>
+    Online orders are limited to 10 items; for larger or unusually heavy orders, email <a href="mailto:info@pe-church.online">info@pe-church.online</a> for an adjusted quote.</div>
 </form>
 </div>
 
@@ -231,6 +231,7 @@ const CONFIG = {
 
   // Online orders are capped (bigger ones need a custom shipping quote). Keep in sync with checkout.js.
   maxItems: 10,
+  contactEmail: "info@pe-church.online",
 
   // USPS Ground Advantage flat rate by total items in the order: [max items, dollars]. Edit both files.
   shippingTiers: [[1, 8.99], [2, 11.99], [4, 15.99], [null, 17.99]],
@@ -307,7 +308,7 @@ $("#shipDate").textContent = shipDate();
 document.querySelectorAll(".shipDateTxt").forEach(e => e.textContent = shipDate());
 $("#state").insertAdjacentHTML("beforeend", STATES.map(x => `<option>${x}</option>`).join(""));
 if (new URLSearchParams(location.search).get("paid") === "1") $("#paidBanner").hidden = false;
-$("#foot").textContent = CONFIG.footer;
+$("#foot").innerHTML = esc(CONFIG.footer) + ` Questions? <a href="mailto:${esc(CONFIG.contactEmail)}">${esc(CONFIG.contactEmail)}</a>`;
 ["storeTop","storeRule","storeEnded","storeBottom"].forEach(id => $("#"+id).href = CONFIG.storeUrl);
 $("#pricing").innerHTML = Object.values(CONFIG.fits).map(f =>
   `<div><b>${money(f.price)}</b><span>${esc(f.label)} · ${esc(f.sizes[0])}–${esc(f.sizes[f.sizes.length-1])} · plus S&amp;H</span></div>`).join("");
@@ -399,7 +400,7 @@ function recalc(){
     : `<tr><td colspan="4" class="empty">Nothing chosen yet — enter quantities above.</td></tr>`;
   const over = qty > CONFIG.maxItems;
   $("#capNote").hidden = !over;
-  $("#capNote").textContent = `Online orders are limited to ${CONFIG.maxItems} items (you have ${qty}). For a larger order, please contact us for a custom shipping quote.`;
+  $("#capNote").textContent = `Online orders are limited to ${CONFIG.maxItems} items (you have ${qty}). For a larger order, please email ${CONFIG.contactEmail} for a custom shipping quote.`;
   $("#totalQty").textContent = qty;
   $("#total").textContent = money(sub + ship);
   return {items, qty, sub, ship, total: sub+ship};
@@ -436,7 +437,7 @@ $("#orderForm").addEventListener("submit", async e => {
   if (f.website.value) return;
   const o = recalc();
   if (!o.items.length) return fail("Your order is empty — pick at least one item.");
-  if (o.qty > CONFIG.maxItems) return fail(`Online orders are limited to ${CONFIG.maxItems} items. Please remove ${o.qty - CONFIG.maxItems} or contact us for a larger order.`);
+  if (o.qty > CONFIG.maxItems) return fail(`Online orders are limited to ${CONFIG.maxItems} items. Please remove ${o.qty - CONFIG.maxItems} or email ${CONFIG.contactEmail} for a larger order.`);
   for (const k of ["name","email","addr1","city","state","zip"]) if (!f[k].value.trim()) { f[k].focus(); return fail("Please fill in all required ship-to fields."); }
   if (!/^\S+@\S+\.\S+$/.test(f.email.value)) { f.email.focus(); return fail("That email doesn't look right."); }
 
