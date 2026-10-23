@@ -28,6 +28,7 @@ const CATALOG = {
 const SHIPPING_TIERS = [[1, 899], [2, 1199], [4, 1599], [Infinity, 1799]];
 
 const MAX_QTY_PER_LINE = 20, MAX_LINES = 40;
+const MAX_ITEMS_PER_ORDER = 10;   // bigger orders need a custom shipping quote — keep in sync with CONFIG.maxItems
 // Continental U.S.: 48 states + DC (no AK, HI, territories, APO/FPO)
 const STATES = new Set(("AL AZ AR CA CO CT DE DC FL GA ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY").split(" "));
 
@@ -54,6 +55,7 @@ export function priceCart(rawItems) {
     } else throw new Error("Invalid item.");
     count += qty;
   }
+  if (count > MAX_ITEMS_PER_ORDER) throw new Error(`Online orders are limited to ${MAX_ITEMS_PER_ORDER} items. For a larger order, please contact us for a custom shipping quote.`);
   const shipping = SHIPPING_TIERS.find(([max]) => count <= max)[1];
   const subtotal = lines.reduce((a, l) => a + l.cents * l.qty, 0);
   return { lines, count, shipping, subtotal, total: subtotal + shipping };

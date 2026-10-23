@@ -20,6 +20,12 @@ test("prices shirts, books and tiered shipping in cents", () => {
   assert.deepEqual([1, 2, 3, 4, 5, 9].map(shipFor), [899, 1199, 1599, 1599, 1799, 1799]);
 });
 
+test("orders are capped at 10 items", () => {
+  assert.equal(priceCart([{ kind: "book", book: "b1", qty: 10 }]).count, 10);
+  assert.throws(() => priceCart([{ kind: "book", book: "b1", qty: 11 }]), /limited to 10/);
+  assert.throws(() => priceCart([{ kind: "book", book: "b1", qty: 6 }, { kind: "book", book: "b2", qty: 5 }]), /limited to 10/);
+});
+
 test("client-supplied prices are ignored", () => {
   const c = priceCart([{ kind: "shirt", design: "d1", color: "Black", fit: "adult", size: "L", qty: 1, price: 1, cents: 1 }]);
   assert.equal(c.subtotal, 2000);
