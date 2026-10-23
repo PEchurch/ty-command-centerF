@@ -94,7 +94,7 @@
   legend{font:900 15px Georgia,serif;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:2px 10px;letter-spacing:.08em}
   .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
   .f label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:2px}
-  .f input,.f textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:0;border-bottom:2px solid var(--ink);padding:6px 4px;border-radius:0}
+  .f input,.f textarea,.f select{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:0;border-bottom:2px solid var(--ink);padding:6px 4px;border-radius:0}
   table{width:100%;border-collapse:collapse;font-size:14px}
   td,th{padding:5px 4px;border-bottom:1px dotted var(--ink);text-align:left}
   th{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
@@ -113,11 +113,14 @@
   .next{margin-top:30px;text-align:center;border:2px dashed var(--ink);padding:14px;background:var(--paper-2)}
   .store{margin-top:30px;text-align:center}
   footer{text-align:center;margin-top:36px;padding-top:14px;border-top:4px double var(--ink);font-size:13px;color:var(--muted)}
+  .paid{margin:12px 0 0;padding:12px 14px;border:3px solid var(--ink);background:var(--paper-2);text-align:center}
   .hp{position:absolute;left:-9999px}
 </style>
 </head>
 <body>
 <div class="wrap" id="page">
+
+<div class="paid" id="paidBanner" hidden><b>Thank you — your order is paid!</b> A Stripe receipt is on its way to your email. Everything ships <span class="shipDateTxt"></span>.</div>
 
 <div class="topbar">
   <span>★ Short-run flash sale ★</span>
@@ -133,7 +136,8 @@
 
 <ul class="rules">
   <li><b>Flash price</b>Special sale pricing — only until the clock hits zero.</li>
-  <li><b>Short run</b>Shirts are printed after the sale from what's ordered. Black or white only.</li>
+  <li><b>Ships <span id="shipDate"></span></b>Everything ships one week after the sale ends, via USPS from Tahlequah, OK.</li>
+  <li><b>Where we ship</b>Continental U.S. only (48 states + D.C.). Black or white tees.</li>
   <li><b>Missed it?</b>Every shirt stays at <a id="storeRule" href="#" target="_blank" rel="noopener">1stn8tions.store</a> at regular price.</li>
 </ul>
 
@@ -165,21 +169,21 @@
   </fieldset>
 
   <fieldset>
-    <legend>Ship To</legend>
+    <legend>Ship To (continental U.S. only)</legend>
     <div class="row">
       <div class="f"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
       <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
       <div class="f"><label for="addr1">Street Address</label><input id="addr1" name="addr1" autocomplete="address-line1" required></div>
       <div class="f"><label for="addr2">Apt / Suite</label><input id="addr2" name="addr2" autocomplete="address-line2"></div>
       <div class="f"><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" required></div>
-      <div class="f"><label for="state">State</label><input id="state" name="state" autocomplete="address-level1" required></div>
+      <div class="f"><label for="state">State</label><select id="state" name="state" autocomplete="address-level1" required><option value="">Select…</option></select></div>
       <div class="f"><label for="zip">ZIP</label><input id="zip" name="zip" autocomplete="postal-code" required></div>
     </div>
     <div class="f" style="margin-top:12px"><label for="notes">Notes (optional)</label><textarea id="notes" name="notes" rows="2"></textarea></div>
     <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
   </fieldset>
 
-  <button class="btn red big" id="submitBtn" type="submit">Send In My Order</button>
+  <button class="btn red big" id="submitBtn" type="submit">Continue to Secure Payment</button>
   <div id="msg" role="status" aria-live="polite"></div>
   <p class="fine" id="payNote"></p>
 </form>
@@ -213,15 +217,17 @@ const CONFIG = {
 
   storeUrl: "https://1stn8tions.store",
 
-  // Where finished orders are sent. Use a Formspree/Basin/etc. URL, or leave "" to
-  // fall back to opening an email to ownerEmail.
-  orderEndpoint: "",
-  ownerEmail: "you@example.com",
+  // Stripe Checkout is created by /api/checkout (see functions/api/checkout.js).
+  // The server re-prices everything, so these numbers must match that file.
+  checkoutEndpoint: "/api/checkout",
 
-  // S&H is added on top of item prices. PLACEHOLDER flat rate per order; set to your real number.
-  shipping: 6.00,
-  shippingLabel: "Shipping & handling (flat per order)",
-  paymentNote: "S&H is added to every order. After you send your order we'll email an invoice/payment link; your items are reserved once it's paid.",
+  // Everything ships this many days after the sale ends (USPS, from Tahlequah, OK 74464).
+  shipDays: 7,
+
+  // USPS shipping by total items in the order: [max items, dollars]. PLACEHOLDER rates — edit both files.
+  shippingTiers: [[1, 6], [2, 8], [4, 11], [null, 15]],
+  shippingLabel: "USPS shipping & handling (continental U.S.)",
+  paymentNote: "S&H is added to every order. You'll pay securely by card on Stripe's checkout page — we never see your card number.",
 
   // Black & white only — every design comes in both.
   colors: ["Black", "White"],
@@ -242,13 +248,13 @@ const CONFIG = {
   // sale = discounted price. regular = optional, shown struck through.
   books: [
     { id:"b1", title:"1st American: Cherokee", blurb:'By Ty "GWY" Wilson · Illustrated by Jasmine Riggs',
-      img:"img/book-1st-american-cherokee.jpg", sale:12, regular:16 },
+      img:"img/book-1st-american-cherokee.jpg", sale:10 },
     { id:"b2", title:"Forest Relatives", blurb:'A Cherokee–English Animal Picture Book · By Ty "GWY" Wilson',
-      img:"img/book-forest-relatives.webp", sale:12, regular:16 }
+      img:"img/book-forest-relatives.webp", sale:12 }
   ],
 
   nextSale: "Coming next month: our Thanksgiving & Christmas short-run sale. Check back in December!",
-  footer: "Printed after the sale closes — allow several weeks for delivery."
+  footer: "All orders ship via USPS from Tahlequah, OK, one week after the sale ends. Continental U.S. only."
 };
 
 /* ---------- placeholder art ---------- */
@@ -277,6 +283,9 @@ function fmtLeft(ms){
   const d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60);
   return (d ? d+"d " : "") + p(h)+"h "+p(m)+"m "+p(s%60)+"s";
 }
+const shipDate = () => new Date(+new Date(CONFIG.saleEnds) + CONFIG.shipDays*864e5).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric",timeZone:CONFIG.timeZone});
+const shipFor = qty => { const t = CONFIG.shippingTiers.find(([max]) => max === null || qty <= max); return t ? t[1] : 0; };
+const STATES = "AL AZ AR CA CO CT DE DC FL GA ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
 const endLabel = () => new Date(CONFIG.saleEnds).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric",timeZone:CONFIG.timeZone}) + " (11:59 PM CT)";
 
 /* ---------- static fill ---------- */
@@ -286,6 +295,10 @@ $("#saleTitle").textContent = CONFIG.title;
 $("#saleBlurb").textContent = CONFIG.blurb;
 $("#payNote").textContent = CONFIG.paymentNote;
 $("#nextBox").textContent = CONFIG.nextSale;
+$("#shipDate").textContent = shipDate();
+document.querySelectorAll(".shipDateTxt").forEach(e => e.textContent = shipDate());
+$("#state").insertAdjacentHTML("beforeend", STATES.map(x => `<option>${x}</option>`).join(""));
+if (new URLSearchParams(location.search).get("paid") === "1") $("#paidBanner").hidden = false;
 $("#foot").textContent = CONFIG.footer;
 ["storeTop","storeRule","storeEnded","storeBottom"].forEach(id => $("#"+id).href = CONFIG.storeUrl);
 $("#pricing").innerHTML = Object.values(CONFIG.fits).map(f =>
@@ -359,10 +372,11 @@ function collect(){
     if (!qty) return;
     if (i.dataset.kind === "shirt"){
       const d = CONFIG.designs.find(x => x.id === i.dataset.design), f = CONFIG.fits[i.dataset.fit];
-      items.push({name:d.name, option:`${i.dataset.color} · ${f.label} ${i.dataset.size}`, qty, each:f.price});
+      items.push({name:d.name, option:`${i.dataset.color} · ${f.label} ${i.dataset.size}`, qty, each:f.price,
+        raw:{kind:"shirt", design:d.id, color:i.dataset.color, fit:i.dataset.fit, size:i.dataset.size, qty}});
     } else {
       const b = CONFIG.books.find(x => x.id === i.dataset.book);
-      items.push({name:b.title, option:"Book", qty, each:b.sale});
+      items.push({name:b.title, option:"Book", qty, each:b.sale, raw:{kind:"book", book:b.id, qty}});
     }
   });
   return items;
@@ -370,7 +384,7 @@ function collect(){
 function recalc(){
   const items = collect();
   const qty = items.reduce((a,i)=>a+i.qty,0), sub = items.reduce((a,i)=>a+i.qty*i.each,0);
-  const ship = qty ? CONFIG.shipping : 0;
+  const ship = qty ? shipFor(qty) : 0;
   $("#lines").innerHTML = items.length
     ? items.map(i=>`<tr><td>${esc(i.name)}</td><td>${esc(i.option)}</td><td class="n">${i.qty}</td><td class="n">${money(i.qty*i.each)}</td></tr>`).join("")
       + (ship?`<tr><td colspan="3">${esc(CONFIG.shippingLabel)}</td><td class="n">${money(ship)}</td></tr>`:"")
@@ -415,22 +429,17 @@ $("#orderForm").addEventListener("submit", async e => {
   if (!/^\S+@\S+\.\S+$/.test(f.email.value)) { f.email.focus(); return fail("That email doesn't look right."); }
 
   const c = Object.fromEntries(["name","email","addr1","addr2","city","state","zip","notes"].map(k=>[k,f[k].value.trim()]));
-  const payload = { sale:CONFIG.title, placedAt:new Date().toISOString(), customer:c, items:o.items, shipping:o.ship, total:o.total };
-  const text = `NEW ORDER — ${CONFIG.title}\n\n` + o.items.map(i=>`${i.qty} x ${i.name} (${i.option}) @ ${money(i.each)}`).join("\n") +
-    `\nS&H: ${money(o.ship)}\nTOTAL: ${money(o.total)}\n\n${c.name} <${c.email}>\n${c.addr1} ${c.addr2}\n${c.city}, ${c.state} ${c.zip}\n\nNotes: ${c.notes}`;
-
-  const btn = $("#submitBtn"); btn.disabled = true;
+  const btn = $("#submitBtn"); btn.disabled = true; btn.textContent = "Opening secure checkout…";
   try{
-    if (CONFIG.orderEndpoint){
-      const r = await fetch(CONFIG.orderEndpoint, {method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"}, body:JSON.stringify({...payload, message:text})});
-      if (!r.ok) throw new Error("HTTP "+r.status);
-    } else {
-      location.href = `mailto:${CONFIG.ownerEmail}?subject=${encodeURIComponent("Order from "+c.name)}&body=${encodeURIComponent(text)}`;
-    }
-    msg.innerHTML = "<b>Order received!</b> " + (CONFIG.orderEndpoint ? "Watch your inbox for a confirmation and payment link." : "Your email app should have opened — hit send to finish.");
-    f.reset(); recalc();
-  } catch(err){ fail("Couldn't send your order ("+err.message+"). Please try again."); }
-  finally { btn.disabled = saleState() !== "open"; }
+    const r = await fetch(CONFIG.checkoutEndpoint, {method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({items:o.items.map(i=>i.raw), customer:c, returnPath:location.pathname})});
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data.url) throw new Error(data.error || "HTTP "+r.status);
+    location.href = data.url;                       // off to Stripe
+  } catch(err){
+    fail(err.message || "Couldn't start checkout. Please try again.");
+    btn.disabled = saleState() !== "open"; btn.textContent = "Continue to Secure Payment";
+  }
 });
 
 renderDesigns(); renderBooks(); recalc(); tick();
