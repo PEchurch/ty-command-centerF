@@ -181,7 +181,7 @@
 <ul class="rules">
   <li><b>Flash price</b>Special sale pricing — only until the clock hits zero.</li>
   <li><b>Ships <span id="shipDate"></span></b>Everything ships one week after the sale ends, via USPS from Tahlequah, OK. Local pickup in Tahlequah is arranged for the same date.</li>
-  <li><b>Where we ship</b>Continental U.S. (48 states + D.C.), or free local pickup in Tahlequah, OK. Black or white tees.</li>
+  <li><b>Where we ship</b>Continental U.S. (48 states + D.C.), or free local pickup in Tahlequah, OK. White or black tees.</li>
   <li><b>One-time flash tees</b>Each flash-sale tee is featured in just one sale and never repeated in a flash sale. A new sale starts every two weeks through Christmas.</li>
 <li><b>Missed it?</b>Every shirt design is always available at <a id="storeRule" href="#" target="_blank" rel="noopener">1stn8tions.store</a> at regular price.</li>
 <li><b>Where it goes</b>Proceeds go to Positive Energy Church's Arts Fund.</li>
@@ -321,8 +321,8 @@ const CONFIG = {
   shippingLabel: "USPS Ground Advantage shipping & handling",
   paymentNote: "S&H is added to shipped orders (local pickup has no S&H). You'll pay securely by card on Stripe's checkout page — we never see your card number.",
 
-  // Black & white only — every design comes in both.
-  colors: ["Black", "White"],
+  // White first (the default), then Black — every design comes in both.
+  colors: ["White", "Black"],
   fits: {
     youth: { label: "Youth",         price: 15, sizes: ["S","M","L"] },
     adult: { label: "Adult Unisex",  price: 20, sizes: ["S","M","L","XL","2XL"] }
