@@ -49,6 +49,13 @@
 
   .item{position:relative;border:2px solid var(--ink);background:var(--paper-2);margin:0 0 20px;display:grid;grid-template-columns:300px 1fr;overflow:hidden}
   @media (max-width:700px){.item{grid-template-columns:1fr}}
+  @media (max-width:700px){
+    .art{padding:10px}
+    .item .art svg{max-width:170px}
+    .pricing{grid-template-columns:1fr 1fr;gap:8px}
+    .pricing b{font-size:24px}
+    .pricing span{font-size:12px}
+  }
   .item.book{grid-template-columns:150px 1fr}
   @media (max-width:700px){.item.book{grid-template-columns:110px 1fr}}
   .item.book .art{border-bottom:0}
@@ -79,7 +86,7 @@
 
   .fit{margin:8px 0 2px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
   .fit em{font-style:normal;color:var(--red)}
-  .sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:6px;margin:4px 0 8px}
+  .sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(52px,1fr));gap:6px;margin:4px 0 8px}
   .sizes.hidden{display:none}
   .sizes label,.qty label{display:block;text-align:center;font-size:12px;font-weight:700;border:1px solid var(--ink);background:var(--paper)}
   .sizes input,.qty input{display:block;width:100%;border:0;border-top:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;text-align:center;padding:6px 0}
