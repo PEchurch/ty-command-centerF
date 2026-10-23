@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cherokee Tee FLASH SALE</title>
+<meta name="description" content="Native American Heritage Month flash sale: Cherokee tees and books by Ty &quot;GWY&quot; Wilson at special prices. Order by Nov 13, 2026.">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<!-- Link preview (Facebook, iMessage, X, etc.). og:image/og:url must be absolute: update if the site address changes. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TyGWY">
+<meta property="og:title" content="Cherokee Tee FLASH SALE">
+<meta property="og:description" content="Native American Heritage Month flash sale: Cherokee tees and books by Ty &quot;GWY&quot; Wilson at special prices. Order by Nov 13, 2026.">
+<meta property="og:url" content="https://flash.tygwy.art/">
+<meta property="og:image" content="https://flash.tygwy.art/img/share-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Yawnsee, the rainbow bison design">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cherokee Tee FLASH SALE">
+<meta name="twitter:description" content="Native American Heritage Month flash sale: Cherokee tees and books at special prices. Order by Nov 13, 2026.">
+<meta name="twitter:image" content="https://flash.tygwy.art/img/share-card.png">
+<style>
+  :root{
+    --paper:#f4ecd8; --paper-2:#ebe0c3; --ink:#1d2a44; --red:#b3261e; --muted:#6b6450; --line:#c9bd9a; --stamp:#b3261e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper:#1e1b14; --paper-2:#27231a; --ink:#e9dfc4; --red:#e5645b; --muted:#a39a82; --line:#4a4333; --stamp:#e5645b; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 "Courier New",Courier,monospace;
+    background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px}
+  .wrap{max-width:900px;margin:0 auto;padding:0 16px 64px}
+  a{color:inherit}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;font-size:13px;border-bottom:1px solid var(--line)}
+  .btn{display:inline-block;font:900 15px Georgia,serif;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;
+    background:var(--paper-2);color:var(--ink);border:3px solid var(--ink);padding:8px 18px;box-shadow:3px 3px 0 var(--ink);cursor:pointer}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  .btn.red{background:var(--red);color:#fff}
+  .btn.big{font-size:20px;padding:12px 28px;box-shadow:4px 4px 0 var(--ink)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+
+  header{text-align:center;padding:30px 0 18px;border-bottom:4px double var(--ink)}
+  .kicker{letter-spacing:.3em;text-transform:uppercase;font-size:12px;color:var(--red);font-weight:700}
+  h1{font:900 clamp(32px,7.5vw,60px)/1.02 Georgia,"Times New Roman",serif;margin:8px 0;text-transform:uppercase}
+  header p{margin:6px auto 0;max-width:600px;color:var(--muted)}
+  .clock{margin:18px auto 4px;display:inline-block;border:3px solid var(--ink);background:var(--paper-2);padding:10px 18px}
+  .clock .lbl{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);font-weight:700}
+  .clock .t{font:900 clamp(22px,6vw,34px) "Courier New",monospace;font-variant-numeric:tabular-nums}
+  .clock.urgent .t{color:var(--red)}
+
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:22px 0;padding:0;list-style:none;font-size:14px}
+  .rules li{border:1px dashed var(--ink);padding:10px 12px;background:var(--paper-2)}
+  .rules b{display:block;text-transform:uppercase;font-size:12px;letter-spacing:.12em;color:var(--red)}
+
+  h2.sec{font:900 22px Georgia,serif;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:4px;margin:34px 0 6px}
+  .secnote{color:var(--muted);font-size:14px;margin:0 0 14px}
+
+  .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:0 0 18px}
+  .pricing div{border:2px solid var(--ink);background:var(--paper-2);padding:8px 12px;text-align:center}
+  .pricing b{display:block;font:900 28px Georgia,serif;color:var(--red)}
+  .pricing span{font-size:13px}
+
+  .guide{border:2px solid var(--ink);background:var(--paper-2);margin:0 0 18px}
+  .guide summary{cursor:pointer;padding:10px 14px;font:900 15px Georgia,serif;text-transform:uppercase;letter-spacing:.08em}
+  .guide summary:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+  .guide-body{padding:0 14px 12px}
+  .guide ul{margin:8px 0 0;padding-left:20px}
+  table.sz{margin:10px 0;font-size:13px}
+  table.sz caption{text-align:left;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--red);padding-bottom:2px}
+  table.sz th,table.sz td{text-align:center;border:1px solid var(--ink);padding:4px 6px}
+  table.sz tbody th{text-align:left;font-size:11px}
+  .item{position:relative;border:2px solid var(--ink);background:var(--paper-2);margin:0 0 20px;display:grid;grid-template-columns:300px 1fr;overflow:hidden}
+  @media (max-width:700px){.item{grid-template-columns:1fr}}
+  @media (max-width:700px){
+    .art{padding:10px}
+    .item .art svg{max-width:170px}
+    .pricing{grid-template-columns:1fr 1fr;gap:8px}
+    .pricing b{font-size:24px}
+    .pricing span{font-size:12px}
+  }
+  .item.book{grid-template-columns:150px 1fr}
+  @media (max-width:700px){.item.book{grid-template-columns:110px 1fr}}
+  .item.book .art{border-bottom:0}
+  .item.book .art img{max-width:120px;border:1px solid var(--ink)}
+  .zoom{all:unset;cursor:zoom-in;display:block;width:100%;text-align:center}
+  .zoom:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+  .hint{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+  .lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:50;padding:16px;cursor:zoom-out}
+  .lb[hidden]{display:none}
+  .lb-panel{padding:18px;max-width:min(94vw,900px);display:flex;border:2px solid #fff}
+  .lb-panel img{max-width:100%;max-height:78vh;object-fit:contain;display:block}
+  .lb-cap{color:#f4ecd8;font-size:14px;text-align:center}
+  .lb-x{position:absolute;top:10px;right:14px;font:900 34px/1 Georgia,serif;color:#f4ecd8;background:none;border:0;cursor:pointer}
+  .art{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px;border-right:2px solid var(--ink);background:var(--paper)}
+  @media (max-width:620px){.art{border-right:0;border-bottom:2px solid var(--ink)}}
+  .art svg,.art img{width:100%;max-width:260px;height:auto}
+  .info{padding:14px 16px}
+  .info h3{font:900 24px Georgia,serif;margin:0;text-transform:uppercase}
+  .info .sub{color:var(--muted);margin:2px 0 10px;font-size:14px}
+
+  .colors{display:flex;gap:8px;margin-bottom:10px}
+  .colors label{cursor:pointer;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+  .colors input{position:absolute;opacity:0;pointer-events:none}
+  .colors span{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);padding:3px 12px;background:var(--paper)}
+  .colors span i{width:14px;height:14px;border:2px solid var(--ink);display:inline-block}
+  .colors input:checked + span{background:var(--ink);color:var(--paper)}
+  .colors input:focus-visible + span{outline:3px solid var(--red);outline-offset:2px}
+
+  .fit{margin:8px 0 2px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+  .fit em{font-style:normal;color:var(--red)}
+  .sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(52px,1fr));gap:6px;margin:4px 0 8px}
+  .sizes.hidden{display:none}
+  .sizes label,.qty label{display:block;text-align:center;font-size:12px;font-weight:700;border:1px solid var(--ink);background:var(--paper)}
+  .sizes input,.qty input{display:block;width:100%;border:0;border-top:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;text-align:center;padding:6px 0}
+  input:focus,textarea:focus{outline:3px solid var(--red);outline-offset:1px}
+  .qty{max-width:110px}
+  .price{font-weight:700}
+  .was{text-decoration:line-through;color:var(--muted);font-weight:400}
+
+  .off .item .sizes,.off .item .qty,.off .item .colors{opacity:.35;pointer-events:none}
+
+  form fieldset{border:2px solid var(--ink);background:var(--paper-2);padding:16px;margin:0 0 16px}
+  legend{font:900 15px Georgia,serif;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:2px 10px;letter-spacing:.08em}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .f label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:2px}
+  .f input,.f textarea,.f select{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:0;border-bottom:2px solid var(--ink);padding:6px 4px;border-radius:0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  td,th{padding:5px 4px;border-bottom:1px dotted var(--ink);text-align:left}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+  td.n,th.n{text-align:right}
+  tfoot td{border-bottom:0;font-weight:700;font-size:16px;border-top:2px solid var(--ink)}
+  .empty{color:var(--muted);font-style:italic}
+  .msg{margin-top:12px;padding:10px 12px;border:2px solid var(--ink);background:var(--paper)}
+  .msg.err{border-color:var(--red);color:var(--red)}
+  .fine{font-size:13px;color:var(--muted);margin-top:14px}
+
+  .ended{display:none;text-align:center;border:3px double var(--stamp);padding:24px 16px;margin:24px 0;background:var(--paper-2)}
+  .ended h2{font:900 clamp(26px,6vw,40px) Georgia,serif;text-transform:uppercase;color:var(--stamp);margin:0 0 6px}
+  .is-closed .ended{display:block}
+  .is-closed #orderArea,.is-closed .pricing{display:none}
+
+  .next{margin-top:30px;text-align:center;border:2px dashed var(--ink);padding:14px;background:var(--paper-2)}
+  .store{margin-top:30px;text-align:center}
+  footer{text-align:center;margin-top:36px;padding-top:14px;border-top:4px double var(--ink);font-size:13px;color:var(--muted)}
+  .paid{margin:12px 0 0;padding:12px 14px;border:3px solid var(--ink);background:var(--paper-2);text-align:center}
+  #shipPolicy ul{margin:4px 0;padding-left:20px}
+  .hp{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div class="wrap" id="page">
+
+<div class="paid" id="paidBanner" hidden><b>Thank you — your order is paid!</b> A Stripe receipt is on its way to your email. Everything ships <span class="shipDateTxt"></span>.</div>
+
+<div class="topbar">
+  <span>★ Short-run flash sale ★</span>
+  <a class="btn" id="storeTop" href="#" target="_blank" rel="noopener">Shop 1stn8tions.store →</a>
+</div>
+
+<header>
+  <div class="kicker" id="kicker"></div>
+  <h1 id="saleTitle"></h1>
+  <p id="saleBlurb"></p>
+  <div class="clock" id="clock"><span class="lbl"></span><span class="t"></span></div>
+</header>
+
+<ul class="rules">
+  <li><b>Flash price</b>Special sale pricing — only until the clock hits zero.</li>
+  <li><b>Ships <span id="shipDate"></span></b>Everything ships one week after the sale ends, via USPS from Tahlequah, OK.</li>
+  <li><b>Where we ship</b>Continental U.S. only (48 states + D.C.). Black or white tees.</li>
+  <li><b>Missed it?</b>Every shirt stays at <a id="storeRule" href="#" target="_blank" rel="noopener">1stn8tions.store</a> at regular price.</li>
+</ul>
+
+<section class="ended" id="endedBox">
+  <h2>This sale has ended</h2>
+  <p>You can still get these designs at regular price in the store.</p>
+  <a class="btn red big" id="storeEnded" href="#" target="_blank" rel="noopener">Shop 1stn8tions.store →</a>
+</section>
+
+<div id="orderArea">
+<h2 class="sec">Heritage Tees</h2>
+<p class="secnote">Choose black or white, then enter how many of each size you want.</p>
+<div class="pricing" id="pricing"></div>
+<details class="guide">
+  <summary>Size guide &amp; shirt details</summary>
+  <div class="guide-body">
+    <p class="fine" style="margin-top:0">Measurements are in inches, shirt laid flat (a chest width of 20&quot; fits a chest of about 40&quot;). Allow ±1&quot;.</p>
+    <table class="sz">
+      <caption>Adult Unisex</caption>
+      <thead><tr><th></th><th>S</th><th>M</th><th>L</th><th>XL</th><th>2XL</th></tr></thead>
+      <tbody><tr><th>Chest width</th><td>18</td><td>20</td><td>22</td><td>24</td><td>26</td></tr>
+             <tr><th>Body length</th><td>27</td><td>29</td><td>31</td><td>32</td><td>33</td></tr></tbody>
+    </table>
+    <table class="sz">
+      <caption>Youth</caption>
+      <thead><tr><th></th><th>S</th><th>M</th><th>L</th></tr></thead>
+      <tbody><tr><th>Chest width</th><td>16</td><td>17</td><td>18</td></tr>
+             <tr><th>Body length</th><td>23&frac14;</td><td>24&frac12;</td><td>25&frac34;</td></tr></tbody>
+    </table>
+    <ul class="fine">
+      <li>5.5 oz./yd², 100% ring-spun USA premium cotton</li>
+      <li>Reactive-dyed for longer-lasting color; pre-washed to minimize shrinkage</li>
+      <li>Ribbed crewneck collar; taped neck and shoulders</li>
+      <li>Double-needle stitching on bottom hem (adult: sleeves too); tear-away label</li>
+      <li>Youth tees meet OEKO-TEX® Standard 100 and contain US-grown BCI cotton</li>
+    </ul>
+  </div>
+</details>
+<div id="designs"></div>
+
+<h2 class="sec">Books by the Author</h2>
+<p class="secnote">Sale-priced for the length of the sale.</p>
+<div id="books"></div>
+
+<h2 class="sec">Order Blank</h2>
+<form id="orderForm" novalidate>
+  <fieldset>
+    <legend>Your Selections</legend>
+    <table>
+      <thead><tr><th>Item</th><th>Option</th><th class="n">Qty</th><th class="n">Price</th></tr></thead>
+      <tbody id="lines"></tbody>
+      <tfoot><tr><td colspan="3">Total (<span id="totalQty">0</span> items)</td><td class="n" id="total">$0.00</td></tr></tfoot>
+    </table>
+  </fieldset>
+
+  <fieldset>
+    <legend>Ship To (continental U.S. only)</legend>
+    <div class="row">
+      <div class="f"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+      <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <div class="f"><label for="addr1">Street Address</label><input id="addr1" name="addr1" autocomplete="address-line1" required></div>
+      <div class="f"><label for="addr2">Apt / Suite</label><input id="addr2" name="addr2" autocomplete="address-line2"></div>
+      <div class="f"><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" required></div>
+      <div class="f"><label for="state">State</label><select id="state" name="state" autocomplete="address-level1" required><option value="">Select…</option></select></div>
+      <div class="f"><label for="zip">ZIP</label><input id="zip" name="zip" autocomplete="postal-code" required></div>
+    </div>
+    <div class="f" style="margin-top:12px"><label for="notes">Notes (optional)</label><textarea id="notes" name="notes" rows="2"></textarea></div>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+  </fieldset>
+
+  <div class="msg err" id="capNote" hidden></div>
+  <button class="btn red big" id="submitBtn" type="submit">Continue to Secure Payment</button>
+  <div id="msg" role="status" aria-live="polite"></div>
+  <p class="fine" id="payNote"></p>
+  <div class="fine" id="shipPolicy"><b>Shipping &amp; Handling</b> — flat-rate standard shipping within the contiguous United States, per order (USPS Ground Advantage):
+    <ul><li>1 item — $8.99</li><li>2 items — $11.99</li><li>3–4 items — $15.99</li><li>5 or more items — $17.99 starting rate</li></ul>
+    Online orders are limited to 10 items; for larger or unusually heavy orders, email <a href="mailto:info@tygwy.art">info@tygwy.art</a> for an adjusted quote.</div>
+</form>
+</div>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Enlarged artwork">
+  <button class="lb-x" type="button" aria-label="Close">×</button>
+  <div class="lb-panel" id="lbPanel"><img id="lbImg" alt=""></div>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<div class="next" id="nextBox"></div>
+<div class="store"><a class="btn big" id="storeBottom" href="#" target="_blank" rel="noopener">Visit 1stn8tions.store →</a></div>
+
+<footer id="foot"></footer>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG — edit this block for each sale (Heritage Month, Thanksgiving, Christmas...).
+   Dates are ISO strings WITH a timezone offset. -06:00 = US Central Standard Time.
+   ===================================================================== */
+const CONFIG = {
+  kicker: "★ Native American Heritage Month ★ Flash Sale ★",
+  title: "Heritage Month Flash Sale",
+  pageTitle: "Cherokee Tee FLASH SALE",   // browser tab; also the link-preview title in <head>
+  blurb: "Short-run tees and books, specially priced in honor of Native American Heritage Month.",
+  saleStarts: "2026-10-22T00:00:00-05:00",
+  saleEnds:   "2026-11-13T23:59:00-06:00",
+
+  timeZone: "America/Chicago",   // used only to label the end date; keep in sync with the offsets above
+
+  storeUrl: "https://1stn8tions.store",
+
+  // Stripe Checkout is created by /api/checkout (see functions/api/checkout.js).
+  // The server re-prices everything, so these numbers must match that file.
+  checkoutEndpoint: "api/checkout",   // relative, so it works at the site root or under a path like /flash/
+
+  // Everything ships this many days after the sale ends (USPS, from Tahlequah, OK 74464).
+  shipDays: 7,
+
+  // Online orders are capped (bigger ones need a custom shipping quote). Keep in sync with checkout.js.
+  maxItems: 10,
+  contactEmail: "info@tygwy.art",
+
+  // USPS Ground Advantage flat rate by total items in the order: [max items, dollars]. Edit both files.
+  shippingTiers: [[1, 8.99], [2, 11.99], [4, 15.99], [null, 17.99]],
+  shippingLabel: "USPS Ground Advantage shipping & handling",
+  paymentNote: "S&H is added to every order. You'll pay securely by card on Stripe's checkout page — we never see your card number.",
+
+  // Black & white only — every design comes in both.
+  colors: ["Black", "White"],
+  fits: {
+    youth: { label: "Youth",         price: 15, sizes: ["S","M","L"] },
+    adult: { label: "Adult Unisex",  price: 20, sizes: ["S","M","L","XL","2XL"] }
+  },
+
+  // art: key into ART below, or put a path like "img/design1.png" (shown as the print on the shirt preview)
+  designs: [
+    { id:"d1", name:"Cherokee Nation",  sub:"Arrowhead seal",  art:"img/cherokee-nation.webp" },
+    { id:"d2", name:"Cherokee",         sub:"Profile portrait", art:"img/cherokee-profile.webp" },
+    { id:"d3", name:"1st Americans",    sub:"Feathers",         art:"img/1st-americans.webp" },
+    { id:"d4", name:"Yawnsee",          sub:"Bison",            art:"img/yawnsee-bison.webp" },
+    { id:"d5", name:"Yo-na",            sub:"Bear",             art:"img/yona-bear.webp" }
+  ],
+
+  // sale = discounted price. regular = optional, shown struck through.
+  books: [
+    { id:"b1", title:"1st American: Cherokee",
+      blurb:"A children's book of animals in English, the Cherokee syllabary, and phonetic spelling, written to help preserve the Cherokee language. It has two front covers: one in English and one in the Cherokee syllabary.",
+      byline:'By Ty "GWY" Wilson · Illustrated by Jasmine Riggs',
+      img:"img/book-1st-american-cherokee.jpg", sale:10 },
+    { id:"b2", title:"Forest Relatives", blurb:"A beautifully illustrated Cherokee-English animal picture book that introduces young readers to the animals of the forest while celebrating the Cherokee language and culture.", byline:'By Ty "GWY" Wilson',
+      img:"img/book-forest-relatives.webp", sale:12 }
+  ],
+
+  nextSale: "Coming next month: our Thanksgiving & Christmas short-run sale. Check back in December!",
+  footer: "All orders ship via USPS from Tahlequah, OK, one week after the sale ends. Continental U.S. only."
+};
+
+/* ---------- placeholder art ---------- */
+const ART = {
+  sun:   c => `<circle cx="100" cy="92" r="16" fill="${c}"/>` + Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return `<line x1="${100+24*Math.cos(a)}" y1="${92+24*Math.sin(a)}" x2="${100+38*Math.cos(a)}" y2="${92+38*Math.sin(a)}" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`}).join(""),
+  peaks: c => `<path d="M62 124 L88 78 L102 100 L116 70 L142 124Z" fill="${c}"/>`,
+  star:  c => `<polygon points="100,56 109,82 137,83 115,100 123,127 100,111 77,127 85,100 63,83 91,82" fill="${c}"/>`
+};
+const SHIRT_PATH = "M70 20 L20 44 L38 84 L58 76 L58 196 L142 196 L142 76 L162 84 L180 44 L130 20 Q100 40 70 20Z";
+function shirtSVG(design, color){
+  const black = color === "Black", fill = black ? "#151515" : "#fbfbf7", ink = black ? "#f4ecd8" : "#151515";
+  const print = /[./]/.test(design.art)
+    ? `<image href="${esc(design.art)}" x="58" y="46" width="84" height="104" preserveAspectRatio="xMidYMid meet"/>`
+    : (ART[design.art] ? ART[design.art](ink) : "");
+  return `<svg viewBox="0 0 200 216" role="img" aria-label="${esc(design.name)} on a ${color.toLowerCase()} tee">
+    <path d="${SHIRT_PATH}" fill="${fill}" stroke="#1d2a44" stroke-width="3" stroke-linejoin="round"/>${print}</svg>`;
+}
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const money = n => "$" + n.toFixed(2);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const saleState = () => { const n = Date.now(); return n < +new Date(CONFIG.saleStarts) ? "upcoming" : n > +new Date(CONFIG.saleEnds) ? "closed" : "open"; };
+function fmtLeft(ms){
+  const s = Math.max(0, Math.floor(ms/1000)), p = n => String(n).padStart(2,"0");
+  const d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60);
+  return (d ? d+"d " : "") + p(h)+"h "+p(m)+"m "+p(s%60)+"s";
+}
+const shipDate = () => new Date(+new Date(CONFIG.saleEnds) + CONFIG.shipDays*864e5).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric",timeZone:CONFIG.timeZone});
+const shipFor = qty => { const t = CONFIG.shippingTiers.find(([max]) => max === null || qty <= max); return t ? t[1] : 0; };
+const STATES = "AL AZ AR CA CO CT DE DC FL GA ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
+const endLabel = () => new Date(CONFIG.saleEnds).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric",timeZone:CONFIG.timeZone}) + " (11:59 PM CT)";
+
+/* ---------- static fill ---------- */
+document.title = CONFIG.pageTitle;
+$("#kicker").textContent = CONFIG.kicker;
+$("#saleTitle").textContent = CONFIG.title;
+$("#saleBlurb").textContent = CONFIG.blurb;
+$("#payNote").textContent = CONFIG.paymentNote;
+$("#nextBox").textContent = CONFIG.nextSale;
+$("#shipDate").textContent = shipDate();
+document.querySelectorAll(".shipDateTxt").forEach(e => e.textContent = shipDate());
+$("#state").insertAdjacentHTML("beforeend", STATES.map(x => `<option>${x}</option>`).join(""));
+if (new URLSearchParams(location.search).get("paid") === "1") $("#paidBanner").hidden = false;
+$("#foot").innerHTML = esc(CONFIG.footer) + ` Questions? <a href="mailto:${esc(CONFIG.contactEmail)}">${esc(CONFIG.contactEmail)}</a>`;
+["storeTop","storeRule","storeEnded","storeBottom"].forEach(id => $("#"+id).href = CONFIG.storeUrl);
+$("#pricing").innerHTML = Object.values(CONFIG.fits).map(f =>
+  `<div><b>${money(f.price)}</b><span>${esc(f.label)} · ${esc(f.sizes[0])}–${esc(f.sizes[f.sizes.length-1])} · plus S&amp;H</span></div>`).join("");
+
+/* ---------- designs & books ---------- */
+function renderDesigns(){
+  const fitKeys = Object.keys(CONFIG.fits);
+  $("#designs").innerHTML = CONFIG.designs.map(d => {
+    const colorBtns = CONFIG.colors.map((c,i) =>
+      `<label><input type="radio" name="color-${esc(d.id)}" value="${esc(c)}" ${i===0?"checked":""}><span><i style="background:${c==="Black"?"#151515":"#fbfbf7"}"></i>${esc(c)}</span></label>`).join("");
+    const grids = CONFIG.colors.map((c,ci) => fitKeys.map(fk => {
+      const f = CONFIG.fits[fk];
+      return `<div class="sizes ${ci?"hidden":""}" data-grid="${esc(d.id)}" data-color="${esc(c)}">
+        <div class="fit" style="grid-column:1/-1">${esc(f.label)} · <em>${money(f.price)}</em></div>
+        ${f.sizes.map(s => `<label>${esc(s)}<input type="number" min="0" max="20" inputmode="numeric" placeholder="0"
+          data-kind="shirt" data-design="${esc(d.id)}" data-color="${esc(c)}" data-fit="${esc(fk)}" data-size="${esc(s)}"
+          aria-label="${esc(d.name)} ${esc(c)} ${esc(f.label)} size ${esc(s)} quantity"></label>`).join("")}
+      </div>`;
+    }).join("")).join("");
+    return `<article class="item" data-id="${esc(d.id)}">
+      <div class="art" data-art="${esc(d.id)}"><button type="button" class="zoom" data-zoom="${esc(d.id)}" aria-label="View ${esc(d.name)} artwork full size">
+        <span data-shirt>${shirtSVG(d, CONFIG.colors[0])}</span><span class="hint">Tap to enlarge</span></button></div>
+      <div class="info"><h3>${esc(d.name)}</h3><div class="sub">${esc(d.sub)}</div>
+        <div class="colors" role="radiogroup" aria-label="Shirt color">${colorBtns}</div>${grids}</div>
+    </article>`;
+  }).join("");
+}
+function renderBooks(){
+  $("#books").innerHTML = CONFIG.books.map(b => `<article class="item book">
+    <div class="art"><button type="button" class="zoom" data-zoombook="${esc(b.id)}" aria-label="View ${esc(b.title)} cover full size"><img src="${esc(b.img)}" alt="${esc(b.title)} cover"><span class="hint">Tap to enlarge</span></button></div>
+    <div class="info"><h3>${esc(b.title)}</h3><div class="sub">${esc(b.blurb)}</div><div class="sub" style="margin-top:-6px">${esc(b.byline||"")}</div>
+      <div class="price">${b.regular?`<span class="was">${money(b.regular)}</span> `:""}${money(b.sale)} <span style="font-weight:400">plus S&amp;H</span></div>
+      <div class="qty" style="margin-top:8px"><label>Qty<input type="number" min="0" max="20" inputmode="numeric" placeholder="0"
+        data-kind="book" data-book="${esc(b.id)}" aria-label="${esc(b.title)} quantity"></label></div></div>
+  </article>`).join("");
+}
+document.addEventListener("change", e => {
+  if (!e.target.matches('.colors input')) return;
+  const id = e.target.name.replace("color-",""), color = e.target.value;
+  document.querySelectorAll(`[data-grid="${id}"]`).forEach(g => g.classList.toggle("hidden", g.dataset.color !== color));
+  const d = CONFIG.designs.find(x => x.id === id);
+  document.querySelector(`[data-art="${id}"] [data-shirt]`).innerHTML = shirtSVG(d, color);
+});
+
+/* ---------- click-to-enlarge (art shown exactly as supplied, on the selected shirt color) ---------- */
+function openLightbox(src, bg, cap){
+  $("#lbImg").src = src; $("#lbImg").alt = cap;
+  $("#lbPanel").style.background = bg; $("#lbCap").textContent = cap;
+  $("#lb").hidden = false;
+}
+const closeLightbox = () => { $("#lb").hidden = true; $("#lbImg").removeAttribute("src"); };
+document.addEventListener("click", e => {
+  const z = e.target.closest("[data-zoom]"), zb = e.target.closest("[data-zoombook]");
+  if (z){
+    const d = CONFIG.designs.find(x => x.id === z.dataset.zoom);
+    const color = document.querySelector(`input[name="color-${d.id}"]:checked`).value;
+    openLightbox(d.art, color === "Black" ? "#151515" : "#fbfbf7", `${d.name} — shown on a ${color.toLowerCase()} tee`);
+  } else if (zb){
+    const b = CONFIG.books.find(x => x.id === zb.dataset.zoombook);
+    openLightbox(b.img, "#f4ecd8", b.title);
+  } else if (e.target.closest("#lb")) closeLightbox();
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#lb").hidden) closeLightbox(); });
+
+/* ---------- order math ---------- */
+function collect(){
+  const items = [];
+  document.querySelectorAll("input[data-kind]").forEach(i => {
+    const qty = Math.max(0, Math.min(20, parseInt(i.value,10) || 0));
+    if (!qty) return;
+    if (i.dataset.kind === "shirt"){
+      const d = CONFIG.designs.find(x => x.id === i.dataset.design), f = CONFIG.fits[i.dataset.fit];
+      items.push({name:d.name, option:`${i.dataset.color} · ${f.label} ${i.dataset.size}`, qty, each:f.price,
+        raw:{kind:"shirt", design:d.id, color:i.dataset.color, fit:i.dataset.fit, size:i.dataset.size, qty}});
+    } else {
+      const b = CONFIG.books.find(x => x.id === i.dataset.book);
+      items.push({name:b.title, option:"Book", qty, each:b.sale, raw:{kind:"book", book:b.id, qty}});
+    }
+  });
+  return items;
+}
+function recalc(){
+  const items = collect();
+  const qty = items.reduce((a,i)=>a+i.qty,0), sub = items.reduce((a,i)=>a+i.qty*i.each,0);
+  const ship = qty ? shipFor(qty) : 0;
+  $("#lines").innerHTML = items.length
+    ? items.map(i=>`<tr><td>${esc(i.name)}</td><td>${esc(i.option)}</td><td class="n">${i.qty}</td><td class="n">${money(i.qty*i.each)}</td></tr>`).join("")
+      + (ship?`<tr><td colspan="3">${esc(CONFIG.shippingLabel)}</td><td class="n">${money(ship)}</td></tr>`:"")
+    : `<tr><td colspan="4" class="empty">Nothing chosen yet — enter quantities above.</td></tr>`;
+  const over = qty > CONFIG.maxItems;
+  $("#capNote").hidden = !over;
+  $("#capNote").textContent = `Online orders are limited to ${CONFIG.maxItems} items (you have ${qty}). For a larger order, please email ${CONFIG.contactEmail} for a custom shipping quote.`;
+  $("#totalQty").textContent = qty;
+  $("#total").textContent = money(sub + ship);
+  return {items, qty, sub, ship, total: sub+ship};
+}
+document.addEventListener("input", e => { if (e.target.matches("input[data-kind]")) recalc(); });
+
+/* ---------- sale clock / state ---------- */
+let lastState;
+function tick(){
+  const st = saleState(), clock = $("#clock"), lbl = clock.querySelector(".lbl"), t = clock.querySelector(".t");
+  if (st === "open"){
+    const left = +new Date(CONFIG.saleEnds) - Date.now();
+    lbl.textContent = "Sale ends " + endLabel(); t.textContent = fmtLeft(left);
+    clock.classList.toggle("urgent", left < 48*3600e3);
+  } else if (st === "upcoming"){
+    lbl.textContent = "Sale opens in"; t.textContent = fmtLeft(+new Date(CONFIG.saleStarts) - Date.now());
+  } else {
+    lbl.textContent = "Sale ended"; t.textContent = endLabel();
+  }
+  if (st !== lastState){
+    lastState = st;
+    $("#page").classList.toggle("is-closed", st === "closed");
+    $("#orderArea").classList.toggle("off", st !== "open");
+    document.querySelectorAll("input[data-kind],#submitBtn").forEach(i => i.disabled = st !== "open");
+  }
+}
+
+/* ---------- submit ---------- */
+$("#orderForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("#msg"); msg.className = "msg"; msg.textContent = "";
+  const f = e.target, fail = t => { msg.className = "msg err"; msg.textContent = t; };
+  if (saleState() !== "open") return fail("Sorry — this sale has ended. Visit " + CONFIG.storeUrl.replace("https://","") + " for regular pricing.");
+  if (f.website.value) return;
+  const o = recalc();
+  if (!o.items.length) return fail("Your order is empty — pick at least one item.");
+  if (o.qty > CONFIG.maxItems) return fail(`Online orders are limited to ${CONFIG.maxItems} items. Please remove ${o.qty - CONFIG.maxItems} or email ${CONFIG.contactEmail} for a larger order.`);
+  for (const k of ["name","email","addr1","city","state","zip"]) if (!f[k].value.trim()) { f[k].focus(); return fail("Please fill in all required ship-to fields."); }
+  if (!/^\S+@\S+\.\S+$/.test(f.email.value)) { f.email.focus(); return fail("That email doesn't look right."); }
+
+  const c = Object.fromEntries(["name","email","addr1","addr2","city","state","zip","notes"].map(k=>[k,f[k].value.trim()]));
+  const btn = $("#submitBtn"); btn.disabled = true; btn.textContent = "Opening secure checkout…";
+  try{
+    const r = await fetch(CONFIG.checkoutEndpoint, {method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({items:o.items.map(i=>i.raw), customer:c, returnPath:location.pathname})});
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data.url) throw new Error(data.error || "HTTP "+r.status);
+    location.href = data.url;                       // off to Stripe
+  } catch(err){
+    fail(err.message || "Couldn't start checkout. Please try again.");
+    btn.disabled = saleState() !== "open"; btn.textContent = "Continue to Secure Payment";
+  }
+});
+
+renderDesigns(); renderBooks(); recalc(); tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
