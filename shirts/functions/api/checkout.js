@@ -55,7 +55,7 @@ export function priceCart(rawItems) {
     } else throw new Error("Invalid item.");
     count += qty;
   }
-  if (count > MAX_ITEMS_PER_ORDER) throw new Error(`Online orders are limited to ${MAX_ITEMS_PER_ORDER} items. For a larger order, please email info@pe-church.online for a custom shipping quote.`);
+  if (count > MAX_ITEMS_PER_ORDER) throw new Error(`Online orders are limited to ${MAX_ITEMS_PER_ORDER} items. For a larger order, please email info@tygwy.art for a custom shipping quote.`);
   const shipping = SHIPPING_TIERS.find(([max]) => count <= max)[1];
   const subtotal = lines.reduce((a, l) => a + l.cents * l.qty, 0);
   return { lines, count, shipping, subtotal, total: subtotal + shipping };
