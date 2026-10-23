@@ -14,12 +14,14 @@
 <meta property="og:title" content="Cherokee Tee FLASH SALE">
 <meta property="og:description" content="Native American Heritage Month flash sale: Cherokee tees and books by Ty &quot;GWY&quot; Wilson at special prices. Order by Nov 13, 2026.">
 <meta property="og:url" content="https://flash.tygwy.art/">
-<meta property="og:image" content="https://flash.tygwy.art/img/yawnsee-bison.webp">
+<meta property="og:image" content="https://flash.tygwy.art/img/share-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Yawnsee, the rainbow bison design">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cherokee Tee FLASH SALE">
 <meta name="twitter:description" content="Native American Heritage Month flash sale: Cherokee tees and books at special prices. Order by Nov 13, 2026.">
-<meta name="twitter:image" content="https://flash.tygwy.art/img/yawnsee-bison.webp">
+<meta name="twitter:image" content="https://flash.tygwy.art/img/share-card.png">
 <style>
   :root{
     --paper:#f4ecd8; --paper-2:#ebe0c3; --ink:#1d2a44; --red:#b3261e; --muted:#6b6450; --line:#c9bd9a; --stamp:#b3261e;
@@ -189,9 +191,9 @@
     <p class="fine" style="margin-top:0">Measurements are in inches, shirt laid flat (a chest width of 20&quot; fits a chest of about 40&quot;). Allow ±1&quot;.</p>
     <table class="sz">
       <caption>Adult Unisex</caption>
-      <thead><tr><th></th><th>S</th><th>M</th><th>L</th><th>XL</th><th>2XL</th></tr></thead>
-      <tbody><tr><th>Chest width</th><td>18</td><td>20</td><td>22</td><td>24</td><td>26</td></tr>
-             <tr><th>Body length</th><td>27</td><td>29</td><td>31</td><td>32</td><td>33</td></tr></tbody>
+      <thead><tr><th></th><th>S</th><th>M</th><th>L</th><th>XL</th><th>2XL</th><th>3XL</th></tr></thead>
+      <tbody><tr><th>Chest width</th><td>18</td><td>20</td><td>22</td><td>24</td><td>26</td><td>28</td></tr>
+             <tr><th>Body length</th><td>27</td><td>29</td><td>31</td><td>32</td><td>33</td><td>34</td></tr></tbody>
     </table>
     <table class="sz">
       <caption>Youth</caption>
@@ -313,9 +315,11 @@ const CONFIG = {
 
   // sale = discounted price. regular = optional, shown struck through.
   books: [
-    { id:"b1", title:"1st American: Cherokee", blurb:'By Ty "GWY" Wilson · Illustrated by Jasmine Riggs',
+    { id:"b1", title:"1st American: Cherokee",
+      blurb:"A children's book of animals in English, the Cherokee syllabary, and phonetic spelling, written to help preserve the Cherokee language. It has two front covers: one in English and one in the Cherokee syllabary.",
+      byline:'By Ty "GWY" Wilson · Illustrated by Jasmine Riggs',
       img:"img/book-1st-american-cherokee.jpg", sale:10 },
-    { id:"b2", title:"Forest Relatives", blurb:'A Cherokee–English Animal Picture Book · By Ty "GWY" Wilson',
+    { id:"b2", title:"Forest Relatives", blurb:"A Cherokee–English Animal Picture Book", byline:'By Ty "GWY" Wilson',
       img:"img/book-forest-relatives.webp", sale:12 }
   ],
 
@@ -396,7 +400,7 @@ function renderDesigns(){
 function renderBooks(){
   $("#books").innerHTML = CONFIG.books.map(b => `<article class="item book">
     <div class="art"><button type="button" class="zoom" data-zoombook="${esc(b.id)}" aria-label="View ${esc(b.title)} cover full size"><img src="${esc(b.img)}" alt="${esc(b.title)} cover"><span class="hint">Tap to enlarge</span></button></div>
-    <div class="info"><h3>${esc(b.title)}</h3><div class="sub">${esc(b.blurb)}</div>
+    <div class="info"><h3>${esc(b.title)}</h3><div class="sub">${esc(b.blurb)}</div><div class="sub" style="margin-top:-6px">${esc(b.byline||"")}</div>
       <div class="price">${b.regular?`<span class="was">${money(b.regular)}</span> `:""}${money(b.sale)} <span style="font-weight:400">plus S&amp;H</span></div>
       <div class="qty" style="margin-top:8px"><label>Qty<input type="number" min="0" max="20" inputmode="numeric" placeholder="0"
         data-kind="book" data-book="${esc(b.id)}" aria-label="${esc(b.title)} quantity"></label></div></div>
