@@ -1,27 +1,30 @@
 /*
- * POST /api/checkout  — creates a Stripe Checkout Session and returns { url }.
+ * POST /api/checkout — creates a Stripe Checkout Session and returns { url }.
  *
  * The browser only sends WHAT was ordered (ids, sizes, quantities) and WHO it ships to.
  * Prices, shipping, the sale window and the continental-US rule all live HERE, so they
  * can't be changed from the browser. Keep CATALOG / SHIPPING_TIERS in sync with CONFIG
  * in index.html (the page's totals are only an estimate; Stripe charges what this computes).
  *
+ * Two ways to receive an order: "ship" (USPS, continental U.S., S&H added) or "pickup"
+ * (arranged local pickup in Tahlequah, OK — no address, no S&H, phone number required).
+ *
  * Needs one secret: STRIPE_SECRET_KEY (Cloudflare Pages → Settings → Variables and Secrets).
  * Runs on Cloudflare Pages Functions; no dependencies (talks to Stripe's REST API directly).
  */
 
 const SALE = { starts: "2026-10-22T00:00:00-05:00", ends: "2026-11-13T23:59:00-06:00" };
-const SHIPS_BY_LABEL = "November 20, 2026";   // 1 week after the sale ends
+const SHIPS_BY_LABEL = "November 20, 2026"; // 1 week after the sale ends (pickup is arranged for the same date)
 
 // cents
 const CATALOG = {
   colors: ["Black", "White"],
   fits: {
-    youth: { label: "Youth",        price: 1500, sizes: ["S", "M", "L"] },
+    youth: { label: "Youth", price: 1500, sizes: ["S", "M", "L"] },
     adult: { label: "Adult Unisex", price: 2000, sizes: ["S", "M", "L", "XL", "2XL"] }
   },
   designs: { d1: "Cherokee Nation", d2: "Cherokee", d3: "1st Americans", d4: "Yawnsee", d5: "Yo-na" },
-  books:   { b1: { title: "1st American: Cherokee", price: 1000 }, b2: { title: "Forest Relatives", price: 1200 } }
+  books: { b1: { title: "1st American: Cherokee", price: 1000 }, b2: { title: "Forest Relatives", price: 1200 } }
 };
 
 // USPS Ground Advantage from Tahlequah, OK 74464. Flat rate per order: [max total items, cents]. 5+ is a starting rate.
@@ -31,7 +34,7 @@ const SHIPPING_TIERS = [[1, 899], [2, 1199], [4, 1599], [Infinity, 1799]];
 const SITE_ORIGINS = ["https://tygwy.art", "https://www.tygwy.art", "https://flash.tygwy.art"];
 
 const MAX_QTY_PER_LINE = 20, MAX_LINES = 40;
-const MAX_ITEMS_PER_ORDER = 10;   // bigger orders need a custom shipping quote — keep in sync with CONFIG.maxItems
+const MAX_ITEMS_PER_ORDER = 10; // bigger orders need a custom shipping quote — keep in sync with CONFIG.maxItems
 // Continental U.S.: 48 states + DC (no AK, HI, territories, APO/FPO)
 const STATES = new Set(("AL AZ AR CA CO CT DE DC FL GA ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY").split(" "));
 
@@ -40,7 +43,8 @@ const json = (obj, status = 200) =>
 const bad = (msg, status = 400) => json({ error: msg }, status);
 const clean = (v, max) => String(v ?? "").replace(/[\u0000-\u001f]/g, " ").trim().slice(0, max);
 
-export function priceCart(rawItems) {
+// fulfillment: "ship" (default) adds the USPS tier; "pickup" is free local pickup in Tahlequah.
+export function priceCart(rawItems, fulfillment = "ship") {
   if (!Array.isArray(rawItems) || !rawItems.length) throw new Error("Your order is empty.");
   if (rawItems.length > MAX_LINES) throw new Error("Too many line items.");
   const lines = []; let count = 0;
@@ -59,16 +63,29 @@ export function priceCart(rawItems) {
     count += qty;
   }
   if (count > MAX_ITEMS_PER_ORDER) throw new Error(`Online orders are limited to ${MAX_ITEMS_PER_ORDER} items. For a larger order, please email info@tygwy.art for a custom shipping quote.`);
-  const shipping = SHIPPING_TIERS.find(([max]) => count <= max)[1];
+  const shipping = fulfillment === "pickup" ? 0 : SHIPPING_TIERS.find(([max]) => count <= max)[1];
   const subtotal = lines.reduce((a, l) => a + l.cents * l.qty, 0);
   return { lines, count, shipping, subtotal, total: subtotal + shipping };
 }
 
 export function validateCustomer(c) {
+  const pickup = c?.fulfillment === "pickup";
   const f = {
-    name: clean(c?.name, 100), email: clean(c?.email, 150), addr1: clean(c?.addr1, 120), addr2: clean(c?.addr2, 120),
-    city: clean(c?.city, 80), state: clean(c?.state, 2).toUpperCase(), zip: clean(c?.zip, 10), notes: clean(c?.notes, 400)
+    fulfillment: pickup ? "pickup" : "ship",
+    name: clean(c?.name, 100), email: clean(c?.email, 150), phone: clean(c?.phone, 30),
+    addr1: "", addr2: "", city: "", state: "", zip: "", notes: clean(c?.notes, 400)
   };
+  if (pickup) {
+    if (!f.name) throw new Error("Please enter your name.");
+    if (!/^\S+@\S+\.\S+$/.test(f.email)) throw new Error("That email doesn't look right.");
+    const digits = f.phone.replace(/\D/g, "");
+    if (digits.length < 10 || digits.length > 15) throw new Error("Please enter a phone number so we can arrange your pickup.");
+    return f;
+  }
+  Object.assign(f, {
+    addr1: clean(c?.addr1, 120), addr2: clean(c?.addr2, 120), city: clean(c?.city, 80),
+    state: clean(c?.state, 2).toUpperCase(), zip: clean(c?.zip, 10)
+  });
   if (!f.name || !f.addr1 || !f.city) throw new Error("Please complete the ship-to address.");
   if (!/^\S+@\S+\.\S+$/.test(f.email)) throw new Error("That email doesn't look right.");
   if (!STATES.has(f.state)) throw new Error("Sorry — we only ship to the continental U.S. (48 states + DC).");
@@ -77,31 +94,40 @@ export function validateCustomer(c) {
 }
 
 export function buildStripeParams({ cart, cust, origin, returnPath, now = Date.now() }) {
+  const pickup = cust.fulfillment === "pickup";
   const p = new URLSearchParams();
   p.set("mode", "payment");
   p.set("success_url", `${origin}${returnPath}?paid=1`);
   p.set("cancel_url", `${origin}${returnPath}`);
   p.set("customer_email", cust.email);
   p.set("expires_at", String(Math.floor(now / 1000) + 31 * 60));
-  const all = [...cart.lines, { name: "USPS Ground Advantage shipping & handling", cents: cart.shipping, qty: 1 }];
+  const all = [...cart.lines];
+  if (cart.shipping > 0) all.push({ name: "USPS Ground Advantage shipping & handling", cents: cart.shipping, qty: 1 });
   all.forEach((l, i) => {
     p.set(`line_items[${i}][quantity]`, String(l.qty));
     p.set(`line_items[${i}][price_data][currency]`, "usd");
     p.set(`line_items[${i}][price_data][unit_amount]`, String(l.cents));
     p.set(`line_items[${i}][price_data][product_data][name]`, l.name);
   });
-  // ship-to shows on the payment in the Stripe Dashboard
-  const s = "payment_intent_data[shipping]";
-  p.set(`${s}[name]`, cust.name);
-  p.set(`${s}[address][line1]`, cust.addr1);
-  if (cust.addr2) p.set(`${s}[address][line2]`, cust.addr2);
-  p.set(`${s}[address][city]`, cust.city);
-  p.set(`${s}[address][state]`, cust.state);
-  p.set(`${s}[address][postal_code]`, cust.zip);
-  p.set(`${s}[address][country]`, "US");
-  p.set("payment_intent_data[description]", `Heritage Month flash sale — ships by ${SHIPS_BY_LABEL}`);
+  if (pickup) {
+    // no ship-to: the customer's phone/email are on the payment so the pickup can be arranged
+    p.set("payment_intent_data[description]", `Heritage Month flash sale — LOCAL PICKUP, Tahlequah OK (arrange by ${SHIPS_BY_LABEL}) — ${cust.name} ${cust.phone}`);
+  } else {
+    // ship-to shows on the payment in the Stripe Dashboard
+    const s = "payment_intent_data[shipping]";
+    p.set(`${s}[name]`, cust.name);
+    p.set(`${s}[address][line1]`, cust.addr1);
+    if (cust.addr2) p.set(`${s}[address][line2]`, cust.addr2);
+    p.set(`${s}[address][city]`, cust.city);
+    p.set(`${s}[address][state]`, cust.state);
+    p.set(`${s}[address][postal_code]`, cust.zip);
+    p.set(`${s}[address][country]`, "US");
+    p.set("payment_intent_data[description]", `Heritage Month flash sale — ships by ${SHIPS_BY_LABEL}`);
+  }
   for (const pre of ["metadata", "payment_intent_data[metadata]"]) {
     p.set(`${pre}[ship_by]`, SHIPS_BY_LABEL);
+    p.set(`${pre}[fulfillment]`, cust.fulfillment);
+    if (pickup) { p.set(`${pre}[pickup_name]`, cust.name); p.set(`${pre}[phone]`, cust.phone); }
     if (cust.notes) p.set(`${pre}[notes]`, cust.notes);
   }
   return p;
@@ -117,7 +143,7 @@ export async function onRequestPost({ request, env }) {
   try { body = await request.json(); } catch { return bad("Bad request."); }
 
   let cart, cust;
-  try { cart = priceCart(body.items); cust = validateCustomer(body.customer); }
+  try { cust = validateCustomer(body.customer); cart = priceCart(body.items, cust.fulfillment); }
   catch (e) { return bad(e.message); }
 
   const reqOrigin = new URL(request.url).origin, hdr = request.headers.get("Origin");
