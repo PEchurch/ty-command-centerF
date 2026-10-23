@@ -24,8 +24,8 @@ const CATALOG = {
   books:   { b1: { title: "1st American: Cherokee", price: 1000 }, b2: { title: "Forest Relatives", price: 1200 } }
 };
 
-// USPS from Tahlequah, OK 74464. [max total items, cents]. PLACEHOLDER rates — check against USPS and edit.
-const SHIPPING_TIERS = [[1, 600], [2, 800], [4, 1100], [Infinity, 1500]];
+// USPS Ground Advantage from Tahlequah, OK 74464. Flat rate per order: [max total items, cents]. 5+ is a starting rate.
+const SHIPPING_TIERS = [[1, 899], [2, 1199], [4, 1599], [Infinity, 1799]];
 
 const MAX_QTY_PER_LINE = 20, MAX_LINES = 40;
 // Continental U.S.: 48 states + DC (no AK, HI, territories, APO/FPO)
@@ -78,7 +78,7 @@ export function buildStripeParams({ cart, cust, origin, returnPath, now = Date.n
   p.set("cancel_url", `${origin}${returnPath}`);
   p.set("customer_email", cust.email);
   p.set("expires_at", String(Math.floor(now / 1000) + 31 * 60));
-  const all = [...cart.lines, { name: "USPS shipping & handling (continental U.S.)", cents: cart.shipping, qty: 1 }];
+  const all = [...cart.lines, { name: "USPS Ground Advantage shipping & handling", cents: cart.shipping, qty: 1 }];
   all.forEach((l, i) => {
     p.set(`line_items[${i}][quantity]`, String(l.qty));
     p.set(`line_items[${i}][price_data][currency]`, "usd");

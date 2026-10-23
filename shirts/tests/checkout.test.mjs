@@ -14,8 +14,10 @@ test("prices shirts, books and tiered shipping in cents", () => {
   const c = priceCart(cart);
   assert.equal(c.subtotal, 2 * 2000 + 1500 + 1000);
   assert.equal(c.count, 4);
-  assert.equal(c.shipping, 1100);
-  assert.equal(c.total, 6500 + 1100);
+  assert.equal(c.shipping, 1599);
+  assert.equal(c.total, 6500 + 1599);
+  const shipFor = n => priceCart([{ kind: "book", book: "b1", qty: n }]).shipping;
+  assert.deepEqual([1, 2, 3, 4, 5, 9].map(shipFor), [899, 1199, 1599, 1599, 1799, 1799]);
 });
 
 test("client-supplied prices are ignored", () => {
@@ -70,7 +72,7 @@ test("during the sale: sends the right session to Stripe and returns its URL", a
       assert.equal(r.status, 200);
       const out = await r.json();
       assert.equal(out.url, "https://checkout.stripe.com/c/pay/cs_test_123");
-      assert.equal(out.total, 7600);
+      assert.equal(out.total, 8099);
     });
     assert.equal(seen.url, "https://api.stripe.com/v1/checkout/sessions");
     assert.equal(seen.init.headers.Authorization, "Bearer sk_test_x");
@@ -79,7 +81,7 @@ test("during the sale: sends the right session to Stripe and returns its URL", a
     assert.equal(p.get("line_items[0][price_data][unit_amount]"), "2000");
     assert.equal(p.get("line_items[0][quantity]"), "2");
     assert.equal(p.get("line_items[0][price_data][product_data][name]"), "Cherokee Nation — Black — Adult Unisex L");
-    assert.equal(p.get("line_items[3][price_data][unit_amount]"), "1100");           // shipping line
+    assert.equal(p.get("line_items[3][price_data][unit_amount]"), "1599");           // shipping line
     assert.equal(p.get("payment_intent_data[shipping][address][state]"), "OK");
     assert.equal(p.get("payment_intent_data[shipping][address][country]"), "US");
     assert.equal(p.get("metadata[ship_by]"), "November 20, 2026");
