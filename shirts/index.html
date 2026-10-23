@@ -224,7 +224,7 @@ const CONFIG = {
 
   // Stripe Checkout is created by /api/checkout (see functions/api/checkout.js).
   // The server re-prices everything, so these numbers must match that file.
-  checkoutEndpoint: "/api/checkout",
+  checkoutEndpoint: "api/checkout",   // relative, so it works at the site root or under a path like /flash/
 
   // Everything ships this many days after the sale ends (USPS, from Tahlequah, OK 74464).
   shipDays: 7,

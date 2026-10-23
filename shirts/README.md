@@ -12,6 +12,28 @@ Everything the sale needs is in the `CONFIG` block at the top of `index.html` �
    Never put the key in the repo or the page.
 4. Point your domain at the Pages project.
 
+## Putting it at tygwy.art/flash
+The page works from any path (`/flash/`) or its own subdomain. Pick the one that matches where tygwy.art lives:
+
+**A. tygwy.art is on Cloudflare (DNS proxied) — path `/flash`:** add this Worker with the route `tygwy.art/flash*`
+(replace `YOUR-PROJECT` with the Pages project name):
+```js
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    if (url.pathname === "/flash") return Response.redirect(url.origin + "/flash/" + url.search, 301);
+    url.hostname = "YOUR-PROJECT.pages.dev";
+    url.pathname = url.pathname.replace(/^\/flash/, "") || "/";
+    return fetch(new Request(url, request));
+  }
+};
+```
+**B. tygwy.art is on another host (Squarespace, Wix, WordPress, GoDaddy…):** use a subdomain instead — add the custom domain
+`flash.tygwy.art` to the Pages project and a CNAME record pointing to it, then have `tygwy.art/flash` redirect to it.
+(Moving the whole domain's DNS to Cloudflare, which is free, also makes option A possible.)
+
+Stripe's return links are limited to the origins listed in `SITE_ORIGINS` in `functions/api/checkout.js` (add `https://flash.tygwy.art` if you use option B).
+
 ## Fulfilling orders
 Each paid order shows in the Stripe Dashboard → Payments, with the ship-to address on the payment and the items listed on the
 Checkout Session (e.g. "Cherokee Nation — Black — Adult Unisex L"). Everything ships one week after the sale ends.

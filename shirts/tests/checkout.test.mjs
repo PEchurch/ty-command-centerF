@@ -107,6 +107,19 @@ test("return path can't redirect off-site", async () => {
   } finally { globalThis.fetch = realFetch; }
 });
 
+test("return links use the public site (tygwy.art/flash) but never an unknown origin", async () => {
+  const realFetch = globalThis.fetch; const seen = [];
+  globalThis.fetch = async (u, init) => { seen.push(new URLSearchParams(init.body).get("success_url")); return new Response(JSON.stringify({ url: "https://checkout.stripe.com/x" })); };
+  const mk = origin => new Request("https://proj.pages.dev/api/checkout", { method: "POST", headers: { Origin: origin }, body: JSON.stringify({ items: cart, customer: cust, returnPath: "/flash/" }) });
+  try {
+    await withClock("2026-11-01T12:00:00-06:00", async () => {
+      await onRequestPost({ request: mk("https://tygwy.art"), env: { STRIPE_SECRET_KEY: "k" } });
+      await onRequestPost({ request: mk("https://evil.example"), env: { STRIPE_SECRET_KEY: "k" } });
+    });
+    assert.deepEqual(seen, ["https://tygwy.art/flash/?paid=1", "https://proj.pages.dev/flash/?paid=1"]);
+  } finally { globalThis.fetch = realFetch; }
+});
+
 test("Stripe failure is reported without leaking details", async () => {
   const realFetch = globalThis.fetch;
   globalThis.fetch = async () => new Response(JSON.stringify({ error: { message: "secret detail" } }), { status: 401 });

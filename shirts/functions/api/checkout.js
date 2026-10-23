@@ -27,6 +27,9 @@ const CATALOG = {
 // USPS Ground Advantage from Tahlequah, OK 74464. Flat rate per order: [max total items, cents]. 5+ is a starting rate.
 const SHIPPING_TIERS = [[1, 899], [2, 1199], [4, 1599], [Infinity, 1799]];
 
+// Sites allowed to host the page (used for Stripe's return links when this function is reached through a proxy at tygwy.art/flash)
+const SITE_ORIGINS = ["https://tygwy.art", "https://www.tygwy.art", "https://flash.tygwy.art"];
+
 const MAX_QTY_PER_LINE = 20, MAX_LINES = 40;
 const MAX_ITEMS_PER_ORDER = 10;   // bigger orders need a custom shipping quote — keep in sync with CONFIG.maxItems
 // Continental U.S.: 48 states + DC (no AK, HI, territories, APO/FPO)
@@ -117,7 +120,8 @@ export async function onRequestPost({ request, env }) {
   try { cart = priceCart(body.items); cust = validateCustomer(body.customer); }
   catch (e) { return bad(e.message); }
 
-  const origin = new URL(request.url).origin;
+  const reqOrigin = new URL(request.url).origin, hdr = request.headers.get("Origin");
+  const origin = hdr && (hdr === reqOrigin || SITE_ORIGINS.includes(hdr)) ? hdr : reqOrigin;
   const rp = typeof body.returnPath === "string" && /^\/[A-Za-z0-9\-_./]*$/.test(body.returnPath) && !body.returnPath.includes("//") ? body.returnPath : "/";
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
