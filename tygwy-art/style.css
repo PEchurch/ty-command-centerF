@@ -111,3 +111,25 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .door .go{display:inline-block;color:var(--copper);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-top:14px}
 .door .live{color:var(--turq);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
 @media (max-width:640px){.doors{padding:32px 0 8px}.doors-grid{grid-template-columns:1fr;gap:12px}.door{min-height:0;gap:14px}.door .t{font-size:24px}.nav ul{gap:18px;padding:0 4px}}
+
+/* inner pages */
+.page-hero{padding:48px 0 28px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.page-hero::after{content:"";position:absolute;right:-140px;top:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--turq) 20%,transparent),transparent 65%);pointer-events:none}
+.page-hero .wrap{position:relative;z-index:1}
+.page-hero h1{font-size:clamp(40px,11vw,76px);margin:10px 0 14px}
+.back{color:var(--turq);font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;font-weight:600}
+.page{padding-top:40px;padding-bottom:56px;min-height:50vh}
+.page h2{font-size:clamp(26px,6vw,36px);margin-bottom:12px}
+.block{margin-top:44px;padding-top:32px;border-top:1px solid var(--line)}
+.stack .card{margin-bottom:14px}
+.muted{color:var(--muted)}
+.draft{color:var(--copper);font-size:13px;letter-spacing:.06em}
+.big-link{font:600 clamp(22px,6vw,32px) var(--display);color:var(--copper);text-decoration:none;word-break:break-all}
+.socials{display:flex;flex-wrap:wrap;gap:12px}
+.nav a.l.on{color:var(--turq)}
+.cta{margin-top:28px}
+footer a{color:var(--turq);text-decoration:none}
+.page .about{margin-top:0}
+@media (max-width:640px){.page-hero{padding:32px 0 20px}.page{padding-top:28px}.block{margin-top:32px}}
+.page section{padding:0;border-bottom:0}
+.page section.block{padding-top:32px}

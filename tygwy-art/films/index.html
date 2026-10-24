@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Films, Video & Docs | TyGWY</title>
+<meta name="description" content="Screenings, trailers, readings and the documents behind them.">
+<meta name="theme-color" content="#0b110f">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<meta property="og:title" content="Films, Video & Docs | TyGWY">
+<meta property="og:description" content="Screenings, trailers, readings and the documents behind them.">
+<meta property="og:image" content="https://tygwy.art/img/share-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap"><a class="brand" href="../index.html">Ty<span>GWY</span></a><ul><li><a class="l" href="../aboutTy/index.html">About Ty</a></li><li><a class="l" href="../unnu/index.html">UNNU</a></li><li><a class="l on" href="../films/index.html">Films</a></li><li><a class="l" href="../books/index.html">Books</a></li><li><a class="l" href="../art/index.html">Art</a></li><li><a class="l" href="../flash/">Shop</a></li><li><a class="l" href="../contact/index.html">Contact</a></li></ul></div></nav>
+<header class="page-hero"><div class="wrap"><a class="back" href="../index.html">&larr; All of TyGWY</a><h1>Films, Video & Docs</h1><p class="lede">Screenings, trailers, readings and the documents behind them.</p></div></header>
+<main class="wrap page">
+<div class="grid" id="media"></div>
+</main>
+<footer><div class="wrap"><span>© <span id="yr">2026</span> Ty "GWY" Wilson</span><a href="../index.html">Home</a></div></footer>
+<script>document.getElementById("yr").textContent=new Date().getFullYear();</script>
+<script>
+/* Edit this list to publish. kind: Film | Video | Doc. youtube: a video ID (embeds it). url: link for docs. */
+const MEDIA=[
+  {kind:"Film",  title:"UNNU feature film",        note:"In development.",                 youtube:"", url:""},
+  {kind:"Video", title:"Book trailer",              note:"Coming soon.",                    youtube:"", url:""},
+  {kind:"Video", title:"Cherokee language reading", note:"Coming soon.",                    youtube:"", url:""},
+  {kind:"Doc",   title:"UNNU world guide",          note:"Maps, timeline and citizenship.", youtube:"", url:""}
+];
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById("media").innerHTML=MEDIA.map(m=>{
+  const thumb=m.youtube?`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(m.youtube)}" title="${esc(m.title)}" loading="lazy" allowfullscreen></iframe>`:esc(m.kind);
+  const link=m.url?` <a href="${esc(m.url)}" style="color:var(--copper)">Open</a>`:"";
+  return `<article class="tile"><div class="thumb">${thumb}</div><div class="body"><span class="tag">${esc(m.kind)}</span><h3>${esc(m.title)}</h3><p>${esc(m.note)}${link}</p></div></article>`;
+}).join("");
+</script>
+</body>
+</html>

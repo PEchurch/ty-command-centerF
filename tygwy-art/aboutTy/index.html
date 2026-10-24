@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Ty | TyGWY</title>
+<meta name="description" content="Author, artist and storyteller from Tahlequah, Oklahoma, in the Cherokee Nation.">
+<meta name="theme-color" content="#0b110f">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<meta property="og:title" content="About Ty | TyGWY">
+<meta property="og:description" content="Author, artist and storyteller from Tahlequah, Oklahoma, in the Cherokee Nation.">
+<meta property="og:image" content="https://tygwy.art/img/share-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap"><a class="brand" href="../index.html">Ty<span>GWY</span></a><ul><li><a class="l on" href="../aboutTy/index.html">About Ty</a></li><li><a class="l" href="../unnu/index.html">UNNU</a></li><li><a class="l" href="../films/index.html">Films</a></li><li><a class="l" href="../books/index.html">Books</a></li><li><a class="l" href="../art/index.html">Art</a></li><li><a class="l" href="../flash/">Shop</a></li><li><a class="l" href="../contact/index.html">Contact</a></li></ul></div></nav>
+<header class="page-hero"><div class="wrap"><a class="back" href="../index.html">&larr; All of TyGWY</a><h1>About Ty</h1><p class="lede">Author, artist and storyteller from Tahlequah, Oklahoma, in the Cherokee Nation.</p></div></header>
+<main class="wrap page">
+
+<section class="about">
+  <img src="../img/ty-portrait-900.webp" alt="Portrait of Ty GWY Wilson in a straw hat, sunglasses and a cream shirt, painted in oils">
+  <div>
+    <h2>Biography</h2>
+    <p>Ty "GWY" Wilson writes and makes art from Tahlequah, Oklahoma, in the Cherokee Nation. His work draws on family, on what elders told him, and on the documented record, and it is written for Cherokee and Black Cherokee families first.</p>
+    <p>He is the author of the Cherokee language children's books <em>1st American: Cherokee</em> and <em>Forest Relatives</em>, and the creator of the United Native Nations Universe (UNNU), an alternate history told through novels and film.</p>
+    <p>Ty is available for readings, school visits, panels and talks on Cherokee language, Cherokee Freedmen history and storytelling.</p>
+    <p class="draft">DRAFT. Replace this biography with Ty's own words.</p>
+  </div>
+</section>
+<section class="block">
+  <h2>Email</h2>
+  <p><a class="big-link" href="mailto:info@tygwy.art">info@tygwy.art</a></p>
+  <p class="muted">For orders, press, and speaking or reading requests.</p>
+</section>
+<section class="block">
+  <h2>Social media</h2>
+  <div class="socials" id="socials"></div>
+</section>
+
+</main>
+<footer><div class="wrap"><span>© <span id="yr">2026</span> Ty "GWY" Wilson</span><a href="../index.html">Home</a></div></footer>
+<script>document.getElementById("yr").textContent=new Date().getFullYear();</script>
+<script>
+/* Add each account's full link to url. Empty ones stay hidden. */
+const SOCIALS=[
+  {name:"Facebook",  url:""},
+  {name:"Instagram", url:""},
+  {name:"YouTube",   url:""},
+  {name:"TikTok",    url:""},
+  {name:"X",         url:""}
+];
+const live=SOCIALS.filter(s=>s.url);
+document.getElementById("socials").innerHTML=live.length
+  ? live.map(s=>`<a class="btn turq" href="${s.url}" rel="me noopener">${s.name}</a>`).join("")
+  : '<p class="muted">Social links coming soon.</p>';
+</script>
+</body>
+</html>
