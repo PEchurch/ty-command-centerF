@@ -20,7 +20,10 @@
 <nav class="nav"><div class="wrap"><a class="brand" href="../index.html">Ty<span>GWY</span></a><ul><li><a class="l" href="../aboutTy/index.html">About Ty</a></li><li><a class="l" href="../unnu/index.html">UNNU</a></li><li><a class="l on" href="../films/index.html">Films</a></li><li><a class="l" href="../books/index.html">Books</a></li><li><a class="l" href="../art/index.html">Art</a></li><li><a class="l" href="../flash/">Shop</a></li><li><a class="l" href="../contact/index.html">Contact</a></li></ul></div></nav>
 <header class="page-hero"><div class="wrap"><a class="back" href="../index.html">&larr; All of TyGWY</a><h1>Films, Video & Docs</h1><p class="lede">Screenings, trailers, readings and the documents behind them.</p></div></header>
 <main class="wrap page">
+
+<div class="chips" id="chips" role="tablist" aria-label="Filter"></div>
 <div class="grid" id="media"></div>
+
 </main>
 <footer><div class="wrap"><span>© <span id="yr">2026</span> Ty "GWY" Wilson</span><a href="../index.html">Home</a></div></footer>
 <script>document.getElementById("yr").textContent=new Date().getFullYear();</script>
@@ -33,11 +36,17 @@ const MEDIA=[
   {kind:"Doc",   title:"UNNU world guide",          note:"Maps, timeline and citizenship.", youtube:"", url:""}
 ];
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-document.getElementById("media").innerHTML=MEDIA.map(m=>{
-  const thumb=m.youtube?`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(m.youtube)}" title="${esc(m.title)}" loading="lazy" allowfullscreen></iframe>`:esc(m.kind);
-  const link=m.url?` <a href="${esc(m.url)}" style="color:var(--copper)">Open</a>`:"";
-  return `<article class="tile"><div class="thumb">${thumb}</div><div class="body"><span class="tag">${esc(m.kind)}</span><h3>${esc(m.title)}</h3><p>${esc(m.note)}${link}</p></div></article>`;
-}).join("");
+const kinds=["All",...new Set(MEDIA.map(m=>m.kind))];
+function draw(k){
+  document.getElementById("chips").innerHTML=kinds.map(x=>`<button class="chip${x===k?" on":""}" role="tab" aria-selected="${x===k}" data-k="${x}">${x==="All"?"All":x+"s"}</button>`).join("");
+  document.getElementById("media").innerHTML=MEDIA.filter(m=>k==="All"||m.kind===k).map(m=>{
+    const thumb=m.youtube?`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(m.youtube)}" title="${esc(m.title)}" loading="lazy" allowfullscreen></iframe>`:esc(m.kind);
+    const link=m.url?` <a href="${esc(m.url)}" style="color:var(--copper)">Open</a>`:"";
+    return `<article class="tile"><div class="thumb">${thumb}</div><div class="body"><span class="tag">${esc(m.kind)}</span><h3>${esc(m.title)}</h3><p>${esc(m.note)}${link}</p></div></article>`;
+  }).join("");
+}
+document.getElementById("chips").addEventListener("click",e=>{const b=e.target.closest("button");if(b)draw(b.dataset.k)});
+draw("All");
 </script>
 </body>
 </html>
