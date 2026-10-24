@@ -24,6 +24,9 @@ img{max-width:100%;display:block}
 .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
 .hero::before{left:-160px;bottom:-200px;width:520px;height:520px;background:radial-gradient(circle,color-mix(in srgb,var(--turq) 22%,transparent),transparent 65%)}
 .hero::after{right:-120px;top:-120px;width:460px;height:460px;background:radial-gradient(circle,color-mix(in srgb,var(--copper) 35%,transparent),transparent 65%)}
+.hero-bg{position:absolute;inset:-30px;background:url(img/ty-hero-bg.webp) center 25%/cover;filter:blur(18px) saturate(1.1);opacity:.4;z-index:0;
+  -webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 70%)}
 .hero .wrap{position:relative;z-index:1}
 .kicker{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--copper);font-weight:600}
 h1{font:600 clamp(56px,16vw,108px)/.98 var(--display);margin:0 0 22px;letter-spacing:-.02em}
@@ -80,8 +83,8 @@ h3{font:600 22px/1.2 var(--display)}
 .shop .btn.solid{background:var(--turq);border-color:var(--turq)}
 
 /* about / contact */
-.about{display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:start}
-.about img{border-radius:14px;border:1px solid var(--line);background:#f4ecd8}
+.about{display:grid;grid-template-columns:300px 1fr;gap:40px;align-items:start}
+.about img{border-radius:14px;border:1px solid var(--line);width:100%}
 .about p + p{margin-top:14px}
 .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:36px}
 .contact-grid .card p{margin-top:6px}
@@ -91,7 +94,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 @media (max-width:760px){
   .unnu-grid,.about{grid-template-columns:1fr}
-  .about img{max-width:220px}
+  .about img{max-width:340px}
   .hero{padding:64px 0 48px}
   section{padding:56px 0}
   .book{grid-template-columns:110px 1fr}
