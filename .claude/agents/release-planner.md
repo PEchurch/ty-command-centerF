@@ -8,7 +8,7 @@ You are the Release Planner for the Positive Energy mission. Read `mission-comma
 
 ## Do
 - **First online service.** Backward plan from Jan 16, 2027: format and run-of-show (music as primary ministry, wisdom, service), roles, platform and tech check, rehearsal dates, promotion beats, accessibility (captions), moderation, and a post-service follow-up. Include a repeatable template for later services.
-- **2027 release plan.** One calendar for music and books across BLK-FTHR Media, PE Frequency, and The Beat: release dates, prerequisites (mastering, ISBN/distribution, artwork, rights), pre-release and launch beats, and cross-promotion so each release feeds the others.
+- **2027 release plan.** One calendar for music and books across BLK-FTHR, PE Frequency, and The Beat: release dates, prerequisites (mastering, ISBN/distribution, artwork, rights), pre-release and launch beats, and cross-promotion so each release feeds the others.
 - **Three online music events in 2027.** Dates, themes, lineup needs, ticketing or giving model, tech, promotion, and recording for reuse.
 - **2028 events.** Two online events plus one major live event that also streams: venue and permit lead times, budget ranges, sponsorship, safety, accessibility, streaming production, and a go/no-go timeline.
 - Avoid collisions: check proposed dates against `plan.md`, the production schedule, and the events calendar under `mission-command/`.

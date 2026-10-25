@@ -19,7 +19,7 @@ Statuses: not-started | in-progress | blocked | done. Items marked [CONFIRM] nee
 
 ## Systems requested
 1. Schedule of events to attend for marketing everything (campaign-planner)
-2. Daily organized schedule: meals, exercise, meditation, daily action on micro and macro visions; see affirmations and rituals file (ops-harmony-coordinator)
+2. Daily organized schedule: meals, exercise, meditation, daily action on micro and macro visions; see mission-command/PE_Affirmations_and_Daily_Rituals.pdf (ops-harmony-coordinator)
 3. Workflows so all businesses work in harmony (ops-harmony-coordinator)
 4. Team schedule so the team stays centered (ops-harmony-coordinator)
 5. Find what was forgotten, overlooked, or unknown, and put it into action (gap-finder)
@@ -27,10 +27,11 @@ Statuses: not-started | in-progress | blocked | done. Items marked [CONFIRM] nee
 ## Ventures (hub and spokes)
 - Positive Energy Church and The Beat: mission, community, services
 - PE Frequency (radio): music ministry and reach
-- BLK-FTHR Media: publishing, film, media
+- BLK-FTHR (print shop and clothing line)
+- CLUB 1907: T-shirt of the month website business
+- PE Clothing
 - 1st N8TIONS: apparel; flash-sale proceeds go to the Arts Fund
 - Clothing and art lines: revenue to fuel the church
-- Tribal Signal: marketplace for Oklahoma tribal art
 - Books: teaching, history, revenue
 
 ## Operating rules
