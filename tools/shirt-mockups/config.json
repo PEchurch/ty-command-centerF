@@ -3,8 +3,34 @@
   "out_dir": "shirts/img/mockups",
   "out_width": 600,
   "shirts": {
-    "White": { "crop": [0, 40, 725, 1010], "print": [215, 230, 290, 340] },
-    "Black": { "crop": [715, 40, 1440, 1010], "print": [920, 230, 290, 340] }
+    "White": {
+      "crop": [
+        20,
+        120,
+        718,
+        940
+      ],
+      "print": [
+        258,
+        245,
+        240,
+        290
+      ]
+    },
+    "Black": {
+      "crop": [
+        716,
+        120,
+        1414,
+        940
+      ],
+      "print": [
+        945,
+        245,
+        240,
+        290
+      ]
+    }
   },
   "designs": {
     "d1": "shirts/img/cherokee-nation.webp",
