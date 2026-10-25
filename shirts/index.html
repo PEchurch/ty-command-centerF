@@ -78,6 +78,7 @@
   @media (max-width:700px){
     .art{padding:10px}
     .item .art svg{max-width:170px}
+    .item .art img.mock{max-width:230px}
     .pricing{grid-template-columns:1fr 1fr;gap:8px}
     .pricing b{font-size:24px}
     .pricing span{font-size:12px}
@@ -98,6 +99,7 @@
   .art{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px;border-right:2px solid var(--ink);background:var(--paper)}
   @media (max-width:620px){.art{border-right:0;border-bottom:2px solid var(--ink)}}
   .art svg,.art img{width:100%;max-width:260px;height:auto}
+  .art img.mock{max-width:280px;border:1px solid var(--line);display:block;margin:0 auto}
   .info{padding:14px 16px}
   .info h3{font:900 24px Georgia,serif;margin:0;text-transform:uppercase}
   .info .sub{color:var(--muted);margin:2px 0 10px;font-size:14px}
@@ -322,6 +324,9 @@ const CONFIG = {
 
   // White first (the default), then Black — every design comes in both.
   colors: ["White", "Black"],
+  // Realistic shirt previews from tools/shirt-mockups (img/mockups/<id>-white.webp, -black.webp).
+  // false = use the simple drawn shirt.
+  mockups: true,
   fits: {
     youth: { label: "Youth",         price: 15, sizes: ["S","M","L"] },
     adult: { label: "Adult Unisex",  price: 20, sizes: ["S","M","L","XL","2XL"] }
@@ -364,6 +369,11 @@ function shirtSVG(design, color){
     : (ART[design.art] ? ART[design.art](ink) : "");
   return `<svg viewBox="0 0 200 216" role="img" aria-label="${esc(design.name)} on a ${color.toLowerCase()} tee">
     <path d="${SHIRT_PATH}" fill="${fill}" stroke="#1d2a44" stroke-width="3" stroke-linejoin="round"/>${print}</svg>`;
+}
+
+function shirtPreview(design, color){
+  if (!CONFIG.mockups) return shirtSVG(design, color);
+  return `<img class="mock" src="img/mockups/${esc(design.id)}-${esc(color.toLowerCase())}.webp" alt="${esc(design.name)} on a ${esc(color.toLowerCase())} tee" decoding="async">`;
 }
 
 /* ---------- helpers ---------- */
@@ -414,7 +424,7 @@ function renderDesigns(){
     }).join("")).join("");
     return `<article class="item" data-id="${esc(d.id)}">
       <div class="art" data-art="${esc(d.id)}"><button type="button" class="zoom" data-zoom="${esc(d.id)}" aria-label="View ${esc(d.name)} artwork full size">
-        <span data-shirt>${shirtSVG(d, CONFIG.colors[0])}</span><span class="hint">Tap to enlarge</span></button></div>
+        <span data-shirt>${shirtPreview(d, CONFIG.colors[0])}</span><span class="hint">Tap to enlarge</span></button></div>
       <div class="info"><h3>${esc(d.name)}</h3><div class="sub">${esc(d.sub)}</div>
         <div class="colors" role="radiogroup" aria-label="Shirt color">${colorBtns}</div>${grids}</div>
     </article>`;
@@ -434,7 +444,7 @@ document.addEventListener("change", e => {
   const id = e.target.name.replace("color-",""), color = e.target.value;
   document.querySelectorAll(`[data-grid="${id}"]`).forEach(g => g.classList.toggle("hidden", g.dataset.color !== color));
   const d = CONFIG.designs.find(x => x.id === id);
-  document.querySelector(`[data-art="${id}"] [data-shirt]`).innerHTML = shirtSVG(d, color);
+  document.querySelector(`[data-art="${id}"] [data-shirt]`).innerHTML = shirtPreview(d, color);
 });
 
 /* ---------- click-to-enlarge (art shown exactly as supplied, on the selected shirt color) ---------- */

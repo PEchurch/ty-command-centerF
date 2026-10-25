@@ -1,0 +1,46 @@
+{
+  "blank": "tools/shirt-mockups/blank-tees.jpg",
+  "out_dir": "shirts/img/mockups",
+  "out_width": 600,
+  "px_per_inch": 20,
+  "shirts": {
+    "White": {
+      "crop": [
+        20,
+        120,
+        718,
+        940
+      ],
+      "print": [
+        213,
+        245,
+        331,
+        400
+      ]
+    },
+    "Black": {
+      "crop": [
+        716,
+        120,
+        1414,
+        940
+      ],
+      "print": [
+        900,
+        245,
+        331,
+        400
+      ]
+    }
+  },
+  "designs": {
+    "d1": "shirts/img/cherokee-nation.webp",
+    "d2": "shirts/img/cherokee-profile.webp",
+    "d3": "shirts/img/1st-americans.webp",
+    "d4": {
+      "art": "shirts/img/yawnsee-bison.webp",
+      "lower_in": 2
+    },
+    "d5": "shirts/img/yona-bear.webp"
+  }
+}
