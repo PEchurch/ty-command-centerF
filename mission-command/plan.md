@@ -16,6 +16,7 @@ Statuses: not-started | in-progress | blocked | done. Items marked [CONFIRM] nee
 | Weekly (Sat 1-2 PM, repeat Sun 1-2 PM) | Positive Energy broadcast | release-planner | not-started |
 | 2027 | Three online music events | release-planner | not-started |
 | 2027 | Finish the film BLK-FTHR | production-producer | not-started |
+| 2027 | Book printing schedule (all books) | production-producer | not-started |
 | 2028 | Two online events plus one major live event that also streams online | release-planner | not-started |
 
 ## Systems requested
