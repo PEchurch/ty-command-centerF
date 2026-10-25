@@ -2,22 +2,22 @@
 
 Hub: Positive Energy Church (the mission). Every venture is a spoke that feeds it.
 Owner: Minister Ty GWY Wilson. Today's date is set by the session; always check it.
-Statuses: not-started | in-progress | blocked | done. Items marked [CONFIRM] need Ty's answer.
+Statuses: not-started | drafted (plan written, not executed) | in-progress | blocked | done. Items marked [CONFIRM] need Ty's answer.
 
 ## Goals and deadlines
 | Deadline | Goal | Lead agent | Status |
 | --- | --- | --- | --- |
-| Before Nov 1, 2026 | Finalize the business and church websites | web-launch-lead | not-started |
-| Nov to Dec 2026 | Rollout plan for the giving season push | campaign-planner | not-started |
-| Jan 16, 2027 (3rd Saturday) | First online service | release-planner | not-started |
-| Early 2027 | Organize the year's music and book release plan | release-planner | not-started |
-| Before Feb 1, 2027 | Finish one documentary short and one music video; plan film festival entries | production-producer | not-started |
-| 2027 | One big marketing plan for all companies and the church | campaign-planner | not-started |
-| Weekly (Sat 1-2 PM, repeat Sun 1-2 PM) | Positive Energy broadcast | release-planner | not-started |
-| 2027 | Three online music events | release-planner | not-started |
-| 2027 | Finish the film BLK-FTHR | production-producer | not-started |
-| 2027 | Book printing schedule (all books) | production-producer | not-started |
-| 2028 | Two online events plus one major live event that also streams online | release-planner | not-started |
+| Before Nov 1, 2026 | Finalize the business and church websites | web-launch-lead | drafted |
+| Nov to Dec 2026 | Rollout plan for the giving season push | campaign-planner | drafted |
+| Jan 16, 2027 (3rd Saturday) | First online service | release-planner | drafted |
+| Early 2027 | Organize the year's music and book release plan | release-planner | drafted |
+| Before Feb 1, 2027 | Finish one documentary short and one music video; plan film festival entries | production-producer | drafted |
+| 2027 | One big marketing plan for all companies and the church | campaign-planner | drafted |
+| Weekly (Sat 1-2 PM, repeat Sun 1-2 PM) | Positive Energy broadcast | release-planner | drafted |
+| 2027 | Three online music events | release-planner | drafted |
+| 2027 | Finish the film BLK-FTHR | production-producer | drafted |
+| 2027 | Book printing schedule (all books) | production-producer | drafted |
+| 2028 | Two online events plus one major live event that also streams online | release-planner | drafted |
 
 ## Systems requested
 1. Schedule of events to attend for marketing everything (campaign-planner)
@@ -47,4 +47,4 @@ Statuses: not-started | in-progress | blocked | done. Items marked [CONFIRM] nee
 - Build in rest and delegation.
 
 ## Decisions log
-(none yet)
+2026-10-25: First chief run. Specialist drafts written to websites/, marketing/, production/, releases/, operations/; gap review in gaps.md. Nothing executed, published, sent, booked, or spent. All plan items await Ty's answers to the [CONFIRM] questions.
