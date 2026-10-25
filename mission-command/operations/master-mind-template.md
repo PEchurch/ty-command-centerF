@@ -38,7 +38,7 @@ Week's top 3 for the mission:
 VENTURE ROUND
 Venture | Shipped | Needs | Can give | Blocked
 Church and The Beat |
-PE Frequency |
+PE Frequency (not launched yet; skip until the radio station starts) |
 BLK-FTHR |
 CLUB 1907 |
 PE Clothing |
