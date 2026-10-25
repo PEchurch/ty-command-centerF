@@ -13,6 +13,7 @@ Statuses: not-started | in-progress | blocked | done. Items marked [CONFIRM] nee
 | Early 2027 | Organize the year's music and book release plan | release-planner | not-started |
 | Before Feb 1, 2027 | Finish one documentary short and one music video; plan film festival entries | production-producer | not-started |
 | 2027 | One big marketing plan for all companies and the church | campaign-planner | not-started |
+| Weekly (Sat 1-2 PM, repeat Sun 1-2 PM) | Positive Energy broadcast | release-planner | not-started |
 | 2027 | Three online music events | release-planner | not-started |
 | 2027 | Finish the film BLK-FTHR | production-producer | not-started |
 | 2028 | Two online events plus one major live event that also streams online | release-planner | not-started |
@@ -25,7 +26,7 @@ Statuses: not-started | in-progress | blocked | done. Items marked [CONFIRM] nee
 5. Find what was forgotten, overlooked, or unknown, and put it into action (gap-finder)
 
 ## Ventures (hub and spokes)
-- Positive Energy Church and The Beat: mission, community, services
+- Positive Energy Church and The Beat: mission, community, services; the Church prints its books and produces its film and video works (including the film BLK-FTHR)
 - PE Frequency (radio): music ministry and reach
 - BLK-FTHR (print shop and clothing line)
 - CLUB 1907: T-shirt of the month website business
