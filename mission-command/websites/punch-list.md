@@ -1,99 +1,101 @@
-# Punch List (DRAFT, 2026-10-25). Deadline: before Nov 1, 2026
+# Punch List (DRAFT v2, revised 2026-10-25). Deadline: before Sat Oct 31 / Nov 1, 2026
+Legend: [M] must ship by Oct 31. [P2] Phase 2 (dated). [LEGAL] CPA or attorney review first. [CONFIRM] needs Ty (or Lee for his sites). Draft only: nothing is changed on any live site. All times US Central.
 
-Legend: [M] = must ship by Oct 31. [P2] = Phase 2 (dated). [LEGAL] = CPA or attorney review before publishing. [CONFIRM] = needs Ty.
+All sites exist, so each task is an **update to the existing site**. Step 0 on every site is a short audit (what is live, what is broken, last backup, who has logins).
 
-## Day-by-day plan (Oct 25 to Oct 31)
+## Day-by-day (Oct 25 to Oct 31)
 | Date | Day | Goal | Tasks |
-|------|-----|------|-------|
-| Oct 25 | Sun | Decisions and access | Ty answers [CONFIRM] list (platform, domains, accounts, church legal status, processor). Gather logos/photos. Freeze scope to the MLV in status.md. Send CPA/attorney the 3 flagged texts (donation language, receipt wording, privacy policy). |
-| Oct 26 | Mon | Foundation | Create/confirm accounts, domains, DNS access. Set up shared template, global header/footer, brand. Set up email-signup tool and analytics. |
-| Oct 27 | Tue | Hub build | Hub pages: Home, About, Services/first online service, Give, Contact, Books page, links to spokes. Draft Heritage Month banner. |
-| Oct 28 | Wed | Giving + store | Donation page and processor test (test mode only). Receipt email template (draft for CPA). Store set up: BLK-FTHR, PE Clothing, 1st N8TIONS, CLUB 1907 products and policies. |
-| Oct 29 | Thu | Spokes | PE Frequency, BLK-FTHR, CLUB 1907, 1st N8TIONS landing pages from template. Cross-links. Rights check on every image/audio. |
-| Oct 30 | Fri | QA and approval | Full QA (checklist below) on staging/preview links. Send Ty the preview links. CPA/attorney comments applied. **Ty's written go/no-go.** |
-| Oct 31 | Sat | GO-LIVE (hub first, then spokes) | Follow launch-runbook.md. Broadcast day (1-2 PM): avoid deploy during broadcast; deploy morning, announce after. Smoke tests, monitor. |
-| Nov 1 | Sun | Buffer (outside deadline) | Fix-forward items only. Native American Heritage Month begins. |
+|---|---|---|---|
+| Oct 25 | Sun | Decide | Ty picks the hub and pe-church.online role. Ty asks Lee to audit his 3 sites. Name backup admins. Send CPA/attorney the flagged texts (donation wording, receipt text, privacy policy, proceeds statement). Freeze scope. |
+| Oct 26 | Mon | Audit and access | Audit all 6 sites. Take a backup/export of each. Record DNS, registrar, and platform logins in a shared password manager. Add backup admins. Apply for/confirm church donation processor. |
+| Oct 27 | Tue | Hub update | Hub: Give page, mission, first-service save-the-date, weekly video page, Heritage Month banner, Ministry & Ventures directory. |
+| Oct 28 | Wed | Giving and church store | Donation page, test-mode gift, receipt template (CPA draft). 1stN8tions.store: landing, 1 product, policies, proceeds statement draft. |
+| Oct 29 | Thu | Private sites | PE Clothing, BLK-FTHR, CLUB 1907 updates (Lee builds or approves). Cross-links. Wording check on "supports the church". Image/audio rights check. PE Frequency coming-soon (optional). |
+| Oct 30 | Fri | QA and approval | Full QA (section K) on previews. Ty (and Lee for his sites) written go/no-go per site. Backups confirmed. |
+| Oct 31 | Sat | Go-live | Follow launch-runbook.md. No live broadcast now, so no broadcast-hour deploy freeze; still avoid late-day changes. |
+| Nov 1 | Sun | Buffer | Fix-forward only. Heritage Month begins. DST ends (2:00 AM to 1:00 AM). |
 
-If anything slips: hub + Give page ship first. Spokes may ship as "coming soon + email signup" pages. A live page with signup beats no page.
+If anything slips: hub Give page ships first; any site not ready stays as it is today (do not break a working page) or gets "coming soon + email signup".
 
-## A. Hub: Positive Energy Church / The Beat
-- [M] Pages: Home, About (Minister Ty GWY Wilson; bio text from Ty, do not invent credentials), Services (Jan 16, 2027 first online service; time/platform [CONFIRM]), Give, Contact, Books, Spoke directory ("Our Ministry & Ventures").
-- [M] Copy: mission statement [CONFIRM final wording], 1-sentence "how every venture supports the church."
-- [M] Images/rights: logo, 3-5 photos; written confirmation Ty owns or licenses each.
-- [M] Email signup: one form, one list, tag by source site. Double opt-in per tool default. Confirmation email draft.
-- [M] Mobile check: iPhone Safari, Android Chrome, one tablet. Tap targets, no horizontal scroll.
-- [M] Analytics: one tool across all sites (e.g., privacy-friendly analytics or GA4 [CONFIRM]); track Give clicks, signup, outbound spoke clicks.
-- [M] SEO basics: unique title + meta description per page, one H1, alt text, sitemap.xml, robots.txt, Open Graph image, Google Business/Search Console verification.
-- [M] Accessibility: contrast 4.5:1, alt text, keyboard focus visible, form labels, captions/transcript for any audio/video.
-- [M] Speed: compress images (<200 KB each), no autoplay media, target LCP under 2.5 s on mobile.
-- [M][LEGAL] Footer: church name, contact, privacy policy, terms, donation policy, accessibility statement, copyright. Privacy policy wording must be reviewed by an attorney (email collection, cookies/analytics, payments).
-- [P2, Nov 15] Beat member area, events calendar, broadcast archive. [P2, Jan 4] Blog and testimonials.
+## A. Hub (recommended: positiveenergychurch.org)
+- [M] Pages: Home/mission, About (Minister Ty GWY Wilson; bio from Ty, no invented credentials), Services (Jan 16, 2027 first online service; **live or pre-recorded [CONFIRM]**, time in Central), Weekly Video, Give, Contact, Books, Ministry & Ventures.
+- [M] Copy: mission statement [CONFIRM wording]; one sentence on how each venture relates to the church (wording per CPA/attorney, see J). Affirmations (for example "billion-dollar church") are not used as factual claims.
+- [M] Heritage: how Ty is described publicly is Ty's wording only (Black Cherokee, Cherokee Nation member, cultural advisor, as Ty confirmed). Do not add tribal partnerships or quotes without written confirmation.
+- [M] Images/rights: logo, 3-5 photos, written confirmation of ownership/licence.
+- [M] Email signup: one form, one list, tagged by source site. Address and unsubscribe in sends. Test to Gmail, Yahoo, Outlook.
+- [M] Mobile check, [M] analytics (one tool, Give clicks, signup, outbound clicks), [M] SEO basics (title/meta, one H1, alt text, sitemap, Open Graph, Search Console), [M] accessibility (4.5:1 contrast, labels, focus, captions/transcript for video), [M] speed (images under 200 KB, no autoplay, mobile LCP under 2.5 s).
+- [M][LEGAL] Footer: church legal name (as registered in Oklahoma), contact, privacy policy, terms, donation policy, accessibility statement. Privacy policy wording to attorney.
+- [P2 Nov 15] Beat member area, events calendar, video archive. [P2 Jan 4] Blog, testimonials.
 
-## B. Giving season readiness (hub)
-- [M] Donation page: one-time and monthly options; suggested amounts [CONFIRM]; "Other" amount; clear who receives it (the church, not a business); mobile-first.
-- [M][LEGAL] Donation wording, tax-deductibility statement, and receipt text: do NOT write "tax-deductible" or EIN until CPA/attorney confirms church status. Placeholder: "[TAX STATUS STATEMENT: CPA to supply]."
-- [M] Receipts flow: processor auto-email on every gift containing org legal name, date, amount, and CPA-approved statement ("no goods or services provided" language only if CPA confirms). Test with a $1 test-mode gift. Year-end summary receipts: decide who sends and when (Jan 2027) [CONFIRM].
-- [M] Money separation: donations go to the church account only; store revenue to business accounts. Never route 1st N8TIONS flash-sale proceeds through the donation form without CPA input.
-- [M] Native American Heritage Month (Nov) hooks: homepage banner, one "stories/teachings" page placeholder, 1st N8TIONS flash-sale tie-in, email #1 draft. Content must be authentic and approved by Ty; no stock Native imagery or unlicensed art. Do not claim tribal affiliation, partnerships, or quotes without confirmation. [CONFIRM content]
-- [P2, by Nov 13] GivingTuesday (Tue Dec 1, 2026) path: dedicated /givingtuesday page (same form, goal, countdown), pre-launch email Nov 24, day-of emails Dec 1 morning/evening, thank-you page, thank-you email. Preselect GivingTuesday campaign code in analytics. Register on givingtuesday.org if desired [CONFIRM]. Rollout details belong to campaign-planner.
-- [P2, by Dec 15] Year-end giving page through Dec 31 with deadline messaging; Jan receipts.
-- Thank-you page: [M] simple page with next steps (join The Beat, share).
+## B. pe-church.online (online service / weekly video)
+- [M] Decide role: redirect to hub, or keep as video/service site. [CONFIRM]
+- [M] Weekly Video page: latest video, schedule ("new video each [day, Central]" [CONFIRM day]), email signup, Give button linking to the hub Give page only.
+- [M] Remove any "live", "on air", "listen live" language.
+- [M] Process: who records, edits, uploads, and posts weekly; one backup person. First upload date [CONFIRM]. Music/footage rights cleared for each video.
+- [P2 Dec 1] Video archive, captions on all videos. [P2 Jan 2] Jan 16 service page (live vs pre-recorded decided by Nov 20 [CONFIRM]).
 
-## C. PE Frequency
-- [M] 1 page: station description, listen link/embed (source unknown [CONFIRM]), broadcast schedule (Sat 1-2 PM, repeat Sun 1-2 PM, time zone [CONFIRM]), signup, Give link, back to church.
-- [M] Music rights: confirm licensing (plan.md rule) before any embedded playlist; PRO/streaming license status unknown. [LEGAL if streaming publicly]
-- [P2, Dec 1] Archive, artist submission, online music events (2027).
+## C. Giving season (church sites only)
+- [M] Donation page: one-time and monthly, suggested amounts [CONFIRM], "Other". State clearly that gifts go to Positive Energy Church. Church EIN is confirmed to exist.
+- [M][LEGAL] Tax-deductibility statement, receipt text, and EIN display: do not publish until CPA/attorney supplies text. Placeholder: "[TAX STATUS STATEMENT: CPA to supply]".
+- [M] Receipts: processor sends auto receipt with church legal name, date, amount, CPA-approved text. $1 test in test mode. Year-end summary: who sends and when [CONFIRM]. Gifts with goods (merch bundles) trigger a CPA receipt rule; no premiums until answered.
+- [M][LEGAL] Money separation: donations to the church bank account only. Donation processor is not shared with Ty/Lee ventures.
+- [M] Native American Heritage Month (Nov) hooks: hub banner, a stories/teachings page (Ty-authored or consented text), 1stN8tions.store landing, email #1 draft. No stock "Native" imagery, costume imagery, or unlicensed art. Launch day is Halloween: no costume-related posts. Ty is cultural advisor; any other community voices need written consent.
+- [P2 by Nov 13] GivingTuesday (Tue Dec 1, 2026) page: same form, goal, countdown, thank-you page and email, pre-launch email Nov 24, day-of emails; day-of owner and backup named by Nov 20. Note Dec 1 is a Tuesday; times in Central.
+- [P2 by Dec 15] Year-end giving page through Dec 31; January receipts.
+- [M] Thank-you page with next steps.
 
-## D. BLK-FTHR (print shop + clothing line)
-- [M] Landing page, 3-6 products with mockups Ty owns, price, sizes, shipping/returns policy, checkout, print-service inquiry form (name, email, project, quantity), "film coming 2027" teaser, back to church.
-- [M] Image rights: product art ownership and any print-on-demand terms.
-- [M][LEGAL] Store policies (shipping, returns, privacy, terms) reviewed; sales tax settings per CPA.
-- [P2, Dec 1] Full catalog, order portal, film page.
+## D. 1stN8tions.store (church-owned)
+- [M] Heritage Month landing, 1 flash-sale-ready product, shipping/returns/privacy policies, link to hub.
+- [M][LEGAL] Proceeds statement: define "proceeds" (gross, net, per item), name which entity owns the Arts Fund, and say where store revenue is deposited. Until answered: use a defined dollar or percent pledge only.
+- [M][LEGAL] No "Native-made" or "Native-owned" claims until attorney reviews (Indian Arts and Crafts Act question). Credit designers by name with their consent.
+- [M] Fulfillment: who prints and ships, turnaround, holiday cutoffs [CONFIRM]. Use pre-order language if unsure.
+- [M][LEGAL] Sales-tax settings per CPA.
+- [P2 Dec 1] Flash-sale calendar and Arts Fund page (real numbers only).
 
-## E. CLUB 1907 (T-shirt of the month)
-- [M] Landing page explaining the monthly shirt, price, ship date, sign-up OR waitlist; November shirt reveal [CONFIRM design]. 
-- [M][LEGAL] Recurring-billing/auto-renew disclosure and cancellation terms: attorney review before taking subscriptions. If not reviewed by Oct 30, ship waitlist only.
-- [P2, Dec 15] Billing automation, archive, gift option.
+## E. PE Clothing, BLK-FTHR, CLUB 1907 (Ty and Lee; Lee is admin)
+- [M] Each: audit, products 3-6, price/shipping/returns, link to hub, email signup. Lee makes changes or gives written OK; Ty's approval for church wording.
+- [M] BLK-FTHR: print-inquiry form, "film in progress (2027)" teaser.
+- [M] CLUB 1907: November shirt reveal; waitlist only unless [LEGAL] auto-renew and cancellation terms are attorney reviewed by Oct 30.
+- [M][LEGAL] Footer and checkout show the **private** seller legal name (Ty and Lee entity or DBA [CONFIRM]). Do not show the church EIN or imply tax-deductible purchases.
+- [M][LEGAL] Church-support wording: see J.
+- [M] Store payments go to the venture account, never the church donation processor.
+- [P2 Dec 1/15] Full catalogs, billing automation, archives.
 
-## F. PE Clothing
-- [M] Collection page (or inside BLK-FTHR store) with 3-6 items, same checkout/policies.
-- [P2, Dec 1] Dedicated storefront if Ty wants separate brand.
+## F. PE Frequency
+- Does not exist. [M, optional] One coming-soon page (on the hub, or a subpage): what it will be, "weekly video" link, signup. No stream, no schedule, no "on air" claims.
+- [P2, date [CONFIRM]] Real site when the station starts. Questions to resolve first: station type (FM, internet), licences (webcasting/performance rights, attorney), who produces it.
 
-## G. 1st N8TIONS
-- [M] Landing page + 1 flash-sale product, plain-language statement: "Flash-sale proceeds go to the Arts Fund" [LEGAL: exact claim, percent vs. net, whether Arts Fund is a church fund; charitable-sales-claim rules vary by state].
-- [M] Heritage Month tie-in (flash sale date [CONFIRM]).
-- [P2, Dec 1] Flash-sale calendar and Arts Fund impact page (only with real numbers).
+## G. Books (hub page; church prints its books)
+- [M] Titles that exist, descriptions, cover if rights-cleared, "notify me". No invented ISBNs or release dates. Quotes from other authors: only if rights confirmed.
+- [M][LEGAL] If the church sells books, sales are church revenue; CPA to confirm treatment and sales-tax. [CONFIRM sales channel]
+- [P2 Feb 2027] Excerpts and standalone pages.
 
-## H. Books (page on hub)
-- [M] Title list with description, cover, "buy" or "notify me". No ISBN/print dates invented; production-producer owns printing schedule (2027).
-- [P2, Feb 2027] Excerpts, standalone pages.
+## H. Clothing and art lines
+- [M] Confirm which line sits in which store (church vs private). No sacred or ceremonial imagery on merch. [P2 Jan 2027] Gallery/prints.
 
-## I. Clothing and art lines
-- [M] Section within store pages. [P2, Jan 2027] gallery/prints.
+## I. Single-admin risk and backup access (by Thu Oct 29)
+- [M] Add a backup admin to each of the 6 sites (Ty's 3: second person; Lee's 3: Ty plus one more if possible).
+- [M] Same for each domain registrar, DNS host, email platform, and payment processor. Named accounts, two-factor, no shared logins.
+- [M] Record: registered domain owner (church or a person), renewal date, auto-renew on. Put the record in a password manager both admins can open.
+- [M] Rollback test: backup admin can log in and see the previous version.
+- [M][LEGAL] Church accounts: attorney/CPA advise which church officer or board member should hold authority.
 
-## J. Cross-linking (hub and spokes)
-- Every spoke: header "Part of Positive Energy Church" link to hub; footer block "Every purchase helps fuel the mission" (wording [CONFIRM]; claim must be accurate) + Give button.
-- Hub: "Ministry & Ventures" directory linking all spokes with one line each on how it supports the church.
-- Every spoke: same email list with a tag; UTM params on links (utm_source=site, utm_medium=crosslink).
-- Check all links in both directions in QA.
+## J. Cross-linking (every site points toward the church mission)
+- Every spoke: header link "Part of the Positive Energy family" (or "A Positive Energy venture") linking to the hub, and a Give button to the hub Give page.
+- Private sites: **neutral link wording until CPA/attorney confirm** how the ventures relate to the church. Do not say "every purchase supports the church" unless a defined, accurate arrangement exists in writing.
+- Hub: "Ministry & Ventures" directory marking each site as "Church-owned" or "Independent venture of Ty and Lee" [wording per attorney].
+- Church-owned sites may link to private ones; this is a [LEGAL] private-benefit question (see status.md). Do not share email lists across church and private sites without consent wording.
+- UTM tags: utm_source=site, utm_medium=crosslink. Test links in both directions.
 
-## K. Final QA checklist (run Oct 30 on every site)
-1. All links work, none point to staging/test URLs.
-2. Forms submit and email arrives; unsubscribe works.
-3. Donation test-mode gift completes, receipt arrives, then switch to live mode only with Ty's approval; one real small gift post-launch, refund noted.
-4. Checkout test order on each store (test mode), policies linked.
-5. Mobile on 2 phones; desktop on 2 browsers.
-6. Page speed test, accessibility scan (e.g., Lighthouse), spell check, name check ("Minister Ty GWY Wilson").
-7. Title/meta/OG tags; sitemap submitted.
-8. Analytics firing; cookie notice if required by attorney.
-9. Placeholders searched: grep for "[CONFIRM", "TBD", "lorem", "[TAX STATUS".
-10. SSL active, www/non-www redirect, 404 page, favicon.
-11. Backups/export of every site taken (needed for rollback).
+## K. QA (Oct 30, every site)
+1. Links work; none to staging. 2. Forms submit; email arrives; unsubscribe works. 3. Donation test gift and receipt; live mode only with Ty's approval. 4. Test order per store, policies linked. 5. Two phones, two desktop browsers. 6. Speed and accessibility scan, spelling, name check. 7. Title/meta/OG, sitemap. 8. Analytics firing; cookie notice if attorney says so. 9. Search for "[CONFIRM", "TBD", "lorem", "[TAX STATUS", "live", "on air". 10. SSL, redirects, 404, favicon. 11. Backup of every site taken. 12. No site shows wrong legal name or tax claim.
 
-## L. Flags for CPA or attorney (collected)
-1. Tax-deductibility language, EIN, receipt wording.
-2. Privacy policy and cookie/analytics disclosure; email marketing consent.
-3. Terms of sale, returns, shipping, subscription auto-renew.
-4. Arts Fund proceeds claim and separation of church vs. business funds (UBIT, subsidiary).
-5. Music/footage/image licensing, Native-themed art and cultural-claims review.
-6. Sales tax collection.
+## L. Flags for CPA or attorney (questions, not conclusions)
+1. Church tax-exemption statement, receipt wording, EIN display.
+2. Privacy policy, cookies/analytics, email consent.
+3. Terms of sale, returns, shipping, auto-renew.
+4. Arts Fund: ownership, pledge definition, flow of money; proceeds claim.
+5. Church vs private boundary: money separation, private benefit, who receives donations vs store revenue, shared audience/list, link and endorsement wording.
+6. Music/footage/image licensing; Native-themed goods claims.
+7. Sales-tax registration and collection, per entity.
+8. Who holds admin authority for church accounts.
